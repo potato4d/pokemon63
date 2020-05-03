@@ -9,11 +9,7 @@
         My hunky-dory Nuxt.js project
       </h2>
       <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
+        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
           Documentation
         </a>
         <a
@@ -34,8 +30,8 @@ import Logo from '~/components/Logo.vue'
 
 export default Vue.extend({
   components: {
-    Logo
-  }
+    Logo,
+  },
 })
 </script>
 

@@ -1,5 +1,7 @@
+import { Configuration } from '@nuxt/types'
 
-export default {
+const config: Configuration = {
+  srcDir: 'src',
   mode: 'universal',
   /*
   ** Headers of the page
@@ -61,3 +63,5 @@ export default {
     }
   }
 }
+
+export default config
