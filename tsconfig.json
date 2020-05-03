@@ -13,8 +13,12 @@
     "sourceMap": true,
     "strict": true,
     "noEmit": true,
-    "experimentalDecorators": true,
     "baseUrl": ".",
+    "noImplicitAny": true,
+    "jsx": "preserve",
+    "jsxFactory": "h",
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
     "paths": {
       "~/*": [
         "./src/*"
@@ -28,6 +32,10 @@
       "@nuxt/types"
     ]
   },
+  "include": [
+    "node_modules/vue-tsx-support/enable-check.d.ts",
+    "src"
+  ],
   "exclude": [
     "node_modules",
     ".nuxt",

@@ -3,3 +3,7 @@
 @import 'tailwindcss/components';
 /* purgecss end ignore */
 @import 'tailwindcss/utilities';
+
+html, body {
+  font-size: 10px;
+}

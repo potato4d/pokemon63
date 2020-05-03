@@ -30,6 +30,7 @@ const config: Configuration = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/register.ts',
   ],
   /*
   ** Nuxt.js dev-modules
@@ -56,6 +57,20 @@ const config: Configuration = {
   ** Build configuration
   */
   build: {
+    babel: {
+      presets({ isServer }) {
+        return [
+          [
+            require.resolve('@nuxt/babel-preset-app'),
+            // require.resolve('@nuxt/babel-preset-app-edge'), // For nuxt-edge users
+            {
+              buildTarget: isServer ? 'server' : 'client',
+              corejs: { version: 3 }
+            }
+          ]
+        ]
+      }
+    },
     /*
     ** You can extend webpack config here
     */
