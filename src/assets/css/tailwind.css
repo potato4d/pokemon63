@@ -7,3 +7,19 @@
 html, body {
   font-size: 10px;
 }
+
+html body .container {
+  width: 960px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+#__nuxt {
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.btn-primary {
+  background: #2363B8;
+}
