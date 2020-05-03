@@ -15,7 +15,7 @@ export const TheHeader = tsx.component({
               height: '36px',
               fontSize: '13px',
             }}
-            class="hover:opacity-75 inline-flex mr-6 items-center justify-center btn-primary text-white font-bold rounded-full"
+            class="hover:opacity-75 btn-primary"
           >
             選出を解析
           </a>

@@ -22,4 +22,12 @@ html body .container {
 
 .btn-primary {
   background: #2363B8;
+  @apply inline-flex;
+  @apply mr-6;
+  @apply items-center;
+  @apply justify-center;
+  @apply btn-primary;
+  @apply text-white;
+  @apply font-bold;
+  @apply rounded-full;
 }
