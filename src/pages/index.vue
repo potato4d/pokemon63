@@ -6,8 +6,10 @@
       </AppHeading>
     </div>
     <div class="pt-18 flex flex-wrap justify-between items-start">
-      <div
-        v-for="number in 20"
+      <nuxt-link
+        :to="`/record/${record.id}`"
+        :key="record.id"
+        v-for="record in battleRecords"
         class="HomeListItem relative mb-12 rounded-sm overflow-hidden"
         :style="{
           width: '220px',
@@ -23,7 +25,7 @@
           class="overflow-hidden"
         >
           <img
-            src="https://firebasestorage.googleapis.com/v0/b/poketen-pokemon63.appspot.com/o/001.jpeg?alt=media&token=344373a0-9441-4867-84c8-1e5a15617087"
+            :src="record.captureUrl"
             :style="{
               width: '220px',
               height: '140px',
@@ -43,7 +45,7 @@
           }"
           class="px-4 flex items-center justify-start"
         >
-          S5 / 1{{ number * 50 }} 位
+          S{{ record.season }} / {{ record.rank }} 位
         </div>
         <img
           src="https://github.com/potato4d.png"
@@ -56,7 +58,7 @@
           }"
           alt=""
         />
-      </div>
+      </nuxt-link>
     </div>
     <div class="text-center pb-30 mb-30 pt-9">
       <AppButton>更に読み込む</AppButton>
@@ -66,8 +68,37 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { BattleRecord } from '~/types/struct'
 
-export default Vue.extend({})
+type LocalData = {
+  battleRecords: BattleRecord[]
+}
+
+export default Vue.extend({
+  data() {
+    return {
+      battleRecords: [],
+    }
+  },
+  async asyncData({ app }) {
+    const records = await app.$firestore
+      .collection('battlerecords')
+      .limit(20)
+      .get()
+    const battleRecords = records.docs.map(
+      (doc): BattleRecord => {
+        const data = doc.data()
+        return {
+          id: doc.id,
+          ...data,
+        } as BattleRecord
+      }
+    )
+    return {
+      battleRecords,
+    }
+  },
+})
 </script>
 
 <style>

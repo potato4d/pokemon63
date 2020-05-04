@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id="__content">
     <TheHeader />
-    <nuxt />
+    <nuxt class="flex-1" />
     <TheFooter />
     <portal-target name="modal" />
   </div>
@@ -29,6 +29,16 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+}
+
+#__nuxt {
+  overflow: hidden;
+}
+
+#__content {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 *,

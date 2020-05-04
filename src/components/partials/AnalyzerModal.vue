@@ -1,22 +1,12 @@
 <template>
   <aside class="w-full h-full fixed left-0 top-0 overflow-scroll">
-    <div class="relative z-20 mx-auto w-full max-w-screen-md">
+    <form
+      @submit.prevent="submitBattleRecord"
+      class="relative z-20 mx-auto w-full max-w-screen-md"
+    >
       <div
-        class="ModalContent mx-auto mt-18 w-full p-9 bg-white rounded overflow-hidden"
+        class="ModalContent mx-auto my-18 w-full p-9 bg-white rounded overflow-hidden"
       >
-        <!-- <header class="flex justify-between items-center">
-          <h2
-            :style="{
-              fontSize: '24px',
-              fontWeight: 'bold',
-            }"
-          >
-            ANALYZE
-          </h2>
-          <button type="button" class="text-3xl text-gray-500 appearance-none bg-transparent">
-            &times;
-          </button>
-        </header> -->
         <div>
           <div
             class="relative rounded overflow-hidden"
@@ -27,12 +17,24 @@
           >
             <div
               v-if="status === 'processing'"
-              class="absolute left-0 top-0 h-1 bg-blue-600 block z-40"
-              :style="{
-                width: `${100 * (indicator / 12)}%`,
-                transition: 'width 0.4s ease-out',
-              }"
-            ></div>
+              class="absolute left-0 top-0 w-full h-1 bg-gray-800 block z-40"
+            >
+              <div
+                class="absolute left-0 top-0 h-1 bg-gray-800 block z-40"
+                :style="{
+                  width: '100%',
+                  background: 'linear-gradient(90deg, #00a0e9 0, #e5005a 100%)',
+                }"
+              ></div>
+              <div
+                class="absolute left-0 top-0 h-1 bg-gray-200 block z-40"
+                :style="{
+                  width: '100%',
+                  transform: `translateX(${100 * (indicator / 12)}%)`,
+                  transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                }"
+              ></div>
+            </div>
             <img
               v-if="imageUrl"
               :src="imageUrl"
@@ -67,115 +69,44 @@
         </div>
         <div class="pt-9 flex">
           <div class="flex-1 p-9 pr-0 border rounded-sm flex">
-            <div class="w-1/2">
-              <h4 class="text-2xl font-bold pb-3 text-gray-800">自分の構築</h4>
-              <div class="pr-9">
-                <div
-                  class="w-full h-1"
-                  :style="{
-                    background: '#00a0e9',
-                  }"
-                ></div>
+            <AnalyzerPokemonList
+              :choice="formData.myChoice"
+              :party="formData.myParty"
+              @choose="choosePokemon('my', $event.index, $event.pokemon)"
+            >
+              <div>
+                <h4 class="text-2xl font-bold pb-3 text-gray-800">
+                  自分の構築
+                </h4>
+                <div class="pr-9">
+                  <div
+                    class="w-full h-1"
+                    :style="{
+                      background: '#00a0e9',
+                    }"
+                  ></div>
+                </div>
               </div>
-              <ul>
-                <li class="flex items-end" v-for="pokemon in formData.myParty">
-                  <div class="w-3/5 flex items-end justify-start">
-                    <img
-                      :style="{
-                        width: '60px',
-                        height: '45px',
-                        imageRendering: 'pixelated',
-                      }"
-                      class="mr-3 object-cover object-center-bottom"
-                      :src="`/static/images/icons/${pokemon.img}.png`"
-                      alt=""
-                    />
-                    <p class="pb-3 font-bold text-lg">{{ pokemon.name }}</p>
-                  </div>
-                  <div class="w-2/5">
-                    <div class="flex">
-                      <button
-                        type="button"
-                        class="inline-block outline-none rounded-l hover:bg-gray-200 border"
-                        style="width: 2.5rem; height: 2.5rem;"
-                      >
-                        1
-                      </button>
-                      <button
-                        type="button"
-                        class="inline-block outline-none hover:bg-gray-200 border border-l-0 border-r-0"
-                        style="width: 2.5rem; height: 2.5rem;"
-                      >
-                        2
-                      </button>
-                      <button
-                        type="button"
-                        class="inline-block outline-none rounded-r hover:bg-gray-200 border"
-                        style="width: 2.5rem; height: 2.5rem;"
-                      >
-                        3
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="w-1/2">
-              <h4 class="text-2xl font-bold pb-3 text-gray-800">相手の構築</h4>
-              <div class="pr-9">
-                <div
-                  class="w-full h-1"
-                  :style="{
-                    background: '#e5005a',
-                  }"
-                ></div>
+            </AnalyzerPokemonList>
+            <AnalyzerPokemonList
+              :choice="formData.opponentChoice"
+              :party="formData.opponentParty"
+              @choose="choosePokemon('opponent', $event.index, $event.pokemon)"
+            >
+              <div>
+                <h4 class="text-2xl font-bold pb-3 text-gray-800">
+                  相手の構築
+                </h4>
+                <div class="pr-9">
+                  <div
+                    class="w-full h-1"
+                    :style="{
+                      background: '#e5005a',
+                    }"
+                  ></div>
+                </div>
               </div>
-              <ul>
-                <li
-                  class="flex items-end"
-                  v-for="pokemon in formData.opponentParty"
-                >
-                  <div class="w-3/5 flex items-end justify-start">
-                    <img
-                      :style="{
-                        width: '60px',
-                        height: '45px',
-                        imageRendering: 'pixelated',
-                      }"
-                      class="mr-3 object-cover object-center-bottom"
-                      :src="`/static/images/icons/${pokemon.img}.png`"
-                      alt=""
-                    />
-                    <p class="pb-3 font-bold text-lg">{{ pokemon.name }}</p>
-                  </div>
-                  <div class="w-2/5">
-                    <div class="flex font-bold">
-                      <button
-                        type="button"
-                        class="inline-block outline-none rounded-l hover:bg-gray-200 border"
-                        style="width: 2.5rem; height: 2.5rem;"
-                      >
-                        1
-                      </button>
-                      <button
-                        type="button"
-                        class="inline-block outline-none hover:bg-gray-200 border border-l-0 border-r-0"
-                        style="width: 2.5rem; height: 2.5rem;"
-                      >
-                        2
-                      </button>
-                      <button
-                        type="button"
-                        class="inline-block outline-none rounded-r hover:bg-gray-200 border"
-                        style="width: 2.5rem; height: 2.5rem;"
-                      >
-                        3
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
+            </AnalyzerPokemonList>
           </div>
           <div class="pl-9 h-1"></div>
           <div
@@ -192,9 +123,7 @@
             </p>
             <p class="flex flex-col pt-15">
               <label class="pb-3">順位帯</label>
-              <select name="">
-                <option value="">10000位〜</option>
-              </select>
+              <input type="text" class="input-rank" v-model="formData.rank" />
             </p>
             <p class="flex flex-col pt-15">
               <label class="pb-3">勝敗</label>
@@ -211,7 +140,6 @@
             </p>
             <div class="flex flex-1 pt-15 items-center justify-center">
               <button
-                type="button"
                 :style="{
                   width: '104px',
                   height: '36px',
@@ -234,6 +162,7 @@
             class="mt-9 resize-none overflow-hidden leading-relaxed border text-xl p-9 rounded w-full"
             cols="30"
             rows="8"
+            v-model="formData.note"
             placeholder="先発はこちらのパーティに出し負けることが殆どないミトムから来ると予想。
 てんねん読みでトリックが飛んできてくれると嬉しいほか、読みを外しても負けないピクシーを先発にした。
 
@@ -243,10 +172,10 @@
           ></textarea>
         </footer>
       </div>
-    </div>
+    </form>
     <div
       @click="handleClickClose"
-      class="fixed left-0 top-0 z-10 w-full h-full bg-black opacity-50"
+      class="fixed cursor-pointer left-0 top-0 z-10 w-full h-full bg-black opacity-50"
     ></div>
   </aside>
 </template>
@@ -255,7 +184,15 @@
 import Vue from 'vue'
 import Jimp from 'jimp/es'
 import { compare, readImage } from '~/analyzer/compare'
-import { Season, Format, Result, Pokemon } from '../../types/struct'
+import {
+  Season,
+  Format,
+  Result,
+  Pokemon,
+  BattleRecord,
+} from '../../types/struct'
+import { AnalyzerPokemonList } from './AnalyzerPokemonList'
+import { v4 as uuid } from 'uuid'
 
 type Status = 'wait' | 'processing' | 'done'
 
@@ -269,31 +206,31 @@ type LocalData = {
   indicator: number
   status: Status
   imageUrl: string | null
-  formData: {
-    season: Season
-    format: Format
-    result: Result
-    rank: number
-    myParty: Pokemon[]
-    opponentParty: Pokemon[]
-  }
+  formData: Omit<BattleRecord, 'userId'>
 }
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export default Vue.extend({
+  components: {
+    AnalyzerPokemonList,
+  },
   data(): LocalData {
     return {
       indicator: 0,
       status: 'wait',
       imageUrl: null,
       formData: {
+        captureUrl: null,
         season: 6,
         format: 'single',
         result: 'win',
         rank: 10000,
         myParty: [],
         opponentParty: [],
+        myChoice: [0, 0, 0],
+        opponentChoice: [0, 0, 0],
+        note: '',
       },
     }
   },
@@ -302,6 +239,74 @@ export default Vue.extend({
       if (window.confirm('取り込みを中止しますか？')) {
         this.$emit('close')
       }
+    },
+    async submitBattleRecord() {
+      const data = {
+        userId: this.$auth.user.uid,
+        season: this.formData.season,
+        format: this.formData.format,
+        result: this.formData.result,
+        rank: this.formData.rank,
+        myChoice: this.formData.myChoice,
+        opponentChoice: this.formData.opponentChoice,
+        captureUrl: this.formData.captureUrl,
+        note: this.formData.note,
+      }
+      console.log(data)
+      const doc = await this.$firestore.collection('battlerecords').add(data)
+      await Promise.all([
+        ...this.formData.myParty.map(async (pokemon) => {
+          await doc.collection('myParty').add({
+            ...pokemon,
+          })
+        }),
+        ...this.formData.opponentParty.map(async (pokemon) => {
+          await doc.collection('opponentParty').add({
+            ...pokemon,
+          })
+        }),
+      ])
+      this.$router.push(`/record/${doc.id}`)
+    },
+    async choosePokemon(
+      side: 'my' | 'opponent',
+      count: number,
+      pokemon: Pokemon
+    ) {
+      switch (side) {
+        case 'my': {
+          if (this.formData.myChoice.includes(pokemon.img)) {
+            if (this.formData.myChoice[count] === pokemon.img) {
+              this.formData.myChoice[count] = 0
+            } else {
+              this.formData.myChoice[
+                this.formData.myChoice.indexOf(pokemon.img)
+              ] = 0
+              this.formData.myChoice[count] = pokemon.img
+            }
+          } else {
+            this.formData.myChoice[count] = pokemon.img
+          }
+          break
+        }
+        case 'opponent': {
+          if (this.formData.opponentChoice.includes(pokemon.img)) {
+            if (this.formData.opponentChoice[count] === pokemon.img) {
+              this.formData.opponentChoice[count] = 0
+            } else {
+              this.formData.opponentChoice[
+                this.formData.opponentChoice.indexOf(pokemon.img)
+              ] = 0
+              this.formData.opponentChoice[count] = pokemon.img
+            }
+          } else {
+            this.formData.opponentChoice[count] = pokemon.img
+          }
+          break
+        }
+      }
+      this.formData.myChoice = this.formData.myChoice.map((c) => c)
+      this.formData.opponentChoice = this.formData.opponentChoice.map((c) => c)
     },
     async handleUploadFile(event: any) {
       const [file]: File[] = ((event.target as HTMLInputElement)
@@ -314,10 +319,18 @@ export default Vue.extend({
         this.status = 'processing'
         const imageUrl = URL.createObjectURL(file)
         const ss = await readImage(imageUrl)
-        const { myPokemon, opponentPokemon, time } = await compare(ss, () => {
-          this.indicator++
-        })
+        const [
+          { myPokemon, opponentPokemon, time },
+          snapshot,
+        ] = await Promise.all([
+          compare(ss, () => {
+            this.indicator++
+          }),
+          this.$storage.ref(`captureImages/${uuid()}`).put(file),
+        ])
         await delay(1300)
+        const downloadURL = await snapshot.ref.getDownloadURL()
+        this.formData.captureUrl = downloadURL
         this.formData.myParty = myPokemon
         this.formData.opponentParty = opponentPokemon
         this.status = 'done'
@@ -345,7 +358,8 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-select {
+select,
+.input-rank {
   display: block;
   width: 100%;
   height: 30px;
@@ -356,8 +370,9 @@ select {
   background: #fafafa;
 }
 
-button:focus {
-  @apply bg-gray-100;
+.input-rank {
+  background: #fff;
+  border-radius: 4px;
 }
 
 .ModalContent {

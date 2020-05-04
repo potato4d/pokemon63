@@ -21,8 +21,21 @@ import * as Vuex from 'vuex'
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
 import * as _firebase from 'firebase'
 
-interface CustomContext extends Context {
-  $axios: NuxtAxiosInstance
+declare module '@nuxt/types' {
+  interface Context {
+    $firebase: typeof _firebase
+    $firestore: firebase.firestore.Firestore
+    $storage: firebase.storage.Storage
+    $functions: firebase.functions.Functions
+    $messaging: firebase.messaging.Messaging
+  }
+  interface NuxtAppOptions {
+    $firebase: typeof _firebase
+    $firestore: firebase.firestore.Firestore
+    $storage: firebase.storage.Storage
+    $functions: firebase.functions.Functions
+    $messaging: firebase.messaging.Messaging
+  }
 }
 
 declare module 'vue/types/vue' {

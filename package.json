@@ -19,12 +19,14 @@
     "firebase": "^7.14.2",
     "jimp": "^0.10.3",
     "nuxt": "^2.0.0",
-    "portal-vue": "^2.1.7"
+    "portal-vue": "^2.1.7",
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
     "@babel/runtime-corejs3": "^7.9.6",
     "@nuxt/typescript-build": "^0.6.0",
     "@nuxtjs/tailwindcss": "^1.0.0",
+    "@types/uuid": "^7.0.3",
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-jest": "^24.1.0",
     "core-js": "3",

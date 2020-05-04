@@ -13,7 +13,10 @@ export const TheHeader = tsx.component({
   render() {
     return (
       <header class="container mx-auto">
-        <div class="flex flex-end justify-end items-center pt-6">
+        <div
+          class="flex flex-end justify-end items-center pt-6"
+          style="height: 40px"
+        >
           <button
             type="button"
             onClick={() => {
@@ -28,21 +31,48 @@ export const TheHeader = tsx.component({
           >
             選出を解析
           </button>
-          <img
-            src="https://github.com/potato4d.png"
-            width="40"
-            height="40"
-            class="rounded-full overflow-hidden"
-            alt=""
-          />
+          {this.$auth.currentUser ? (
+            <img
+              src="https://github.com/potato4d.png"
+              width="40"
+              height="40"
+              class="rounded-full overflow-hidden"
+              alt=""
+            />
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                this.$auth.signInWithPopup(
+                  new this.$firebase.auth.TwitterAuthProvider()
+                )
+              }}
+              style={{
+                width: '104px',
+                height: '36px',
+                fontSize: '13px',
+                background: '#fff',
+                fontWeight: 'normal',
+                color: '#666',
+                border: 'solid 1px #e5e5e5',
+                marginRight: 0,
+              }}
+              class="hover:opacity-75 btn-primary"
+            >
+              ログイン
+            </button>
+          )}
         </div>
         <h1>
-          <img
-            src={Logo}
-            class="mx-auto"
-            alt="みんなの63 ソード・シールド"
-            width="384"
-          />
+          <nuxt-link to="/">
+            <img
+              src={Logo}
+              class="mx-auto"
+              alt="みんなの63 ソード・シールド"
+              width="384"
+              height="257.33"
+            />
+          </nuxt-link>
         </h1>
         <p
           class="text-center pt-6"

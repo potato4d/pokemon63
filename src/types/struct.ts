@@ -6,6 +6,7 @@ import * as Dex from '../analyzer/config/dex'
 export type Pokemon = Dex.Pokemon
 
 export type BattleRecord = {
+  id?: string
   userId: string
   season: Season
   format: Format
@@ -13,4 +14,8 @@ export type BattleRecord = {
   rank: number
   myParty: Pokemon[]
   opponentParty: Pokemon[]
+  myChoice: number[]
+  opponentChoice: number[]
+  note: string
+  captureUrl: string | null
 }

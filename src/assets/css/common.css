@@ -11,8 +11,7 @@ button {
 #__nuxt::before {
   content: '';
   display: block;
-  position: absolute;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   z-index: 2;
@@ -24,8 +23,7 @@ button {
 #__nuxt::after {
   content: '';
   display: block;
-  position: absolute;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   z-index: 1;
