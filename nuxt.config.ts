@@ -31,7 +31,7 @@ const config: Configuration = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/register.ts',
+    '~/plugins/register.ts'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -47,6 +47,7 @@ const config: Configuration = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    'portal-vue/nuxt'
   ],
   /*
   ** Axios module configuration

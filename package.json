@@ -16,7 +16,8 @@
     "@nuxt/typescript-runtime": "^0.4.0",
     "@nuxtjs/axios": "^5.3.6",
     "firebase": "^7.14.2",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "portal-vue": "^2.1.7"
   },
   "devDependencies": {
     "@babel/runtime-corejs3": "^7.9.6",

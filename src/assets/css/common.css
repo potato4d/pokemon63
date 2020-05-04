@@ -3,6 +3,11 @@ html {
   font-family: 'Noto Sans CJK JP';
 }
 
+button {
+  outline: none !important;
+  font-family: 'Noto Sans CJK JP';
+}
+
 #__nuxt::before {
   content: '';
   display: block;
