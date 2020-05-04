@@ -138,6 +138,12 @@
                 </option>
               </select>
             </p>
+            <p class="flex flex-col pt-15">
+              <label class="pb-3">
+                <input type="checkbox" :value="true" v-model="anonymous" />
+                <span>匿名で投稿する</span>
+              </label>
+            </p>
             <div class="flex flex-1 pt-15 items-center justify-center">
               <button
                 :style="{
@@ -203,6 +209,7 @@ type Constants = {
 }
 
 type LocalData = {
+  anonymous: boolean
   indicator: number
   status: Status
   imageUrl: string | null
@@ -220,6 +227,7 @@ export default Vue.extend({
       indicator: 0,
       status: 'wait',
       imageUrl: null,
+      anonymous: false,
       formData: {
         captureUrl: null,
         season: 6,
@@ -242,7 +250,7 @@ export default Vue.extend({
     },
     async submitBattleRecord() {
       const data = {
-        userId: this.$auth.user.uid,
+        userId: this.anonymous ? 'anonymous' : this.$auth.user.uid,
         season: this.formData.season,
         format: this.formData.format,
         result: this.formData.result,

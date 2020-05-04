@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <div class="pt-21">
-      <AppHeading>
-        みんなの選出
-      </AppHeading>
+      <AppHeading> {{ $route.query.q }}入り構築の対戦ログ </AppHeading>
     </div>
     <div class="HomeGrid pt-18 grid justify-between items-start">
       <nuxt-link
@@ -21,7 +19,6 @@
           :style="{
             width: '220px',
             height: '133px',
-            background: 'linear-gradient(120deg, #60F5DB, #089EFF)',
           }"
           class="overflow-hidden"
         >
@@ -58,14 +55,10 @@
             height: '32px',
             right: '17px',
             bottom: '14px',
-            background: '#fff',
           }"
           alt=""
         />
       </nuxt-link>
-    </div>
-    <div class="text-center pb-30 mb-30 pt-9">
-      <AppButton>更に読み込む</AppButton>
     </div>
   </div>
 </template>
@@ -73,35 +66,96 @@
 <script lang="ts">
 import Vue from 'vue'
 import { BattleRecord } from '~/types/struct'
+import { Pokemon } from '../analyzer/config/dex'
 
 type LocalData = {
   battleRecords: BattleRecord[]
 }
 
 export default Vue.extend({
-  data() {
+  head() {
+    return {
+      title: `${this.$route.query.q}入り構築の対戦ログ | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`,
+    }
+  },
+  data(): LocalData {
     return {
       battleRecords: [],
     }
   },
-  async asyncData({ app }) {
-    const records = await app.$firestore
-      .collection('battlerecords')
-      .orderBy('createdAt', 'desc')
-      .limit(20)
-      .get()
-    const battleRecords = records.docs.map(
-      (doc): BattleRecord => {
-        const data = doc.data()
+  async asyncData({ app, query }) {
+    const [myPokemonList, oppoentPokemonList] = await Promise.all([
+      app.$firestore
+        .collectionGroup('myParty')
+        .where('name', '==', `${query.q || ''}`)
+        .get(),
+      app.$firestore
+        .collectionGroup('opponentParty')
+        .where('name', '==', `${query.q || ''}`)
+        .get(),
+    ])
+    const pokemonList = [...myPokemonList.docs, ...oppoentPokemonList.docs]
+    const battleRecords: BattleRecord[] = []
+    const addedIdList: string[] = []
+    const rawList: BattleRecord[] = await Promise.all(
+      pokemonList.map(async (doc) => {
+        const snapshot = await doc.ref.parent!.parent!.get()
         return {
-          id: doc.id,
-          ...data,
+          id: snapshot.id,
+          ...snapshot.data(),
         } as BattleRecord
-      }
+      })
     )
+    rawList.forEach((listItem) => {
+      if (addedIdList.includes(listItem.id!)) {
+        return
+      }
+      addedIdList.push(listItem.id!)
+      battleRecords.push(listItem)
+    })
     return {
       battleRecords,
     }
+  },
+  methods: {
+    async search() {
+      this.battleRecords = []
+      const [myPokemonList, oppoentPokemonList] = await Promise.all([
+        this.$firestore
+          .collectionGroup('myParty')
+          .where('name', '==', `${this.$route.query.q || ''}`)
+          .get(),
+        this.$firestore
+          .collectionGroup('opponentParty')
+          .where('name', '==', `${this.$route.query.q || ''}`)
+          .get(),
+      ])
+      const pokemonList = [...myPokemonList.docs, ...oppoentPokemonList.docs]
+      const battleRecords: BattleRecord[] = []
+      const addedIdList: string[] = []
+      const rawList: BattleRecord[] = await Promise.all(
+        pokemonList.map(async (doc) => {
+          const snapshot = await doc.ref.parent!.parent!.get()
+          return {
+            id: snapshot.id,
+            ...snapshot.data(),
+          } as BattleRecord
+        })
+      )
+      rawList.forEach((listItem) => {
+        if (addedIdList.includes(listItem.id!)) {
+          return
+        }
+        addedIdList.push(listItem.id!)
+        battleRecords.push(listItem)
+      })
+      this.battleRecords = battleRecords
+    },
+  },
+  watch: {
+    $route() {
+      this.search()
+    },
   },
 })
 </script>

@@ -7,6 +7,7 @@ import AnalyzerModal from '~/components/partials/AnalyzerModal.vue'
 export const TheHeader = tsx.component({
   data() {
     return {
+      search: '',
       isOpenAnalyzeModal: false,
     }
   },
@@ -83,7 +84,12 @@ export const TheHeader = tsx.component({
         >
           スクリーンショットから自動解析できるポケモンの選出投稿サイト
         </p>
-        <form>
+        <form
+          onSubmit={(event: Event) => {
+            event.preventDefault()
+            this.$router.push(`/search?q=${this.search}`)
+          }}
+        >
           <div
             class="mt-30 rounded-full bg-white relative border"
             style={{
@@ -93,8 +99,12 @@ export const TheHeader = tsx.component({
             }}
           >
             <input
-              placeholder="ポケモン名などで検索"
+              placeholder="ポケモン名で検索"
               type="text"
+              value={this.search}
+              onInput={(event: any) => {
+                this.search = event.target.value
+              }}
               class="w-full h-full rounded-full bg-white outline-none appearance-none block px-12 py-9 TheHeader__searchBox"
             />
             <img
