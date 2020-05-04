@@ -1,10 +1,8 @@
 <template>
-  <aside class="w-full h-full fixed left-0 top-0">
-    <div
-      class="absolute left-0 top-0 z-20 w-full h-full flex items-center justify-center"
-    >
+  <aside class="w-full h-full fixed left-0 top-0 overflow-scroll">
+    <div class="relative z-20 mx-auto w-full max-w-screen-md">
       <div
-        class="ModalContent w-full max-w-screen-md p-9 bg-white rounded overflow-hidden"
+        class="ModalContent mx-auto mt-18 w-full p-9 bg-white rounded overflow-hidden"
       >
         <!-- <header class="flex justify-between items-center">
           <h2
@@ -195,14 +193,23 @@
       </div>
     </div>
     <div
-      class="absolute left-0 top-0 z-10 w-full h-full bg-black opacity-50"
+      @click="handleClickClose"
+      class="fixed left-0 top-0 z-10 w-full h-full bg-black opacity-50"
     ></div>
   </aside>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-export default Vue.extend({})
+export default Vue.extend({
+  methods: {
+    handleClickClose() {
+      if (window.confirm('取り込みを中止しますか？')) {
+        this.$emit('close')
+      }
+    },
+  },
+})
 </script>
 
 <style scoped>

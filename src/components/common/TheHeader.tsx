@@ -2,14 +2,23 @@ import Vue, { CreateElement, VNode } from 'vue'
 import * as tsx from 'vue-tsx-support'
 import Logo from '~/assets/images/logo.svg'
 import SearchIcon from '~/assets/images/search.svg'
+import AnalyzerModal from '~/components/partials/AnalyzerModal.vue'
 
 export const TheHeader = tsx.component({
+  data() {
+    return {
+      isOpenAnalyzeModal: false,
+    }
+  },
   render() {
     return (
       <header class="container mx-auto">
         <div class="flex flex-end justify-end items-center pt-6">
-          <a
-            href=""
+          <button
+            type="button"
+            onClick={() => {
+              this.isOpenAnalyzeModal = true
+            }}
             style={{
               width: '104px',
               height: '36px',
@@ -18,7 +27,7 @@ export const TheHeader = tsx.component({
             class="hover:opacity-75 btn-primary"
           >
             選出を解析
-          </a>
+          </button>
           <img
             src="https://github.com/potato4d.png"
             width="40"
@@ -66,6 +75,15 @@ export const TheHeader = tsx.component({
             />
           </div>
         </form>
+        {this.isOpenAnalyzeModal && (
+          <portal to="modal">
+            <AnalyzerModal
+              onClose={() => {
+                this.isOpenAnalyzeModal = false
+              }}
+            />
+          </portal>
+        )}
       </header>
     )
   },

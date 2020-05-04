@@ -3,7 +3,7 @@
     <TheHeader />
     <nuxt />
     <TheFooter />
-    <AnalyzerModal />
+    <portal-target name="modal" />
   </div>
 </template>
 
