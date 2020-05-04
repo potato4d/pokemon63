@@ -4,9 +4,9 @@
     "module": "esnext",
     "moduleResolution": "node",
     "lib": [
-      "esnext",
-      "esnext.asynciterable",
-      "dom"
+      "DOM",
+      "ESNext",
+      "esnext.asynciterable"
     ],
     "esModuleInterop": true,
     "allowJs": true,
@@ -19,6 +19,7 @@
     "jsxFactory": "h",
     "resolveJsonModule": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "~/*": [
         "./src/*"

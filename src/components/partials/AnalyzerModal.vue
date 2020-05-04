@@ -18,12 +18,52 @@
           </button>
         </header> -->
         <div>
-          <img
-            src="https://firebasestorage.googleapis.com/v0/b/poketen-pokemon63.appspot.com/o/001.jpeg?alt=media&token=344373a0-9441-4867-84c8-1e5a15617087"
-            height="415"
-            alt=""
-            class="rounded"
-          />
+          <div
+            class="relative rounded overflow-hidden"
+            :style="{
+              width: '738px',
+              height: '415.13px',
+            }"
+          >
+            <div
+              v-if="status === 'processing'"
+              class="absolute left-0 top-0 h-1 bg-blue-600 block z-40"
+              :style="{
+                width: `${100 * (indicator / 12)}%`,
+                transition: 'width 0.4s ease-out',
+              }"
+            ></div>
+            <img
+              v-if="imageUrl"
+              :src="imageUrl"
+              alt=""
+              class="rounded absolute z-30 left-0 top-0 w-full h-full object-contain pointer-events-none"
+            />
+            <div
+              v-if="!imageUrl"
+              class="rounded absolute z-30 left-0 top-0 w-full h-full leading-loose bg-gray-200 text-gray-700 text-lg flex items-center justify-center flex-col object-contain pointer-events-none"
+            >
+              <img
+                src="~/assets/images/picture.svg"
+                :style="{
+                  width: '40px',
+                  height: '40px',
+                }"
+                alt=""
+                class="mb-6"
+              />
+              スクリーンショットをアップロード<br />
+              <span class="text-base"
+                >(Twitter / Facebook
+                からダウンロードしたものをご利用いただけます)</span
+              >
+            </div>
+            <input
+              type="file"
+              @change="handleUploadFile"
+              class="rounded absolute opacity-0 left-0 top-0 w-full h-full bg-gray-300 appearance-none rounded absolute left-0 top-0 w-full h-full cursor-pointer"
+            />
+          </div>
         </div>
         <div class="pt-9 flex">
           <div class="flex-1 p-9 pr-0 border rounded-sm flex">
@@ -38,7 +78,7 @@
                 ></div>
               </div>
               <ul>
-                <li class="flex items-end" v-for="number in 6">
+                <li class="flex items-end" v-for="pokemon in formData.myParty">
                   <div class="w-3/5 flex items-end justify-start">
                     <img
                       :style="{
@@ -47,10 +87,10 @@
                         imageRendering: 'pixelated',
                       }"
                       class="mr-3 object-cover object-center-bottom"
-                      :src="`/static/images/icons/${208 + number}.png`"
+                      :src="`/static/images/icons/${pokemon.img}.png`"
                       alt=""
                     />
-                    <p class="pb-3 font-bold text-lg">ポケモン名</p>
+                    <p class="pb-3 font-bold text-lg">{{ pokemon.name }}</p>
                   </div>
                   <div class="w-2/5">
                     <div class="flex">
@@ -91,7 +131,10 @@
                 ></div>
               </div>
               <ul>
-                <li class="flex items-end" v-for="number in 6">
+                <li
+                  class="flex items-end"
+                  v-for="pokemon in formData.opponentParty"
+                >
                   <div class="w-3/5 flex items-end justify-start">
                     <img
                       :style="{
@@ -100,10 +143,10 @@
                         imageRendering: 'pixelated',
                       }"
                       class="mr-3 object-cover object-center-bottom"
-                      :src="`/static/images/icons/${308 + number}.png`"
+                      :src="`/static/images/icons/${pokemon.img}.png`"
                       alt=""
                     />
-                    <p class="pb-3 font-bold text-lg">ポケモン名</p>
+                    <p class="pb-3 font-bold text-lg">{{ pokemon.name }}</p>
                   </div>
                   <div class="w-2/5">
                     <div class="flex font-bold">
@@ -142,7 +185,9 @@
             <p class="flex flex-col">
               <label class="pb-3">対戦シーズン</label>
               <select name="">
-                <option value="">S4</option>
+                <option :value="season" v-for="season in constants.season"
+                  >S{{ season }}</option
+                >
               </select>
             </p>
             <p class="flex flex-col pt-15">
@@ -154,7 +199,14 @@
             <p class="flex flex-col pt-15">
               <label class="pb-3">勝敗</label>
               <select name="">
-                <option value="">勝ち</option>
+                <option v-for="result in constants.result" :value="result">
+                  {{
+                    {
+                      win: '勝ち',
+                      lose: '負け',
+                    }[result]
+                  }}
+                </option>
               </select>
             </p>
             <div class="flex flex-1 pt-15 items-center justify-center">
@@ -187,7 +239,7 @@
 
 ピクシー一匹ではミトムキッスの並びを見るのは難しいこと、ミトム以外におにび持ちがいなさそうなので裏にカビゴンを、最後に詰めとエースで運用できるアーマーガアを選出した。
 
-相手のラスはなにがきてもおかしくなかったが、ミトムキッスで受けポケは大体見れるという前提てテンプレミミッキュが出てきた。"
+相手のラスはなにがきてもおかしくなかったが、ミトムキッスで受けポケは大体見れるという前提でテンプレミミッキュが出てきた。"
           ></textarea>
         </footer>
       </div>
@@ -201,11 +253,91 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import Jimp from 'jimp/es'
+import { compare, readImage } from '~/analyzer/compare'
+import { Season, Format, Result, Pokemon } from '../../types/struct'
+
+type Status = 'wait' | 'processing' | 'done'
+
+type Constants = {
+  season: Season[]
+  format: Format[]
+  result: Result[]
+}
+
+type LocalData = {
+  indicator: number
+  status: Status
+  imageUrl: string | null
+  formData: {
+    season: Season
+    format: Format
+    result: Result
+    rank: number
+    myParty: Pokemon[]
+    opponentParty: Pokemon[]
+  }
+}
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 export default Vue.extend({
+  data(): LocalData {
+    return {
+      indicator: 0,
+      status: 'wait',
+      imageUrl: null,
+      formData: {
+        season: 6,
+        format: 'single',
+        result: 'win',
+        rank: 10000,
+        myParty: [],
+        opponentParty: [],
+      },
+    }
+  },
   methods: {
     handleClickClose() {
       if (window.confirm('取り込みを中止しますか？')) {
         this.$emit('close')
+      }
+    },
+    async handleUploadFile(event: any) {
+      const [file]: File[] = ((event.target as HTMLInputElement)
+        .files as any) as File[]
+      if (!file) {
+        return
+      }
+      try {
+        this.indicator = 0
+        this.status = 'processing'
+        const imageUrl = URL.createObjectURL(file)
+        const ss = await readImage(imageUrl)
+        const { myPokemon, opponentPokemon, time } = await compare(ss, () => {
+          this.indicator++
+        })
+        await delay(1300)
+        this.formData.myParty = myPokemon
+        this.formData.opponentParty = opponentPokemon
+        this.status = 'done'
+        this.imageUrl = imageUrl
+      } catch (e) {
+        alert(e)
+      }
+    },
+  },
+  watch: {
+    indicator(v) {
+      console.log(v)
+    },
+  },
+  computed: {
+    constants(): Constants {
+      return {
+        season: [6, 5, 4, 3, 2, 1],
+        format: ['single'],
+        result: ['win', 'lose'],
       }
     },
   },

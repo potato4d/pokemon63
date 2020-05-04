@@ -75,15 +75,17 @@ export const TheHeader = tsx.component({
             />
           </div>
         </form>
-        {this.isOpenAnalyzeModal && (
-          <portal to="modal">
-            <AnalyzerModal
-              onClose={() => {
-                this.isOpenAnalyzeModal = false
-              }}
-            />
-          </portal>
-        )}
+        <client-only>
+          {this.isOpenAnalyzeModal && (
+            <portal to="modal">
+              <AnalyzerModal
+                onClose={() => {
+                  this.isOpenAnalyzeModal = false
+                }}
+              />
+            </portal>
+          )}
+        </client-only>
       </header>
     )
   },

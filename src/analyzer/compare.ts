@@ -1,57 +1,41 @@
 import Jimp from 'jimp'
-import { Worker } from 'worker_threads'
-import showImage from 'term-img'
-import { dex } from './dex'
+import { dex, Pokemon } from './config/dex'
+const CompareWorker = require('./compare.worker.ts')
 
 type Result = { id: number; distance: number }
-type Message = {
-  chunk: Result[]
-}
-const delay = (ms: number) =>
-  new Promise((resolve) => {
-    setTimeout(resolve, ms)
-  })
 
 const CHUNKS = 8
 const PROCESS_PER_CHUNK = 66
+const FOREACH_BASE = new Array(CHUNKS).fill(0)
 
-function logger(...v: any) {
-  // console.log(...v)
-}
+function debug(...args: any) {}
 
-async function check(croppedSS: Jimp, pokeIndex: number): Promise<void> {
+async function check(croppedSS: Jimp): Promise<Pokemon> {
   const results: Result[] = []
   const startedAt = new Date()
 
-  const workers = new Array(CHUNKS).fill(0).map(() => {
-    return new Worker(__dirname + '/worker.js')
+  const workers = FOREACH_BASE.map(() => {
+    return new CompareWorker()
   })
+  const arr = Uint8Array.from(await croppedSS.getBufferAsync(Jimp.MIME_JPEG))
 
-  const searchData = {
-    arr: Uint8Array.from(await croppedSS.getBufferAsync(Jimp.MIME_JPEG)),
-    width: croppedSS.getWidth(),
-    height: croppedSS.getHeight(),
-  }
-
-  function checkChunk(shift: number): Promise<undefined> {
+  function checkChunk(shift: number): Promise<void> {
     return new Promise((resolve) => {
       const shiftX = PROCESS_PER_CHUNK * shift
-      workers[shift].on('message', (message: Message) => {
-        results.push(...message.chunk)
+      workers[shift].onmessage = (message: any) => {
+        results.push(...message.data.chunk)
         resolve()
-      })
+      }
       workers[shift].postMessage({
-        note: `${pokeIndex + 1}pikime`,
         start: shiftX,
         end: shiftX + PROCESS_PER_CHUNK,
-        basePath: `${__dirname}/../out2`,
-        ...searchData,
+        arr,
       })
     })
   }
 
   await Promise.all(
-    new Array(CHUNKS).fill(0).map(async (_, i) => {
+    FOREACH_BASE.map(async (_, i) => {
       return checkChunk(i)
     })
   )
@@ -62,37 +46,39 @@ async function check(croppedSS: Jimp, pokeIndex: number): Promise<void> {
     })
   )
 
-  const [r] = results.sort((a, b) => {
-    return a.distance < b.distance ? -1 : 1
-  })
-  console.log(`${dex[r.id - 1].name}`)
-  console.log(`System ID: ${r.id}`)
-  console.log(
-    `Pokedex NO: https://yakkun.com/swsh/zukan/n${dex[r.id - 1].dexno}`
-  )
+  const r = results.reduce((a, b) => {
+    return a.distance < b.distance ? a : b
+  }, results[0])
+  debug(r.distance)
+  debug(results.find((a) => a.id === 116))
+  debug(results.find((a) => a.id === 117))
+  debug(`${dex[r.id - 1].name}`)
+  debug(`System ID: ${r.id}`)
+  debug(`Pokedex NO: https://yakkun.com/swsh/zukan/n${dex[r.id - 1].dexno}`)
   const endAt = new Date()
-  console.log(`実行時間: ${endAt.getTime() - startedAt.getTime()}ms`)
+  debug(`実行時間: ${endAt.getTime() - startedAt.getTime()}ms`)
+  return dex[r.id - 1]
 }
 
-export async function compare(ss: Jimp) {
-  // await Promise.all(
-  //   new Array(6).fill(0).map(async (_, i) => {
-  //     console.log('----------------------------')
-  //     console.log(i + 1 + '匹目 ')
-  //     const BASE = {
-  //       left: 204,
-  //       top: 129,
-  //     }
-  //     const cropped = ss.clone().crop(BASE.left, BASE.top + ((i+0) * 80), 86, 69).autocrop({
-  //       tolerance: 0.01
-  //     })
-  //     showImage(await cropped.getBufferAsync(Jimp.MIME_PNG))
-  //     await check(cropped, i)
-  //   })
-  // )
-  console.log('自分の構築')
+export async function compare(
+  ss: Jimp,
+  callback?: Function
+): Promise<{ time: number; myPokemon: Pokemon[]; opponentPokemon: Pokemon[] }> {
+  const myPokemon: Pokemon[] = []
+  const opponentPokemon: Pokemon[] = []
+  const startedAt = new Date()
+
+  const __check = async (croppedSS: Jimp): Promise<Pokemon> => {
+    const result = await check(croppedSS)
+    if (callback) {
+      callback()
+    }
+    return result
+  }
+
+  debug('自分の構築')
   for (let i = 0; i < 6; i++) {
-    // console.log(i + 1 + '匹目:')
+    // debug(i + 1 + '匹目:')
     const BASE = {
       left: 204,
       top: 129,
@@ -103,41 +89,34 @@ export async function compare(ss: Jimp) {
       .autocrop({
         tolerance: 0.01,
       })
-    showImage(await cropped.getBufferAsync(Jimp.MIME_PNG))
-    await check(cropped, i)
+    myPokemon.push(await __check(cropped))
   }
 
-  // console.log('相手の構築')
-  // for (let i = 0; i < 6; i++) {
-  //   // console.log(i + 1 + '匹目:')
-  //   const BASE = {
-  //     left: 804,
-  //     top: 129,
-  //   }
-  //   const cropped = ss.clone().crop(BASE.left, BASE.top + ((i+0) * 80), 86, 69).autocrop({
-  //     tolerance: 0.01
-  //   })
-  //   // showImage(await cropped.getBufferAsync(Jimp.MIME_PNG))
-  //   await check(cropped, i)
-  // }
-  // console.log('----------------------------')
-  // await Promise.all(waitList)
-}
-
-async function run() {
-  const startedAt = new Date()
-  const [_, __, ssPath] = process.argv
-  if (!ssPath) {
-    console.log('スクリーンショットのパスが不正です')
+  debug('相手の構築')
+  for (let i = 0; i < 6; i++) {
+    // debug(i + 1 + '匹目:')
+    const BASE = {
+      left: 804,
+      top: 129,
+    }
+    const cropped = ss
+      .clone()
+      .crop(BASE.left, BASE.top + (i + 0) * 80, 86, 69)
+      .autocrop({
+        tolerance: 0.01,
+      })
+    opponentPokemon.push(await __check(cropped))
   }
-  const ss = await Jimp.read(ssPath)
-  showImage(ssPath)
-  await compare(ss)
+
   const endAt = new Date()
-  console.log(`Operation time: ${endAt.getTime() - startedAt.getTime()}ms`)
-  process.exit(0)
+  debug(`Operation time: ${endAt.getTime() - startedAt.getTime()}ms`)
+  return {
+    time: endAt.getTime() - startedAt.getTime(),
+    myPokemon,
+    opponentPokemon,
+  }
 }
 
-if (!(process as any).browser) {
-  run()
+export async function readImage(path: string): Promise<Jimp> {
+  return await Jimp.read(path)
 }

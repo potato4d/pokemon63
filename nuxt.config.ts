@@ -59,12 +59,24 @@ const config: Configuration = {
   ** Build configuration
   */
   build: {
+    extend: ({ module, output }, { isClient }) => {
+
+      output.globalObject = 'this'
+
+        module.rules.unshift({
+          test: /\.worker\.ts$/,
+          loader: 'worker-loader'
+        })
+        module.rules.unshift({
+          test: /\.worker\.js$/,
+          loader: 'worker-loader'
+        })
+    },
     babel: {
       presets({ isServer }) {
         return [
           [
             require.resolve('@nuxt/babel-preset-app'),
-            // require.resolve('@nuxt/babel-preset-app-edge'), // For nuxt-edge users
             {
               buildTarget: isServer ? 'server' : 'client',
               corejs: { version: 3 }
@@ -73,11 +85,6 @@ const config: Configuration = {
         ]
       }
     },
-    /*
-    ** You can extend webpack config here
-    */
-    extend (config, ctx) {
-    }
   }
 }
 

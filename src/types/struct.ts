@@ -1,14 +1,11 @@
-type Season = 1 | 2 | 3 | 4 | 5 | 6
-type Format = 'single'
-type Result = 'win' | 'lose'
+export type Season = 1 | 2 | 3 | 4 | 5 | 6
+export type Format = 'single'
+export type Result = 'win' | 'lose'
+import * as Dex from '../analyzer/config/dex'
 
-type Pokemon = {
-  id: number
-  dexno: number
-  name: string
-}
+export type Pokemon = Dex.Pokemon
 
-type BattleRecord = {
+export type BattleRecord = {
   userId: string
   season: Season
   format: Format

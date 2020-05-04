@@ -1,5 +1,5 @@
 import Jimp from 'jimp'
-import list from './test/list'
+import list from './config/imageHash'
 import { SKIP_INDEX } from './config/constants'
 const ImagePHash = require('@jimp/core/es/modules/phash')
 
@@ -40,7 +40,7 @@ self.onmessage = async (message: MessageEvent) => {
         }
       )
     )
-    self.postMessage({
+    ;(self as any).postMessage({
       chunk: results.filter((r) => !!r),
     })
     debug(`[COMPLETE] (${start} to ${end})`)

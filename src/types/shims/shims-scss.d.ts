@@ -7,3 +7,8 @@ declare module '*.svg' {
   const value: any
   export default value
 }
+
+declare module '*.worker.ts' {
+  const value: any
+  export default value
+}
