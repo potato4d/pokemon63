@@ -115,7 +115,7 @@
           >
             <p class="flex flex-col">
               <label class="pb-3">対戦シーズン</label>
-              <select name="">
+              <select v-model="formData.season">
                 <option :value="season" v-for="season in constants.season"
                   >S{{ season }}</option
                 >
@@ -127,7 +127,7 @@
             </p>
             <p class="flex flex-col pt-15">
               <label class="pb-3">勝敗</label>
-              <select name="">
+              <select v-model="formData.result">
                 <option v-for="result in constants.result" :value="result">
                   {{
                     {
@@ -255,14 +255,16 @@ export default Vue.extend({
       }
       const doc = await this.$firestore.collection('battlerecords').add(data)
       await Promise.all([
-        ...this.formData.myParty.map(async (pokemon) => {
+        ...this.formData.myParty.map(async (pokemon, i) => {
           await doc.collection('myParty').add({
             ...pokemon,
+            order: i,
           })
         }),
-        ...this.formData.opponentParty.map(async (pokemon) => {
+        ...this.formData.opponentParty.map(async (pokemon, i) => {
           await doc.collection('opponentParty').add({
             ...pokemon,
+            order: i,
           })
         }),
       ])

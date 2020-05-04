@@ -24,47 +24,109 @@
                 alt=""
               />
             </div>
-            <div
-              id="PartySummary"
-              class="p-9 rounded-b flex text-white"
-              :style="{
-                background: '#343334',
-              }"
-            >
-              <TheRecordChoiceList :choice="record.myChoice" :party="myParty">
-                <div>
-                  <h4 class="text-2xl font-bold pb-3 text-white">
-                    自分の構築
-                  </h4>
-                  <div class="pr-9">
-                    <div
-                      class="w-full h-1"
-                      :style="{
-                        background: '#00a0e9',
-                      }"
-                    ></div>
-                  </div>
-                </div>
-              </TheRecordChoiceList>
-              <TheRecordChoiceList
-                :choice="record.opponentChoice"
-                :party="myParty"
+            <template v-if="mode === 'question'">
+              <div
+                id="PartySummary"
+                class="p-9 rounded-b text-white"
+                :style="{
+                  background: '#343334',
+                }"
               >
-                <div>
-                  <h4 class="text-2xl font-bold pb-3 text-white">
-                    相手の構築
-                  </h4>
-                  <div class="pr-9">
-                    <div
-                      class="w-full h-1"
-                      :style="{
-                        background: '#e5005a',
-                      }"
-                    ></div>
-                  </div>
+                <h2 class="pb-12 text-2xl font-bold">Q. 相手の選出は？</h2>
+                <div class="w-full flex">
+                  <TheRecordQuestion :choice="record.myChoice" :party="myParty">
+                    <div>
+                      <h4 class="text-2xl font-bold pb-3 text-white">
+                        自分の構築
+                      </h4>
+                      <div class="pr-9">
+                        <div
+                          class="w-full h-1"
+                          :style="{
+                            background: '#00a0e9',
+                          }"
+                        ></div>
+                      </div>
+                    </div>
+                  </TheRecordQuestion>
+                  <TheRecordQuestion
+                    :choice="record.opponentChoice"
+                    :party="opponentParty"
+                  >
+                    <div>
+                      <h4 class="text-2xl font-bold pb-3 text-white">
+                        相手の構築
+                      </h4>
+                      <div class="pr-9">
+                        <div
+                          class="w-full h-1"
+                          :style="{
+                            background: '#e5005a',
+                          }"
+                        ></div>
+                      </div>
+                    </div>
+                  </TheRecordQuestion>
                 </div>
-              </TheRecordChoiceList>
-            </div>
+                <div class="pt-18 flex justify-end">
+                  <button
+                    type="button"
+                    class="ml-9 text-lg py-3 px-4 rounded border transition-all border-gray-700 hover:bg-gray-600 bg-gray-700"
+                  >
+                    結果だけ見る
+                  </button>
+                  <button
+                    type="button"
+                    class="ml-9 text-lg py-3 px-4 rounded border transition-all border-blue-700 hover:bg-blue-600 bg-blue-700"
+                  >
+                    これで決定！
+                  </button>
+                </div>
+              </div>
+            </template>
+            <template v-else>
+              <div
+                id="PartySummary"
+                class="p-9 rounded-b flex text-white"
+                :style="{
+                  background: '#343334',
+                }"
+              >
+                <TheRecordChoiceList :choice="record.myChoice" :party="myParty">
+                  <div>
+                    <h4 class="text-2xl font-bold pb-3 text-white">
+                      自分の構築
+                    </h4>
+                    <div class="pr-9">
+                      <div
+                        class="w-full h-1"
+                        :style="{
+                          background: '#00a0e9',
+                        }"
+                      ></div>
+                    </div>
+                  </div>
+                </TheRecordChoiceList>
+                <TheRecordChoiceList
+                  :choice="record.opponentChoice"
+                  :party="myParty"
+                >
+                  <div>
+                    <h4 class="text-2xl font-bold pb-3 text-white">
+                      相手の構築
+                    </h4>
+                    <div class="pr-9">
+                      <div
+                        class="w-full h-1"
+                        :style="{
+                          background: '#e5005a',
+                        }"
+                      ></div>
+                    </div>
+                  </div>
+                </TheRecordChoiceList>
+              </div>
+            </template>
             <div class="flex items-center justify-start">
               <h3 class="text-3xl text-gray-900 font-bold py-9">メモ</h3>
               <div class="flex-1 border-b ml-9"></div>
@@ -146,6 +208,7 @@ import { BattleRecord } from '~/types/struct'
 import { Pokemon } from '../../analyzer/config/dex'
 import { AnalyzerPokemonList } from '../../components/partials/AnalyzerPokemonList'
 import { TheRecordChoiceList } from '../../components/partials/TheRecordChoiceList'
+import { TheRecordQuestion } from '../../components/partials/TheRecordQuestion'
 
 type LocalData = {
   record: BattleRecord
@@ -157,9 +220,11 @@ export default Vue.extend({
   components: {
     AnalyzerPokemonList,
     TheRecordChoiceList,
+    TheRecordQuestion,
   },
   data() {
     return {
+      mode: 'question',
       record: null,
     }
   },
@@ -172,8 +237,8 @@ export default Vue.extend({
       ...doc.data(),
     } as BattleRecord
     const [myPartySnapshot, opponentPartySnapshot] = await Promise.all([
-      doc.ref.collection('myParty').get(),
-      doc.ref.collection('opponentParty').get(),
+      doc.ref.collection('myParty').orderBy('order', 'asc').get(),
+      doc.ref.collection('opponentParty').orderBy('order', 'asc').get(),
     ])
     const myParty = myPartySnapshot.docs.map((d) => {
       return {
@@ -201,6 +266,7 @@ export default Vue.extend({
 }
 
 #PartySummary::before {
+  pointer-events: none;
   content: '';
   display: block;
   position: absolute;
@@ -212,6 +278,7 @@ export default Vue.extend({
 }
 
 #PartySummary::after {
+  pointer-events: none;
   content: '';
   display: block;
   position: absolute;
