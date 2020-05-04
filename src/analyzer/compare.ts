@@ -46,12 +46,13 @@ async function check(croppedSS: Jimp): Promise<Pokemon> {
     })
   )
 
-  const r = results.reduce((a, b) => {
+  let r = results.reduce((a, b) => {
     return a.distance < b.distance ? a : b
   }, results[0])
+  if (r.id === 116) {
+    r = results.find((a) => a.id === 117)!
+  }
   debug(r.distance)
-  debug(results.find((a) => a.id === 116))
-  debug(results.find((a) => a.id === 117))
   debug(`${dex[r.id - 1].name}`)
   debug(`System ID: ${r.id}`)
   debug(`Pokedex NO: https://yakkun.com/swsh/zukan/n${dex[r.id - 1].dexno}`)

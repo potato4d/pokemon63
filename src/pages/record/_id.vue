@@ -10,7 +10,7 @@
         <div class="w-2/3">
           <div class="w-full pr-9">
             <div
-              class="w-full rounded overflow-hidden"
+              class="w-full rounded-t overflow-hidden"
               :style="{
                 height: `${611 * 0.6}px`,
               }"
@@ -24,10 +24,16 @@
                 alt=""
               />
             </div>
-            <div class="mt-9 p-9 border rounded flex bg-white">
+            <div
+              id="PartySummary"
+              class="p-9 rounded-b flex text-white"
+              :style="{
+                background: '#343334',
+              }"
+            >
               <TheRecordChoiceList :choice="record.myChoice" :party="myParty">
                 <div>
-                  <h4 class="text-2xl font-bold pb-3 text-gray-800">
+                  <h4 class="text-2xl font-bold pb-3 text-white">
                     自分の構築
                   </h4>
                   <div class="pr-9">
@@ -45,7 +51,7 @@
                 :party="myParty"
               >
                 <div>
-                  <h4 class="text-2xl font-bold pb-3 text-gray-800">
+                  <h4 class="text-2xl font-bold pb-3 text-white">
                     相手の構築
                   </h4>
                   <div class="pr-9">
@@ -60,7 +66,7 @@
               </TheRecordChoiceList>
             </div>
             <div class="flex items-center justify-start">
-              <h3 class="text-3xl text-gray-900 font-bold py-9">対戦結果</h3>
+              <h3 class="text-3xl text-gray-900 font-bold py-9">メモ</h3>
               <div class="flex-1 border-b ml-9"></div>
             </div>
             <div
@@ -188,7 +194,34 @@ export default Vue.extend({
 })
 </script>
 
-<style>
+<style scoped>
+#PartySummary {
+  position: relative;
+  overflow: hidden;
+}
+
+#PartySummary::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-right: 30px solid transparent;
+  border-left: solid 22px #202020;
+  border-bottom: solid calc(22px * 1.4) transparent;
+}
+
+#PartySummary::after {
+  content: '';
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-left: 30px solid transparent;
+  border-right: solid 22px #202020;
+  border-top: solid calc(22px * 1.4) transparent;
+}
+
 .HomeListItem {
   transform: scale(1);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);

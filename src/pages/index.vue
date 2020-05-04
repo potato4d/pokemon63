@@ -5,7 +5,7 @@
         みんなの選出
       </AppHeading>
     </div>
-    <div class="pt-18 grid grid-cols-4 justify-between items-start">
+    <div class="HomeGrid pt-18 grid justify-between items-start">
       <nuxt-link
         :to="`/record/${record.id}`"
         :key="record.id"
@@ -43,9 +43,11 @@
             fontSize: '14px',
             color: '#FFFFFF',
           }"
-          class="px-4 flex items-center justify-start"
+          class="GridItemLabel px-4 flex items-center justify-start"
         >
-          S{{ record.season }} / {{ record.rank }} 位
+          <span class="relative z-10"
+            >S{{ record.season }} / {{ record.rank }} 位</span
+          >
         </div>
         <img
           src="https://github.com/potato4d.png"
@@ -102,7 +104,11 @@ export default Vue.extend({
 })
 </script>
 
-<style>
+<style scoped>
+.HomeGrid {
+  grid-template-columns: repeat(4, 220px);
+}
+
 .HomeListItem {
   transform: scale(1);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -113,5 +119,32 @@ export default Vue.extend({
   z-index: 5;
   opacity: 0.9;
   /* transform: scale(1.2); */
+}
+
+.GridItemLabel {
+  position: relative;
+  overflow: hidden;
+}
+
+.GridItemLabel::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-right: 30px solid transparent;
+  border-left: solid 14px #202020;
+  border-bottom: solid calc(14px * 1.4) transparent;
+}
+
+.GridItemLabel::after {
+  content: '';
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-left: 30px solid transparent;
+  border-right: solid 14px #202020;
+  border-top: solid calc(14px * 1.4) transparent;
 }
 </style>
