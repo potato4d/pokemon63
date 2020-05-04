@@ -251,8 +251,8 @@ export default Vue.extend({
         opponentChoice: this.formData.opponentChoice,
         captureUrl: this.formData.captureUrl,
         note: this.formData.note,
+        createdAt: this.$firebase.firestore.FieldValue.serverTimestamp(),
       }
-      console.log(data)
       const doc = await this.$firestore.collection('battlerecords').add(data)
       await Promise.all([
         ...this.formData.myParty.map(async (pokemon) => {
@@ -267,6 +267,7 @@ export default Vue.extend({
         }),
       ])
       this.$router.push(`/record/${doc.id}`)
+      this.$emit('close')
     },
     async choosePokemon(
       side: 'my' | 'opponent',
@@ -338,11 +339,6 @@ export default Vue.extend({
       } catch (e) {
         alert(e)
       }
-    },
-  },
-  watch: {
-    indicator(v) {
-      console.log(v)
     },
   },
   computed: {

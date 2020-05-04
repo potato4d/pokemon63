@@ -5,7 +5,7 @@
         みんなの選出
       </AppHeading>
     </div>
-    <div class="pt-18 flex flex-wrap justify-between items-start">
+    <div class="pt-18 grid grid-cols-4 justify-between items-start">
       <nuxt-link
         :to="`/record/${record.id}`"
         :key="record.id"
@@ -83,6 +83,7 @@ export default Vue.extend({
   async asyncData({ app }) {
     const records = await app.$firestore
       .collection('battlerecords')
+      .orderBy('createdAt', 'desc')
       .limit(20)
       .get()
     const battleRecords = records.docs.map(
