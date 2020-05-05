@@ -22,9 +22,11 @@ service cloud.firestore {
   }
 
   match /databases/{database}/documents {
+    match /{document=**} {
+      allow read;
+    }
     match /users {
       match /{userId} {
-        allow read;
         allow write: if userId == request.auth.uid
           && validateString(incomingData().displayName, 0, 512)
           && validateString(incomingData().photoUrl, 0, 512)
@@ -33,19 +35,18 @@ service cloud.firestore {
     }
     match /battlerecords {
       match /{recordId} {
-        allow read;
         allow create: if true
                     && (request.auth.uid == incomingData().userId || 'anonymous' == incomingData().userId)
                     && (validateUndefined(incomingData(), 'note') || validateString(incomingData().note, 0, 1024))
                     && validateInt(incomingData().season, 0, 10)
-                    && (validateInt(incomingData().rank, 0, 500000) || incomingData().rank == null)
+                    && (validateNumber(incomingData().rank, 0, 500000) || incomingData().rank == null)
                     && (incomingData().result == 'win' || incomingData().result == 'lose')
                     && validateString(incomingData().captureUrl, 0, 1024)
         ;
         allow update: if request.auth.uid == existingData().userId
                     && (validateUndefined(incomingData(), 'note') || validateString(incomingData().note, 0, 1024))
                     && validateInt(incomingData().season, 0, 10)
-                    && (validateInt(incomingData().rank, 0, 500000) || incomingData().rank == null)
+                    && (validateNumber(incomingData().rank, 0, 500000) || incomingData().rank == null)
                     && (incomingData().result == 'win' || incomingData().result == 'lose')
                     && validateString(incomingData().captureUrl, 0, 1024)
         ;
@@ -53,13 +54,13 @@ service cloud.firestore {
 
         match /myParty {
           match /{pokemonId} {
-            allow read, write;
+            allow read, create;
           }
         }
 
         match /opponentParty {
           match /{pokemonId} {
-            allow read, write;
+            allow read, create;
           }
         }
       }

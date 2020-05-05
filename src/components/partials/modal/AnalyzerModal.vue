@@ -43,7 +43,8 @@
             />
             <div
               v-if="!imageUrl"
-              class="rounded absolute z-30 left-0 top-0 w-full h-full leading-loose bg-gray-200 text-gray-700 text-lg flex items-center justify-center flex-col object-contain pointer-events-none"
+              class="rounded absolute z-30 left-0 top-0 w-full h-full leading-loose bg-gray-200 text-gray-700 text-lg flex items-center justify-center flex-col object-contain cursor-pointer"
+              @click="$refs.file.click()"
             >
               <img
                 src="~/assets/images/picture.svg"
@@ -54,13 +55,33 @@
                 alt=""
                 class="mb-6"
               />
-              スクリーンショットをアップロード<br />
+              クリックでスクリーンショットをアップロード<br />
               <span class="text-base"
-                >(Twitter / Facebook
+                >(SD カードのファイル、またはTwitter / Facebook
                 からダウンロードしたものをご利用いただけます)</span
               >
+              <div class="pt-6 px-4 w-3/4 mx-auto">
+                <span>または</span>
+                <div class="w-full flex mt-2">
+                  <input
+                    type="text"
+                    class="flex-1 p-1 px-2 rounded-sm mr-2"
+                    v-model="twimgUrl"
+                    placeholder="https://pbs.twimg.com/media/xxxxxx.jpg"
+                    @click.stop.prevent="() => {}"
+                  />
+                  <button
+                    type="button"
+                    class="px-3 py-1 rounded-b bg-blue-500 text-white"
+                    @click.stop.prevent="importFromTwitter"
+                  >
+                    Twitter から取り込み
+                  </button>
+                </div>
+              </div>
             </div>
             <input
+              ref="file"
               type="file"
               @change="handleUploadFile"
               class="rounded absolute opacity-0 left-0 top-0 w-full h-full bg-gray-300 appearance-none rounded absolute left-0 top-0 w-full h-full cursor-pointer"
@@ -199,6 +220,7 @@ import { compare, readImage, createImage, MIME_PNG } from '~/analyzer/compare'
 import { Season, Format, Result, Pokemon, BattleRecord } from '~/types/struct'
 import { AnalyzerPokemonList } from '../AnalyzerPokemonList'
 import { v4 as uuid } from 'uuid'
+import axios from 'axios'
 
 type Status = 'wait' | 'processing' | 'done'
 
@@ -212,6 +234,7 @@ type LocalData = {
   anonymous: boolean
   indicator: number
   status: Status
+  twimgUrl: string
   imageUrl: string | null
   ogpBuffer: Buffer | null
   formData: Omit<BattleRecord, 'userId'>
@@ -230,6 +253,7 @@ export default Vue.extend({
       imageUrl: null,
       anonymous: false,
       ogpBuffer: null,
+      twimgUrl: '',
       formData: {
         captureUrl: null,
         season: 6,
@@ -256,7 +280,7 @@ export default Vue.extend({
         season: this.formData.season,
         format: this.formData.format,
         result: this.formData.result,
-        rank: this.formData.rank,
+        rank: ~~this.formData.rank!,
         myChoice: this.formData.myChoice,
         opponentChoice: this.formData.opponentChoice,
         captureUrl: this.formData.captureUrl,
@@ -324,12 +348,36 @@ export default Vue.extend({
       this.formData.myChoice = this.formData.myChoice.map((c) => c)
       this.formData.opponentChoice = this.formData.opponentChoice.map((c) => c)
     },
+    async importFromTwitter() {
+      const twimgUrl = this.twimgUrl.split('?')[0]
+      if (
+        !twimgUrl.startsWith('https://pbs.twimg.com/media') ||
+        !twimgUrl.endsWith('.jpg')
+      ) {
+        alert('不正なデータです。')
+        return
+      }
+      let blob: Blob
+      try {
+        const response = await axios.get(`${twimgUrl}?format=jpg&name=large`, {
+          responseType: 'blob',
+        })
+        blob = new Blob([response.data])
+      } catch (e) {
+        alert('Twitter からのデータ取得に失敗しました')
+        return
+      }
+      await this.upload(blob)
+    },
     async handleUploadFile(event: any) {
       const [file]: File[] = ((event.target as HTMLInputElement)
         .files as any) as File[]
       if (!file) {
         return
       }
+      await this.upload(file)
+    },
+    async upload(file: File | Blob) {
       try {
         this.indicator = 0
         this.status = 'processing'
@@ -372,12 +420,12 @@ export default Vue.extend({
         this.formData.myChoice.includes(0) ||
         this.formData.opponentChoice.includes(0)
       ) {
-        return false
+        return true
       }
       if (!this.formData.captureUrl) {
-        return false
+        return true
       }
-      return true
+      return false
     },
     constants(): Constants {
       return {

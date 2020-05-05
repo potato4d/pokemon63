@@ -2,7 +2,8 @@
   <div class="container">
     <div class="pt-21">
       <AppHeading>
-        S{{ record.season }} / {{ record.rank }} 位の試合
+        S{{ record.season }}
+        <template v-if="record.rank">/ {{ record.rank }} 位</template> の試合
       </AppHeading>
     </div>
     <div class="pt-18 pb-18 flex flex-wrap justify-between items-start">

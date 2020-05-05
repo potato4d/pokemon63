@@ -33,7 +33,7 @@ html body .container {
 }
 
 .btn-primary:disabled {
-  background: #6B6B6B;
+  background: #6B6B6B !important;
   @apply inline-flex;
   @apply mr-6;
   @apply items-center;
