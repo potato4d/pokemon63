@@ -196,8 +196,8 @@ import {
   Result,
   Pokemon,
   BattleRecord,
-} from '../../types/struct'
-import { AnalyzerPokemonList } from './AnalyzerPokemonList'
+} from '~/types/struct'
+import { AnalyzerPokemonList } from '../AnalyzerPokemonList'
 import { v4 as uuid } from 'uuid'
 
 type Status = 'wait' | 'processing' | 'done'

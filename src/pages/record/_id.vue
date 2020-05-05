@@ -206,8 +206,8 @@ import Vue from 'vue'
 import { BattleRecord, User } from '~/types/struct'
 import { Pokemon } from '../../analyzer/config/dex'
 import { AnalyzerPokemonList } from '../../components/partials/AnalyzerPokemonList'
-import { TheRecordChoiceList } from '../../components/partials/TheRecordChoiceList'
-import { TheRecordQuestion } from '../../components/partials/TheRecordQuestion'
+import { TheRecordChoiceList } from '../../components/partials/record/TheRecordChoiceList'
+import { TheRecordQuestion } from '../../components/partials/record/TheRecordQuestion'
 
 type LocalData = {
   user: User

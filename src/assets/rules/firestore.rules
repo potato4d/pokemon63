@@ -35,7 +35,6 @@ service cloud.firestore {
       match /{recordId} {
         allow read;
         allow create: if request.auth.uid == incomingData().userId
-                    && incomingData().size < 10
                     && (validateUndefined(incomingData(), 'note') || validateString(incomingData().note, 0, 1024))
                     && validateInt(incomingData().season, 0, 10)
                     && validateInt(incomingData().rank, 0, 500000)
@@ -43,7 +42,6 @@ service cloud.firestore {
                     && validateString(incomingData().captureUrl, 0, 1024)
         ;
         allow update: if request.auth.uid == existingData().userId
-                    && incomingData().size < 10
                     && (validateUndefined(incomingData(), 'note') || validateString(incomingData().note, 0, 1024))
                     && validateInt(incomingData().season, 0, 10)
                     && validateInt(incomingData().rank, 0, 500000)

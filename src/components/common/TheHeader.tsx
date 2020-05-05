@@ -2,7 +2,7 @@ import Vue, { CreateElement, VNode } from 'vue'
 import * as tsx from 'vue-tsx-support'
 import Logo from '~/assets/images/logo.svg'
 import SearchIcon from '~/assets/images/search.svg'
-import AnalyzerModal from '~/components/partials/AnalyzerModal.vue'
+import AnalyzerModal from '~/components/partials/modal/AnalyzerModal.vue'
 
 export const TheHeader = tsx.component({
   data() {

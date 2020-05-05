@@ -9,12 +9,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import AnalyzerModal from '~/components/partials/AnalyzerModal.vue'
 
 export default Vue.extend({
-  components: {
-    AnalyzerModal,
-  },
 })
 </script>
 
