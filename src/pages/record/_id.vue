@@ -211,18 +211,25 @@ import { TheRecordQuestion } from '../../components/partials/record/TheRecordQue
 
 type LocalData = {
   user: User
-  record: BattleRecord
+  mode: string
+  record: BattleRecord | null
   myParty: Pokemon[]
   opponentParty: Pokemon[]
 }
 
 export default Vue.extend({
+  head() {
+    const record = this.record as BattleRecord
+    return {
+      title: `S${ record.season } / ${ record.rank } 位の試合 | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`,
+    }
+  },
   components: {
     AnalyzerPokemonList,
     TheRecordChoiceList,
     TheRecordQuestion,
   },
-  data() {
+  data(): Partial<LocalData> {
     return {
       mode: 'result',
       record: null,

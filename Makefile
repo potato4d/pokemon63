@@ -10,6 +10,12 @@ build:
 	yarn
 	yarn build
 
+ssr:
+	gcloud builds submit --tag gcr.io/pokedri-minnnano63/web:1.0.0
+	gcloud beta run deploy --image gcr.io/pokedri-minnnano63/web:1.0.0
+
 deploy:
-	gcloud builds submit --tag gcr.io/pokedri-minnnano63/web:1.0.0-alpha-1
-	gcloud beta run deploy --image gcr.io/pokedri-minnnano63/web:1.0.0-alpha-1
+	make build
+	make ssr
+	make hosting
+	yarn firebase deploy

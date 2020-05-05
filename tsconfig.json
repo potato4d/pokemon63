@@ -15,6 +15,7 @@
     "noEmit": true,
     "baseUrl": ".",
     "noImplicitAny": true,
+    "noImplicitThis": true,
     "jsx": "preserve",
     "jsxFactory": "h",
     "resolveJsonModule": true,

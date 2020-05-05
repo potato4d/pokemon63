@@ -62,9 +62,9 @@
         />
       </nuxt-link>
     </div>
-    <div class="text-center pb-30 mb-30 pt-9">
+    <!-- <div class="text-center pb-30 mb-30 pt-9">
       <AppButton>更に読み込む</AppButton>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -86,7 +86,7 @@ export default Vue.extend({
     const records = await app.$firestore
       .collection('battlerecords')
       .orderBy('createdAt', 'desc')
-      .limit(20)
+      .limit(100)
       .get()
     const battleRecords = records.docs.map(
       (doc): BattleRecord => {
