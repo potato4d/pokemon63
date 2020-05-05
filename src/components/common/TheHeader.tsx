@@ -34,7 +34,7 @@ export const TheHeader = tsx.component({
           </button>
           {this.$auth.currentUser ? (
             <img
-              src="https://github.com/potato4d.png"
+              src={this.$auth.currentUser.photoURL!}
               width="40"
               height="40"
               class="rounded-full overflow-hidden"
@@ -55,6 +55,7 @@ export const TheHeader = tsx.component({
                       displayName: result.user.displayName,
                       photoUrl: result.user.photoURL,
                     })
+                  location.reload()
                 }
               }}
               style={{
@@ -96,7 +97,7 @@ export const TheHeader = tsx.component({
         <form
           onSubmit={(event: Event) => {
             event.preventDefault()
-            this.$router.push(`/pokemon63/search?q=${this.search}`)
+            this.$router.push(`/search?q=${this.search}`)
           }}
         >
           <div

@@ -39,7 +39,7 @@ export const AnalyzerPokemonList = tsx.component({
                     imageRendering: 'pixelated',
                   }}
                   class="mr-3 object-cover object-center-bottom"
-                  src={`/pokemon63/static/images/icons/${pokemon.img}.png`}
+                  src={`/static/images/icons/${pokemon.img}.png`}
                   alt=""
                 />
                 <p class="pb-3 font-bold text-lg">

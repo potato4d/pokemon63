@@ -4,6 +4,7 @@ hosting:
 	mkdir -p ./public/pokemon63/
 	cp -r ./.nuxt/dist/client ./public/pokemon63/_nuxt/
 	cp -r ./src/static/ ./public/pokemon63/
+	yarn firebase deploy --only hosting
 
 build:
 	yarn

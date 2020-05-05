@@ -20,9 +20,6 @@ export default Vue.extend({
 
 <style>
 html {
-  /* font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px; */
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -46,5 +43,54 @@ html {
 *:after {
   box-sizing: border-box;
   margin: 0;
+}
+
+html {
+  line-height: 1;
+  font-family: 'Noto Sans CJK JP';
+}
+
+button {
+  outline: none !important;
+  font-family: 'Noto Sans CJK JP';
+}
+
+#__nuxt::before {
+  content: '';
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  border-left: solid calc(50vw + 77px) #f2f2f2;
+  border-right: solid 100px transparent;
+  border-bottom: solid calc(calc(50vw + 77px) * 1.4) transparent;
+}
+
+#__nuxt::after {
+  content: '';
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  border-left: solid calc(50vw + 356px) #fafafa;
+  border-right: solid 100px transparent;
+  border-bottom: solid calc(calc(50vw + 356px) * 1.4) transparent;
+}
+
+#__layout {
+  min-width: 100vw;
+  min-height: 100vh;
+  position: relative;
+  z-index: 5;
+}
+
+.TheHeader__searchBox {
+  transition: box-shadow 0.15s ease-out;
+}
+
+.TheHeader__searchBox:focus {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 </style>

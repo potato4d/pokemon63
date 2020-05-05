@@ -224,7 +224,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      mode: 'question',
+      mode: 'result',
       record: null,
     }
   },
@@ -261,7 +261,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style>
 #PartySummary {
   position: relative;
   overflow: hidden;
@@ -289,17 +289,5 @@ export default Vue.extend({
   border-left: 30px solid transparent;
   border-right: solid 22px #202020;
   border-top: solid calc(22px * 1.4) transparent;
-}
-
-.HomeListItem {
-  transform: scale(1);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: pointer;
-}
-
-.HomeListItem:hover {
-  z-index: 5;
-  opacity: 0.9;
-  /* transform: scale(1.2); */
 }
 </style>

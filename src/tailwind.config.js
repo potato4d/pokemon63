@@ -4,11 +4,20 @@
  ** Docs: https://tailwindcss.com/docs/configuration
  ** Default: https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
  */
+const { colors } = require('tailwindcss/defaultTheme')
+
 module.exports = {
   purge: {
-    content: ['./**/*.html', './**/*.vue', './**/*.tsx'],
+    enabled: false,
   },
   theme: {
+    colors: {
+      black: colors.black,
+      white: colors.white,
+      gray: colors.gray,
+      red: colors.red,
+      blue: colors.blue,
+    },
     extend: {
       width: {
         '9': '1.5rem',
@@ -54,4 +63,27 @@ module.exports = {
   },
   variants: {},
   plugins: [],
+  corePlugins: {
+    accessibility: false,
+    alignContent: false,
+    fill: false,
+    fontFamily: false,
+    fontSmoothing: false,
+    placeholderColor: false,
+    placeholderOpacity: false,
+    rotate: false,
+    scale: false,
+    skew: false,
+    space: false,
+    stroke: false,
+    strokeWidth: false,
+    tableLayout: false,
+    textOpacity: false,
+    textTransform: false,
+    userSelect: false,
+    verticalAlign: false,
+    visibility: false,
+    whitespace: false,
+    wordBreak: false,
+  },
 }

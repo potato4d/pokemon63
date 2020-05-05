@@ -16,14 +16,13 @@ const config: Configuration = {
     title: 'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
         hid: 'description',
         name: 'description',
         content: 'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。',
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/png', href: '/pokemon63/static/favicon.png' }],
   },
   /*
    ** Customize the progress-bar color
@@ -32,7 +31,7 @@ const config: Configuration = {
   /*
    ** Global CSS
    */
-  css: ['~/assets/css/common.css'],
+  css: [],
   /*
    ** Plugins to load before mounting the App
    */
@@ -45,13 +44,12 @@ const config: Configuration = {
     '@nuxt/typescript-build',
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
     '@nuxtjs/tailwindcss',
+    // 'nuxt-purgecss',
   ],
   /*
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
     'portal-vue/nuxt',
     'nuxt-basic-auth-module'
   ],
@@ -61,13 +59,27 @@ const config: Configuration = {
     enabled: process.env.NODE_ENV === 'production' // require boolean value(nullable)
   },
   /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
-  axios: {},
-  /*
    ** Build configuration
    */
+  purgeCSS: {
+    enabled: true,
+    mode: 'postcss',
+    paths: [
+      'components/**/*.vue',
+      'components/**/*.tsx',
+      'layouts/**/*.vue',
+      'pages/**/*.vue',
+      'plugins/**/*.ts'
+    ],
+    whitelist: ['body', 'html', 'nuxt-progress', 'nuxt-link-active'],
+    whitelistPatterns: [/mb-.+/],
+    extractors: [
+      {
+        extractor: (content: string) => content.match(/[A-z0-9-:\\/]+/g) || [],
+        extensions: ['vue', 'js', 'tsx', 'ts']
+      }
+    ]
+  },
   build: {
     terser: {
       extractComments: false

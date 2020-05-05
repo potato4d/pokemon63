@@ -10,16 +10,18 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [
+    "redirects": [
       {
         "source": "/",
-        "destination": "/pokemon63",
+        "destination": "/pokemon63/",
         "type": 302
-      },
+      }
+    ],
+    "rewrites": [
       {
-        "source": "**",
+        "source": "/pokemon63/**",
         "run": {
-          "serviceId": "web-alpha",
+          "serviceId": "web",
           "region": "asia-northeast1"
         }
       }
