@@ -39,14 +39,14 @@ service cloud.firestore {
                     && (request.auth.uid == incomingData().userId || 'anonymous' == incomingData().userId)
                     && (validateUndefined(incomingData(), 'note') || validateString(incomingData().note, 0, 1024))
                     && validateInt(incomingData().season, 0, 10)
-                    && (validateNumber(incomingData().rank, 0, 500000) || incomingData().rank == null)
+                    && (validateInt(incomingData().rank, 0, 500000) || incomingData().rank == null)
                     && (incomingData().result == 'win' || incomingData().result == 'lose')
                     && validateString(incomingData().captureUrl, 0, 1024)
         ;
         allow update: if request.auth.uid == existingData().userId
                     && (validateUndefined(incomingData(), 'note') || validateString(incomingData().note, 0, 1024))
                     && validateInt(incomingData().season, 0, 10)
-                    && (validateNumber(incomingData().rank, 0, 500000) || incomingData().rank == null)
+                    && (validateInt(incomingData().rank, 0, 500000) || incomingData().rank == null)
                     && (incomingData().result == 'win' || incomingData().result == 'lose')
                     && validateString(incomingData().captureUrl, 0, 1024)
         ;
