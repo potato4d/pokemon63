@@ -25,7 +25,7 @@ service cloud.firestore {
     match /users {
       match /{userId} {
         allow read;
-        allow create: if userId == request.auth.uid
+        allow write: if userId == request.auth.uid
           && validateString(incomingData().displayName, 0, 512)
           && validateString(incomingData().photoUrl, 0, 512)
         ;

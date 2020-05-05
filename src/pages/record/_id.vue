@@ -149,7 +149,7 @@
                     height: '40px',
                   }"
                 />
-                <p class="pl-6">{{ user.displayName }}</p>
+                <p class="pl-6">{{ user ? user.displayName : '' }}</p>
               </li>
               <li class="flex items-center justify-start h-24">
                 <dl class="flex items-center">
@@ -210,7 +210,7 @@ import { TheRecordChoiceList } from '../../components/partials/record/TheRecordC
 import { TheRecordQuestion } from '../../components/partials/record/TheRecordQuestion'
 
 type LocalData = {
-  user: User
+  user: User | null
   mode: string
   record: BattleRecord | null
   myParty: Pokemon[]
@@ -222,6 +222,9 @@ export default Vue.extend({
     const record = this.record as BattleRecord
     return {
       title: `S${ record.season } / ${ record.rank } 位の試合 | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`,
+      link: [
+        { rel: 'canonical', href: 'https://pokedri.com/pokemon63/' + record.id}
+      ]
     }
   },
   components: {
@@ -231,23 +234,23 @@ export default Vue.extend({
   },
   data(): Partial<LocalData> {
     return {
+      user: null,
       mode: 'result',
       record: null,
     }
   },
   async asyncData({ app, params }) {
-    const doc = await app.$firestore
+    const recordRef = app.$firestore
       .collection('battlerecords')
       .doc(params.id)
-      .get()
+    const [doc, myPartySnapshot, opponentPartySnapshot] = await Promise.all([
+      recordRef.get(),
+      recordRef.collection('myParty').orderBy('order', 'asc').get(),
+      recordRef.collection('opponentParty').orderBy('order', 'asc').get(),
+    ])
     const record = {
       ...doc.data(),
     } as BattleRecord
-    const [user, myPartySnapshot, opponentPartySnapshot] = await Promise.all([
-      app.$userRecord.get({ id: record.userId }),
-      doc.ref.collection('myParty').orderBy('order', 'asc').get(),
-      doc.ref.collection('opponentParty').orderBy('order', 'asc').get(),
-    ])
     const myParty = myPartySnapshot.docs.map((d) => {
       return {
         ...d.data(),
@@ -259,12 +262,14 @@ export default Vue.extend({
       } as Pokemon
     })
     return {
-      user,
       record,
       myParty,
       opponentParty,
     }
   },
+  async mounted() {
+    this.user = await this.$userRecord.get({ id: this.record!.userId })
+  }
 })
 </script>
 

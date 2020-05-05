@@ -27,7 +27,7 @@ export const TheFooter = tsx.component({
               fontSize: '14px',
             }}
           >
-            &copy; 2020 poketen.com by @potato4d
+            &copy; 2020 pokedri.com by @potato4d
           </p>
         </div>
       </footer>
