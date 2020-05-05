@@ -25,6 +25,21 @@ FIREBASE_MEASUREMENT_ID="G-SJ4HEZYE1T"
 
 Hosting へのデプロイやセキュリティルールの設定などはできませんが、全てが読み書きできる状態で開放されています。
 
+### Image assets(optional)
+
+ソースコード上には、みんなの63に関わる最低限のアセットのみが存在します。
+
+ローカルで利用したい場合、/pokemon63/static/images/icons/1.png から /pokemon63/static/images/icons/527.png までの画像を、なんらかの手段で src/static/static/images/icons へと配置してください。
+
+配置が完了した後、以下のコマンドを実行することで、ローカルでもポケモンのアイコンなどを利用しての動作確認が可能となります。
+
+```
+$ cd src/static
+$ mkdirp pokemon63
+$ cd pokemon63
+$ ln -s ../static/ ./static/
+```
+
 ### Server
 
 ```bash
