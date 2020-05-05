@@ -133,7 +133,7 @@
             </div>
             <div
               class="text-2xl text-gray-900 leading-loose"
-              v-html="record.note.replace(/\n/g, '<br>')"
+              v-html="note"
             ></div>
           </div>
         </div>
@@ -163,7 +163,10 @@
                   <dd>シングルバトル</dd>
                 </dl>
               </li>
-              <li class="flex items-center justify-start h-24">
+              <li
+                class="flex items-center justify-start h-24"
+                v-if="record.rank"
+              >
                 <dl class="flex items-center">
                   <dt class="w-48">順位帯</dt>
                   <dd>{{ record.rank }}位台</dd>
@@ -188,7 +191,7 @@
                   </dd>
                 </dl>
               </li>
-              <li class="flex items-center justify-end px-9 h-24">
+              <li class="flex items-center justify-end px-9 h-24" v-if="false">
                 <button type="button">
                   <img src="~/assets/images/trash.svg" width="18" alt="" />
                 </button>
@@ -208,6 +211,7 @@ import { Pokemon } from '../../analyzer/config/dex'
 import { AnalyzerPokemonList } from '../../components/partials/AnalyzerPokemonList'
 import { TheRecordChoiceList } from '../../components/partials/record/TheRecordChoiceList'
 import { TheRecordQuestion } from '../../components/partials/record/TheRecordQuestion'
+import xss from 'xss'
 
 type LocalData = {
   user: User | null
@@ -318,6 +322,11 @@ export default Vue.extend({
   },
   async mounted() {
     this.user = await this.$userRecord.get({ id: this.record!.userId })
+  },
+  computed: {
+    note(): string {
+      return xss.filterXSS(this.record!.note).replace(/\n/g, '<br>')
+    },
   },
 })
 </script>

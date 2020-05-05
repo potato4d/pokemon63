@@ -31,3 +31,15 @@ html body .container {
   @apply font-bold;
   @apply rounded-full;
 }
+
+.btn-primary:disabled {
+  background: #6B6B6B;
+  @apply inline-flex;
+  @apply mr-6;
+  @apply items-center;
+  @apply justify-center;
+  @apply btn-primary;
+  @apply text-white;
+  @apply font-bold;
+  @apply rounded-full;
+}

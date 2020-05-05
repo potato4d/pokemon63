@@ -17,7 +17,7 @@ export type BattleRecord = {
   season: Season
   format: Format
   result: Result
-  rank: number
+  rank: number | null
   myParty: Pokemon[]
   opponentParty: Pokemon[]
   myChoice: number[]

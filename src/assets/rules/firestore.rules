@@ -34,17 +34,18 @@ service cloud.firestore {
     match /battlerecords {
       match /{recordId} {
         allow read;
-        allow create: if request.auth.uid == incomingData().userId
+        allow create: if true
+                    && (request.auth.uid == incomingData().userId || 'anonymous' == incomingData().userId)
                     && (validateUndefined(incomingData(), 'note') || validateString(incomingData().note, 0, 1024))
                     && validateInt(incomingData().season, 0, 10)
-                    && validateInt(incomingData().rank, 0, 500000)
+                    && (validateInt(incomingData().rank, 0, 500000) || incomingData().rank == null)
                     && (incomingData().result == 'win' || incomingData().result == 'lose')
                     && validateString(incomingData().captureUrl, 0, 1024)
         ;
         allow update: if request.auth.uid == existingData().userId
                     && (validateUndefined(incomingData(), 'note') || validateString(incomingData().note, 0, 1024))
                     && validateInt(incomingData().season, 0, 10)
-                    && validateInt(incomingData().rank, 0, 500000)
+                    && (validateInt(incomingData().rank, 0, 500000) || incomingData().rank == null)
                     && (incomingData().result == 'win' || incomingData().result == 'lose')
                     && validateString(incomingData().captureUrl, 0, 1024)
         ;

@@ -123,7 +123,12 @@
             </p>
             <p class="flex flex-col pt-15">
               <label class="pb-3">順位帯</label>
-              <input type="text" class="input-rank" v-model="formData.rank" />
+              <input
+                type="text"
+                class="input-rank"
+                placeholder="10000(省略可)"
+                v-model="formData.rank"
+              />
             </p>
             <p class="flex flex-col pt-15">
               <label class="pb-3">勝敗</label>
@@ -151,6 +156,7 @@
                   height: '36px',
                   fontSize: '13px',
                 }"
+                :disabled="disabled"
                 class="btn-primary hover:opacity-75"
               >
                 取り込む
@@ -229,7 +235,7 @@ export default Vue.extend({
         season: 6,
         format: 'single',
         result: 'win',
-        rank: 10000,
+        rank: null,
         myParty: [],
         opponentParty: [],
         myChoice: [0, 0, 0],
@@ -361,6 +367,18 @@ export default Vue.extend({
     },
   },
   computed: {
+    disabled(): boolean {
+      if (
+        this.formData.myChoice.includes(0) ||
+        this.formData.opponentChoice.includes(0)
+      ) {
+        return false
+      }
+      if (!this.formData.captureUrl) {
+        return false
+      }
+      return true
+    },
     constants(): Constants {
       return {
         season: [6, 5, 4, 3, 2, 1],

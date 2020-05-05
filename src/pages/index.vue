@@ -46,9 +46,10 @@
           }"
           class="GridItemLabel px-4 flex items-center justify-start"
         >
-          <span class="relative z-10"
-            >S{{ record.season }} / {{ record.rank }} 位</span
-          >
+          <span class="relative z-10">
+            <span>S{{ record.season }} </span>
+            <span v-if="record.rank">/ {{ record.rank }} 位</span>
+          </span>
         </div>
         <AppUserIcon
           class="absolute rounded-full overflow-hidden"
