@@ -8,6 +8,21 @@
 
 Firebase のプロジェクトを用意して設定してください。
 
+手軽に確認したい場合、テスト用に用意している Firebase プロジェクトがあるため、`cp .env.sample .env` にて、以下を設定ください。
+
+```.env
+FIREBASE_API_KEY="AIzaSyB-Jh74U8rwbQq6sMyLTliOamXhGyE3U2g"
+FIREBASE_AUTH_DOMAIN="minnano63-dev.firebaseapp.com"
+FIREBASE_DATABASEURL="https://minnano63-dev.firebaseio.com"
+FIREBASE_PROJECT_ID="minnano63-dev"
+FIREBASE_STORAGE_BUCKET="minnano63-dev.appspot.com"
+FIREBASE_MESSAGING_SENDER_ID="924539713345"
+FIREBASE_APP_ID="1:924539713345:web:a5ab68eff31fcab88b53c0"
+FIREBASE_MEASUREMENT_ID="G-SJ4HEZYE1T"
+```
+
+Hosting へのデプロイやセキュリティルールの設定などはできませんが、全てが読み書きできる状態で開放されています。
+
 ### Server
 
 ```bash

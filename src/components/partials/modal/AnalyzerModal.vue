@@ -275,8 +275,9 @@ export default Vue.extend({
       }
     },
     async submitBattleRecord() {
+      const userId = this.$auth.currentUser ? (this.anonymous ? 'anonymous' : this.$auth.user.uid) : 'anonymous'
       const data = {
-        userId: this.anonymous ? 'anonymous' : this.$auth.user.uid,
+        userId,
         season: this.formData.season,
         format: this.formData.format,
         result: this.formData.result,
