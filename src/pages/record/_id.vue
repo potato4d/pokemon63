@@ -228,7 +228,7 @@ const getOpenGraphUrl = (path: string) =>
 export default Vue.extend({
   head() {
     const record = this.record as BattleRecord
-    const title = `S${record.season} / ${record.rank} 位の試合 | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
+    const title = `S${record.season} ${record.rank ? `/ ${record.rank} 位` : ''}の試合 | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
     const imageUrl = getOpenGraphUrl('opengraph%2F' + this.$route.params.id)
     return {
       title,
