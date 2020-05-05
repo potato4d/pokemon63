@@ -43,10 +43,19 @@ export const TheHeader = tsx.component({
           ) : (
             <button
               type="button"
-              onClick={() => {
-                this.$auth.signInWithPopup(
+              onClick={async () => {
+                const result = await this.$auth.signInWithPopup(
                   new this.$firebase.auth.TwitterAuthProvider()
                 )
+                if (result.user) {
+                  await this.$firestore
+                    .collection('users')
+                    .doc(result.user.uid)
+                    .set({
+                      displayName: result.user.displayName,
+                      photoUrl: result.user.photoURL,
+                    })
+                }
               }}
               style={{
                 width: '104px',
@@ -87,7 +96,7 @@ export const TheHeader = tsx.component({
         <form
           onSubmit={(event: Event) => {
             event.preventDefault()
-            this.$router.push(`/search?q=${this.search}`)
+            this.$router.push(`/pokemon63/search?q=${this.search}`)
           }}
         >
           <div

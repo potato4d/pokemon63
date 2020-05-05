@@ -7,7 +7,7 @@
     </div>
     <div class="HomeGrid pt-18 grid justify-between items-start">
       <nuxt-link
-        :to="`/record/${record.id}`"
+        :to="`/pokemon63/record/${record.id}`"
         :key="record.id"
         v-for="record in battleRecords"
         class="HomeListItem relative mb-12 rounded-sm overflow-hidden"
@@ -50,17 +50,15 @@
             >S{{ record.season }} / {{ record.rank }} 位</span
           >
         </div>
-        <img
-          src="https://github.com/potato4d.png"
+        <AppUserIcon
           class="absolute rounded-full overflow-hidden"
+          :userId="record.userId"
           :style="{
             width: '32px',
             height: '32px',
             right: '17px',
             bottom: '14px',
-            background: '#fff',
           }"
-          alt=""
         />
       </nuxt-link>
     </div>

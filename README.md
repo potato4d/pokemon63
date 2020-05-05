@@ -1,22 +1,21 @@
-# pokemon63
+# みんなの63
 
-> My hunky-dory Nuxt.js project
+これは「みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト」の開発レポジトリです。
 
-## Build Setup
+## Installation
+
+### Environment Varialbles
+
+Firebase のプロジェクトを用意して設定してください。
+
+### Server
 
 ```bash
-# install dependencies
-$ yarn install
-
-# serve with hot reload at localhost:3000
+$ yarn
 $ yarn dev
-
-# build for production and launch server
-$ yarn build
-$ yarn start
-
-# generate static project
-$ yarn generate
+$ open 'http://localhost:3000/pokemon63/'
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+## LICENCE
+
+MIT

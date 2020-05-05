@@ -5,7 +5,7 @@
     </div>
     <div class="HomeGrid pt-18 grid justify-between items-start">
       <nuxt-link
-        :to="`/record/${record.id}`"
+        :to="`/pokemon63/record/${record.id}`"
         :key="record.id"
         v-for="record in battleRecords"
         class="HomeListItem relative mb-12 rounded-sm overflow-hidden"

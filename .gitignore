@@ -59,6 +59,8 @@ typings/
 # dotenv environment variables file
 .env
 
+.firebase
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
@@ -92,3 +94,6 @@ sw.*
 # static icons
 
 src/static/static/images/icons/*.png
+.firebaserc
+
+public

@@ -141,16 +141,15 @@
           <div class="w-full pl-9 text-2xl">
             <ul>
               <li class="flex items-center justify-start h-24 mb-9">
-                <img
-                  src="https://github.com/potato4d.png"
-                  class="rounded"
+                <AppUserIcon
+                  class="rounded overflow-hidden"
+                  :userId="record.userId"
                   :style="{
                     width: '40px',
                     height: '40px',
                   }"
-                  alt=""
                 />
-                <p class="pl-6">potato4d</p>
+                <p class="pl-6">{{ user.displayName }}</p>
               </li>
               <li class="flex items-center justify-start h-24">
                 <dl class="flex items-center">
@@ -204,13 +203,14 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { BattleRecord } from '~/types/struct'
+import { BattleRecord, User } from '~/types/struct'
 import { Pokemon } from '../../analyzer/config/dex'
 import { AnalyzerPokemonList } from '../../components/partials/AnalyzerPokemonList'
 import { TheRecordChoiceList } from '../../components/partials/TheRecordChoiceList'
 import { TheRecordQuestion } from '../../components/partials/TheRecordQuestion'
 
 type LocalData = {
+  user: User
   record: BattleRecord
   myParty: Pokemon[]
   opponentParty: Pokemon[]
@@ -236,7 +236,8 @@ export default Vue.extend({
     const record = {
       ...doc.data(),
     } as BattleRecord
-    const [myPartySnapshot, opponentPartySnapshot] = await Promise.all([
+    const [user, myPartySnapshot, opponentPartySnapshot] = await Promise.all([
+      app.$userRecord.get({ id: record.userId }),
       doc.ref.collection('myParty').orderBy('order', 'asc').get(),
       doc.ref.collection('opponentParty').orderBy('order', 'asc').get(),
     ])
@@ -251,6 +252,7 @@ export default Vue.extend({
       } as Pokemon
     })
     return {
+      user,
       record,
       myParty,
       opponentParty,

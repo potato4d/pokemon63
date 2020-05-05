@@ -5,6 +5,12 @@ import * as Dex from '../analyzer/config/dex'
 
 export type Pokemon = Dex.Pokemon
 
+export type User = {
+  id: string
+  displayName: string
+  photoUrl: string
+}
+
 export type BattleRecord = {
   id?: string
   userId: string

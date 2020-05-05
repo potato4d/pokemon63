@@ -1,3 +1,5 @@
+/* purgecss start ignore */
+
 html {
   line-height: 1.0;
   font-family: 'Noto Sans CJK JP';
@@ -47,3 +49,5 @@ button {
 .TheHeader__searchBox:focus {
   box-shadow:  0 10px 20px rgba(0,0,0,0.1);
 }
+
+/* purgecss end ignore */

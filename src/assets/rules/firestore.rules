@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+
+  function validateUndefined(data, key) {
+    return !data.keys().hasAll([key])
+  }
+
+  function validateInt(num, min, max) {
+    return num is int && min <= num && num <= max;
+  }
+
+  function incomingData() {
+    return request.resource.data;
+  }
+
+  function validateString(text, min, max) {
+    return text is string && min <= text.size() && text.size() <= max;
+  }
+
+  function existingData() {
+    return resource.data;
+  }
+
+  match /databases/{database}/documents {
+    match /users {
+      match /{userId} {
+        allow read;
+        allow create: if userId == request.auth.uid
+          && validateString(incomingData().displayName, 0, 512)
+          && validateString(incomingData().photoUrl, 0, 512)
+        ;
+      }
+    }
+    match /battlerecords {
+      match /{recordId} {
+        allow read;
+        allow create: if request.auth.uid == incomingData().userId
+                    && incomingData().size < 10
+                    && (validateUndefined(incomingData(), 'note') || validateString(incomingData().note, 0, 1024))
+                    && validateInt(incomingData().season, 0, 10)
+                    && validateInt(incomingData().rank, 0, 500000)
+                    && (incomingData().result == 'win' || incomingData().result == 'lose')
+                    && validateString(incomingData().captureUrl, 0, 1024)
+        ;
+        allow update: if request.auth.uid == existingData().userId
+                    && incomingData().size < 10
+                    && (validateUndefined(incomingData(), 'note') || validateString(incomingData().note, 0, 1024))
+                    && validateInt(incomingData().season, 0, 10)
+                    && validateInt(incomingData().rank, 0, 500000)
+                    && (incomingData().result == 'win' || incomingData().result == 'lose')
+                    && validateString(incomingData().captureUrl, 0, 1024)
+        ;
+        allow delete: if request.auth.uid == existingData().userId;
+
+        match /myParty {
+          match /{pokemonId} {
+            allow read, write;
+          }
+        }
+
+        match /opponentParty {
+          match /{pokemonId} {
+            allow read, write;
+          }
+        }
+      }
+    }
+  }
+}

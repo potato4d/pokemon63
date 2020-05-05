@@ -276,7 +276,7 @@ export default Vue.extend({
           })
         }),
       ])
-      this.$router.push(`/record/${doc.id}`)
+      this.$router.push(`/pokemon63/record/${doc.id}`)
       this.$emit('close')
     },
     async choosePokemon(

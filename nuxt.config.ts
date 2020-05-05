@@ -1,8 +1,14 @@
 import { Configuration } from '@nuxt/types'
+require('dotenv').config()
 
 const config: Configuration = {
   srcDir: 'src',
   mode: 'universal',
+  server: {
+    host: '0.0.0.0',
+    port: ~~(process.env.PORT) || 3000,
+    timing: false
+  },
   /*
    ** Headers of the page
    */
@@ -14,7 +20,7 @@ const config: Configuration = {
       {
         hid: 'description',
         name: 'description',
-        content: 'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト',
+        content: 'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。',
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
@@ -30,11 +36,12 @@ const config: Configuration = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/firebase.ts', '~/plugins/register.ts'],
+  plugins: ['~/plugins/firebase.ts', '~/plugins/register.ts', '~/plugins/userRecord.ts'],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
+    '@nuxtjs/dotenv',
     '@nuxt/typescript-build',
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
     '@nuxtjs/tailwindcss',
@@ -46,7 +53,13 @@ const config: Configuration = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     'portal-vue/nuxt',
+    'nuxt-basic-auth-module'
   ],
+  basic: {
+    name: 'admin',
+    pass: '1234',
+    enabled: process.env.NODE_ENV === 'production' // require boolean value(nullable)
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
@@ -56,6 +69,9 @@ const config: Configuration = {
    ** Build configuration
    */
   build: {
+    terser: {
+      extractComments: false
+    },
     extend: ({ module, output }, { isClient }) => {
       output.globalObject = 'this'
 
@@ -92,6 +108,9 @@ const config: Configuration = {
     FIREBASE_APP_ID: process.env.FIREBASE_APP_ID!,
     FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID || ''
   },
+  router: {
+    base: '/pokemon63/'
+  }
 }
 
 export default config

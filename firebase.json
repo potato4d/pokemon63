@@ -1,0 +1,31 @@
+{
+  "firestore": {
+    "rules": "src/assets/rules/firestore.rules",
+    "indexes": "src/assets/rules/firestore.indexes.json"
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/",
+        "destination": "/pokemon63",
+        "type": 302
+      },
+      {
+        "source": "**",
+        "run": {
+          "serviceId": "web-alpha",
+          "region": "asia-northeast1"
+        }
+      }
+    ]
+  },
+  "storage": {
+    "rules": "src/assets/rules/storage.rules"
+  }
+}
