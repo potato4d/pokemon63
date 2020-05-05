@@ -1,3 +1,5 @@
+![img](./src/static/static/images/opengraph.png?raw=true)
+
 # みんなの63
 
 これは「みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト」の開発レポジトリです。
