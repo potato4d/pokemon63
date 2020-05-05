@@ -133,7 +133,7 @@
             </div>
             <div
               class="text-2xl text-gray-900 leading-loose"
-              v-html="note"
+              v-html="note || 'この対戦にはメモがありません'"
             ></div>
           </div>
         </div>

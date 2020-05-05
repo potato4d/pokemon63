@@ -34,7 +34,10 @@ const config: Configuration = {
       { name: 'twitter:title', hid: 'twitter:title', content: 'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト' },
       { name: 'twitter:image', hid: 'twitter:image', content: 'https://pokedri.com/pokemon63/static/images/opengraph.png' },
     ],
-    link: [{ rel: 'icon', type: 'image/png', href: '/pokemon63/static/favicon.png' }],
+    link: [
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap' },
+      { rel: 'icon', type: 'image/png', href: '/pokemon63/static/favicon.png' }
+    ],
   },
   /*
    ** Customize the progress-bar color
@@ -68,8 +71,7 @@ const config: Configuration = {
   basic: {
     name: 'admin',
     pass: '1234',
-    enabled: false
-    // enabled: process.env.NODE_ENV === 'production' // require boolean value(nullable)
+    enabled: process.env.NODE_ENV === 'production' // require boolean value(nullable)
   },
   /*
    ** Build configuration

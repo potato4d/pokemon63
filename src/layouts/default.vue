@@ -42,12 +42,12 @@ html {
 
 html {
   line-height: 1;
-  font-family: 'Noto Sans CJK JP';
+  font-family: 'Noto Sans JP', sans-serif;
 }
 
 button {
   outline: none !important;
-  font-family: 'Noto Sans CJK JP';
+  font-family: 'Noto Sans JP', sans-serif;
 }
 
 #__nuxt::before {
