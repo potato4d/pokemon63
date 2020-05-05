@@ -121,3 +121,9 @@ export async function compare(
 export async function readImage(path: string): Promise<Jimp> {
   return await Jimp.read(path)
 }
+
+export function createImage(x: number, y: number): Jimp {
+  return new Jimp(x, y)
+}
+
+export { MIME_PNG } from 'jimp'

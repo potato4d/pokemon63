@@ -16,7 +16,7 @@ COPY package*.json ./
 COPY yarn.lock ./
 
 # Install production dependencies.
-RUN yarn install
+RUN yarn install --production
 
 # Copy local code to the container image.
 COPY . .

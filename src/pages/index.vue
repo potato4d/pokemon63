@@ -79,9 +79,7 @@ type LocalData = {
 export default Vue.extend({
   head() {
     return {
-      link: [
-        { rel: 'canonical', href: 'https://pokedri.com/pokemon63/'}
-      ]
+      link: [{ rel: 'canonical', href: 'https://pokedri.com/pokemon63/' }],
     }
   },
   data() {

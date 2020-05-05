@@ -14,13 +14,25 @@ const config: Configuration = {
    */
   head: {
     title: 'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト',
+    htmlAttrs: {
+      lang: 'ja'
+    },
     meta: [
       { charset: 'utf-8' },
-      {
-        hid: 'description',
-        name: 'description',
-        content: 'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。',
-      },
+      { name: 'description', hid: 'description', content: 'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。' },
+      { name: 'viewport', hid: 'viewport', content: 'width=device-width' },
+      { property: 'og:locale', hid: 'og:locale', content: 'ja_JP' },
+      { property: 'og:type', hid: 'og:type', content: 'website' },
+      { property: 'og:title', hid: 'og:title', content: 'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト' },
+      { property: 'og:description', hid: 'og:description', content: 'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。' },
+      { property: 'og:site_name', hid: 'og:site_name', content: 'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト' },
+      { name: 'twitter:card', hid: 'twitter:card', content: 'summary_large_image' },
+      { property: 'og:url', hid: 'og:url', content: 'https://pokedri.com/pokemon63/' },
+      { property: 'og:image', hid: 'og:image', content: 'https://pokedri.com/pokemon63/static/images/opengraph.png' },
+      { property: 'og:image:secure_url', hid: 'og:image:secure_url', content: 'https://pokedri.com/pokemon63/static/images/opengraph.png' },
+      { name: 'twitter:description', hid: 'twitter:description', content: 'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。' },
+      { name: 'twitter:title', hid: 'twitter:title', content: 'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト' },
+      { name: 'twitter:image', hid: 'twitter:image', content: 'https://pokedri.com/pokemon63/static/images/opengraph.png' },
     ],
     link: [{ rel: 'icon', type: 'image/png', href: '/pokemon63/static/favicon.png' }],
   },
@@ -56,7 +68,8 @@ const config: Configuration = {
   basic: {
     name: 'admin',
     pass: '1234',
-    enabled: process.env.NODE_ENV === 'production' // require boolean value(nullable)
+    enabled: false
+    // enabled: process.env.NODE_ENV === 'production' // require boolean value(nullable)
   },
   /*
    ** Build configuration

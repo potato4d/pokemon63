@@ -189,14 +189,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import Jimp from 'jimp/es'
-import { compare, readImage } from '~/analyzer/compare'
-import {
-  Season,
-  Format,
-  Result,
-  Pokemon,
-  BattleRecord,
-} from '~/types/struct'
+import { compare, readImage, createImage, MIME_PNG } from '~/analyzer/compare'
+import { Season, Format, Result, Pokemon, BattleRecord } from '~/types/struct'
 import { AnalyzerPokemonList } from '../AnalyzerPokemonList'
 import { v4 as uuid } from 'uuid'
 
@@ -213,6 +207,7 @@ type LocalData = {
   indicator: number
   status: Status
   imageUrl: string | null
+  ogpBuffer: Buffer | null
   formData: Omit<BattleRecord, 'userId'>
 }
 
@@ -228,6 +223,7 @@ export default Vue.extend({
       status: 'wait',
       imageUrl: null,
       anonymous: false,
+      ogpBuffer: null,
       formData: {
         captureUrl: null,
         season: 6,
@@ -276,6 +272,9 @@ export default Vue.extend({
           })
         }),
       ])
+      await this.$storage.ref(`opengraph/${doc.id}`).put(this.ogpBuffer!, {
+        contentType: 'image/png',
+      })
       this.$router.push(`/record/${doc.id}`)
       this.$emit('close')
     },
@@ -332,7 +331,7 @@ export default Vue.extend({
         const ss = await readImage(imageUrl)
         const [
           { myPokemon, opponentPokemon, time },
-          snapshot,
+          screenShotSnapshot,
         ] = await Promise.all([
           compare(ss, () => {
             this.indicator++
@@ -340,12 +339,22 @@ export default Vue.extend({
           this.$storage.ref(`captureImages/${uuid()}`).put(file),
         ])
         await delay(1300)
-        const downloadURL = await snapshot.ref.getDownloadURL()
+        const downloadURL = await screenShotSnapshot.ref.getDownloadURL()
         this.formData.captureUrl = downloadURL
         this.formData.myParty = myPokemon
         this.formData.opponentParty = opponentPokemon
         this.status = 'done'
         this.imageUrl = imageUrl
+
+        const logo = await readImage('/pokemon63/static/images/logo.png')
+        const frame = await readImage(
+          '/pokemon63/static/images/right-bottom-frame.png'
+        )
+        const ogp = createImage(1200, 630)
+        ogp.blit(ss.clone().resize(1200, 675), 0, 0)
+        ogp.blit(logo.resize(300, 300), 1200 - 310, 630 - 270)
+
+        this.ogpBuffer = await ogp.getBufferAsync(MIME_PNG)
       } catch (e) {
         alert(e)
       }

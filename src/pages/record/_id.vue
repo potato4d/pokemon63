@@ -217,14 +217,65 @@ type LocalData = {
   opponentParty: Pokemon[]
 }
 
+const getOpenGraphUrl = (path: string) =>
+  `https://firebasestorage.googleapis.com/v0/b/pokedri-minnnano63.appspot.com/o/${path}?alt=media`
+
 export default Vue.extend({
   head() {
     const record = this.record as BattleRecord
+    const title = `S${record.season} / ${record.rank} 位の試合 | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
+    const imageUrl = getOpenGraphUrl('opengraph%2F' + this.$route.params.id)
     return {
-      title: `S${ record.season } / ${ record.rank } 位の試合 | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`,
+      title,
+      meta: [
+        {
+          name: 'description',
+          hid: 'description',
+          content:
+            'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
+        },
+        { name: 'viewport', hid: 'viewport', content: 'width=device-width' },
+        { property: 'og:locale', hid: 'og:locale', content: 'ja_JP' },
+        { property: 'og:type', hid: 'og:type', content: 'website' },
+        { property: 'og:title', hid: 'og:title', content: title },
+        {
+          property: 'og:description',
+          hid: 'og:description',
+          content:
+            'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
+        },
+        { property: 'og:site_name', hid: 'og:site_name', content: title },
+        {
+          name: 'twitter:card',
+          hid: 'twitter:card',
+          content: 'summary_large_image',
+        },
+        {
+          property: 'og:url',
+          hid: 'og:url',
+          content: 'https://pokedri.com/pokemon63/' + this.$route.params.id,
+        },
+        { property: 'og:image', hid: 'og:image', content: imageUrl },
+        {
+          property: 'og:image:secure_url',
+          hid: 'og:image:secure_url',
+          content: imageUrl,
+        },
+        {
+          name: 'twitter:description',
+          hid: 'twitter:description',
+          content:
+            'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
+        },
+        { name: 'twitter:title', hid: 'twitter:title', content: title },
+        { name: 'twitter:image', hid: 'twitter:image', content: imageUrl },
+      ],
       link: [
-        { rel: 'canonical', href: 'https://pokedri.com/pokemon63/' + record.id}
-      ]
+        {
+          rel: 'canonical',
+          href: 'https://pokedri.com/pokemon63/' + this.$route.params.id,
+        },
+      ],
     }
   },
   components: {
@@ -240,9 +291,7 @@ export default Vue.extend({
     }
   },
   async asyncData({ app, params }) {
-    const recordRef = app.$firestore
-      .collection('battlerecords')
-      .doc(params.id)
+    const recordRef = app.$firestore.collection('battlerecords').doc(params.id)
     const [doc, myPartySnapshot, opponentPartySnapshot] = await Promise.all([
       recordRef.get(),
       recordRef.collection('myParty').orderBy('order', 'asc').get(),
@@ -269,7 +318,7 @@ export default Vue.extend({
   },
   async mounted() {
     this.user = await this.$userRecord.get({ id: this.record!.userId })
-  }
+  },
 })
 </script>
 
