@@ -20,8 +20,7 @@ const config: Configuration = {
     meta: [
       { charset: 'utf-8' },
       { name: 'description', hid: 'description', content: 'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。' },
-      { name: 'viewport', hid: 'viewport', content: 'width=device-width' },
-      { name: 'viewport', content: 'width=1024' },
+      { name: 'viewport', hid: 'viewport', content: 'width=1024' },
       { property: 'og:locale', hid: 'og:locale', content: 'ja_JP' },
       { property: 'og:type', hid: 'og:type', content: 'website' },
       { property: 'og:title', hid: 'og:title', content: 'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト' },
