@@ -203,7 +203,7 @@
                   >
                     <iframe
                       title="Twitter Share"
-                      :src="`https://platform.twitter.com/widgets/tweet_button.html?url=${currentUrl}&text=${encodedTitle}&hashtags=pokedri`"
+                      :src="`https://platform.twitter.com/widgets/tweet_button.html?url=${currentUrl}&text=${encodedTitle}&hashtags=pokedri,ポケモン剣盾`"
                       width="81"
                       height="21"
                       style="overflow: hidden;"
