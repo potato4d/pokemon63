@@ -236,6 +236,7 @@ type Constants = {
 }
 
 type LocalData = {
+  isProcessing: boolean
   anonymous: boolean
   indicator: number
   status: Status
@@ -253,6 +254,7 @@ export default Vue.extend({
   },
   data(): LocalData {
     return {
+      isProcessing: false,
       indicator: 0,
       status: 'wait',
       imageUrl: null,
@@ -280,43 +282,53 @@ export default Vue.extend({
       }
     },
     async submitBattleRecord() {
-      const userId = this.$auth.currentUser
-        ? this.anonymous
-          ? 'anonymous'
-          : this.$auth.user.uid
-        : 'anonymous'
-      const data = {
-        userId,
-        season: this.formData.season,
-        format: this.formData.format,
-        result: this.formData.result,
-        rank: ~~this.formData.rank!,
-        myChoice: this.formData.myChoice,
-        opponentChoice: this.formData.opponentChoice,
-        captureUrl: this.formData.captureUrl,
-        note: this.formData.note,
-        createdAt: this.$firebase.firestore.FieldValue.serverTimestamp(),
+      if (this.isProcessing) {
+        return
       }
-      const doc = await this.$firestore.collection('battlerecords').add(data)
-      await Promise.all([
-        ...this.formData.myParty.map(async (pokemon, i) => {
-          await doc.collection('myParty').add({
-            ...pokemon,
-            order: i,
-          })
-        }),
-        ...this.formData.opponentParty.map(async (pokemon, i) => {
-          await doc.collection('opponentParty').add({
-            ...pokemon,
-            order: i,
-          })
-        }),
-      ])
-      await this.$storage.ref(`opengraph/${doc.id}`).put(this.ogpBuffer!, {
-        contentType: 'image/png',
-      })
-      this.$router.push(`/record/${doc.id}`)
-      this.$emit('close')
+      this.isProcessing = true
+      try {
+        const userId = this.$auth.currentUser
+          ? this.anonymous
+            ? 'anonymous'
+            : this.$auth.user.uid
+          : 'anonymous'
+        const data = {
+          userId,
+          season: this.formData.season,
+          format: this.formData.format,
+          result: this.formData.result,
+          rank: ~~this.formData.rank!,
+          myChoice: this.formData.myChoice,
+          opponentChoice: this.formData.opponentChoice,
+          captureUrl: this.formData.captureUrl,
+          note: this.formData.note,
+          createdAt: this.$firebase.firestore.FieldValue.serverTimestamp(),
+        }
+        const doc = await this.$firestore.collection('battlerecords').add(data)
+        await Promise.all([
+          ...this.formData.myParty.map(async (pokemon, i) => {
+            await doc.collection('myParty').add({
+              ...pokemon,
+              order: i,
+            })
+          }),
+          ...this.formData.opponentParty.map(async (pokemon, i) => {
+            await doc.collection('opponentParty').add({
+              ...pokemon,
+              order: i,
+            })
+          }),
+        ])
+        await this.$storage.ref(`opengraph/${doc.id}`).put(this.ogpBuffer!, {
+          contentType: 'image/png',
+        })
+        this.$router.push(`/record/${doc.id}`)
+        this.$emit('close')
+      } catch (e) {
+        alert('エラーが発生しました')
+      } finally {
+        this.isProcessing = false
+      }
     },
     async choosePokemon(
       side: 'my' | 'opponent',
