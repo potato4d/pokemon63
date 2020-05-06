@@ -242,7 +242,7 @@ type LocalData = {
 }
 
 const getOpenGraphUrl = (path: string) =>
-  `https://firebasestorage.googleapis.com/v0/b/pokedri-minnnano63.appspot.com/o/${path}?alt=media`
+  `https://storage.googleapis.com/pokedri-minnnano63.appspot.com/${path}`
 
 export default Vue.extend({
   head() {

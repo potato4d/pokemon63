@@ -122,8 +122,16 @@ export async function readImage(path: string): Promise<Jimp> {
   return await Jimp.read(path)
 }
 
-export function createImage(x: number, y: number): Jimp {
-  return new Jimp(x, y)
+export async function readFromBuffer(data: Buffer): Promise<Jimp> {
+  return await Jimp.read(data)
 }
 
-export { MIME_PNG } from 'jimp'
+export function createImage(x: number, y: number, hex?: string): Jimp {
+  if (hex) {
+    return new Jimp(x, y, hex)
+  } else {
+    return new Jimp(x, y)
+  }
+}
+
+export { MIME_PNG, AUTO } from 'jimp'
