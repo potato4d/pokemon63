@@ -195,6 +195,20 @@
                   </dd>
                 </dl>
               </li>
+              <li class="flex items-center justify-start h-24">
+                <dl class="flex items-center">
+                  <dt class="w-48">対戦動画のURL</dt>
+                  <dd>
+                    <input
+                      type="text"
+                      readonly
+                      class="flex-1 p-1 px-2 rounded-sm mr-2 bg-gray-300"
+                      id="copy"
+                      v-model="record.videoUrl"
+                    />
+                  </dd>
+                </dl>
+              </li>
               <client-only>
                 <li class="flex items-center justify-start pr-9 h-24">
                   <div
@@ -211,15 +225,6 @@
                   </div>
                 </li>
               </client-only>
-              <li class="flex items-center justify-end px-9 h-24" v-if="record.videoUrl">
-                <input
-                    type="text"
-                    readonly
-                    class="flex-1 p-1 px-2 rounded-sm mr-2"
-                    v-model="record.videoUrl"
-                    @click.stop.prevent="() => {}"
-                  />
-              </li>
               <li class="flex items-center justify-end px-9 h-24" v-if="false">
                 <button type="button">
                   <img src="~/assets/images/trash.svg" width="18" alt="" />
