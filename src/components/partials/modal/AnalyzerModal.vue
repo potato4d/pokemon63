@@ -272,6 +272,7 @@ export default Vue.extend({
         myChoice: [0, 0, 0],
         opponentChoice: [0, 0, 0],
         note: '',
+        videoUrl: null,
       },
     }
   },
