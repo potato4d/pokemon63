@@ -18,7 +18,7 @@ service cloud.firestore {
   }
 
   function validateUrl(text) {
-    return text is string && text.matches('.*https://');
+    return text is string && text.matches('https?://[\w!?/\+\-_~=;\.,*&@#$%\(\)\'\[\]]+');
   }
 
   function existingData() {
