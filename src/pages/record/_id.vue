@@ -3,7 +3,8 @@
     <div class="pt-21">
       <AppHeading>
         S{{ record.season }}
-        <template v-if="record.rank">/ {{ record.rank }} 位</template> の試合
+        <template v-if="record.rank">/ {{ record.rank }} 位</template>
+        シングルバトルの試合
       </AppHeading>
     </div>
     <div class="pt-18 pb-18 flex flex-wrap justify-between items-start">
@@ -25,6 +26,8 @@
                 alt=""
               />
             </div>
+
+            <!-- TODO: 実装する -->
             <template v-if="mode === 'question'">
               <div
                 id="PartySummary"
@@ -96,7 +99,7 @@
                 <TheRecordChoiceList :choice="record.myChoice" :party="myParty">
                   <div>
                     <h4 class="text-2xl font-bold pb-3 text-white">
-                      自分の構築
+                      自分の選出
                     </h4>
                     <div class="pr-9">
                       <div
@@ -114,7 +117,7 @@
                 >
                   <div>
                     <h4 class="text-2xl font-bold pb-3 text-white">
-                      相手の構築
+                      相手の選出
                     </h4>
                     <div class="pr-9">
                       <div
@@ -228,7 +231,9 @@ const getOpenGraphUrl = (path: string) =>
 export default Vue.extend({
   head() {
     const record = this.record as BattleRecord
-    const title = `S${record.season} ${record.rank ? `/ ${record.rank} 位` : ''}の試合 | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
+    const title = `S${record.season} ${
+      record.rank ? `/ ${record.rank} 位` : ''
+    } シングルバトルの試合 | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
     const imageUrl = getOpenGraphUrl('opengraph%2F' + this.$route.params.id)
     return {
       title,

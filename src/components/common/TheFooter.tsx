@@ -4,7 +4,7 @@ import * as tsx from 'vue-tsx-support'
 export const TheFooter = tsx.component({
   render() {
     return (
-      <footer class="w-full p-18 pt-30 bg-black">
+      <footer class="w-full p-18 pt-18 bg-black">
         <div
           class="container"
           style={{
@@ -13,12 +13,24 @@ export const TheFooter = tsx.component({
             color: '#fff',
           }}
         >
-          <ul class="list-reset pt-30">
+          <ul class="list-reset pt-12">
+            <li class="text-4xl pb-30">
+              <p>Pokemon Driven</p>
+              <p class="text-xl mt-6 text-gray-400">ポケモン支援ツールまとめ</p>
+            </li>
             <li class="mt-9">
               本サービスは非公式サービスです。任天堂株式会社とは一切関係ありません。
             </li>
             <li class="mt-9">
-              このサイトのソースコードは MIT License で公開されています。
+              このサイトのソースコードは{' '}
+              <a
+                href="https://github.com/potato4d/pokemon63"
+                class="underline"
+                target="_blank"
+              >
+                MIT License で公開
+              </a>{' '}
+              されています。
             </li>
           </ul>
           <p
@@ -27,7 +39,14 @@ export const TheFooter = tsx.component({
               fontSize: '14px',
             }}
           >
-            &copy; 2020 pokedri.com by @potato4d
+            &copy; 2020 pokedri.com by{' '}
+            <a
+              href="https://twitter.com/potato4d"
+              target="_blank"
+              class="underline"
+            >
+              @potato4d
+            </a>
           </p>
         </div>
       </footer>

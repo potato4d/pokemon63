@@ -166,7 +166,12 @@
             </p>
             <p class="flex flex-col pt-15">
               <label class="pb-3">
-                <input type="checkbox" :value="true" v-model="anonymous" />
+                <input
+                  type="checkbox"
+                  :value="true"
+                  v-model="anonymous"
+                  :readonly="!this.$auth.currentUser"
+                />
                 <span>匿名で投稿する</span>
               </label>
             </p>
@@ -251,7 +256,7 @@ export default Vue.extend({
       indicator: 0,
       status: 'wait',
       imageUrl: null,
-      anonymous: false,
+      anonymous: !this.$auth.currentUser,
       ogpBuffer: null,
       twimgUrl: '',
       formData: {
@@ -275,7 +280,11 @@ export default Vue.extend({
       }
     },
     async submitBattleRecord() {
-      const userId = this.$auth.currentUser ? (this.anonymous ? 'anonymous' : this.$auth.user.uid) : 'anonymous'
+      const userId = this.$auth.currentUser
+        ? this.anonymous
+          ? 'anonymous'
+          : this.$auth.user.uid
+        : 'anonymous'
       const data = {
         userId,
         season: this.formData.season,
