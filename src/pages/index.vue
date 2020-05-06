@@ -48,7 +48,7 @@ export default Vue.extend({
       .get()
     const battleRecords = records.docs.map(
       (doc): BattleRecord => {
-        const data = doc.data()
+        const { createdAt, ...data } = doc.data()
         return {
           id: doc.id,
           ...data,
