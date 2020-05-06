@@ -32,6 +32,17 @@ export const TheFooter = tsx.component({
               </a>{' '}
               されています。
             </li>
+            <li class="mt-9">
+              不具合報告やお問い合わせは、
+              <a
+                href="https://twitter.com/potato4d"
+                class="underline"
+                target="_blank"
+              >
+                作者 Twitter アカウント
+              </a>
+              へとお願いいたします。
+            </li>
           </ul>
           <p
             class="mt-18 mx-auto text-center"

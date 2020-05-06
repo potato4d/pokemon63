@@ -1,12 +1,12 @@
 <template>
-  <div class="container">
-    <div class="pt-21">
+  <section class="container">
+    <header class="pt-21">
       <AppHeading>
         S{{ record.season }}
         <template v-if="record.rank">/ {{ record.rank }} 位</template>
         シングルバトルの試合
       </AppHeading>
-    </div>
+    </header>
     <div class="pt-18 pb-18 flex flex-wrap justify-between items-start">
       <div class="w-full flex">
         <div class="w-2/3">
@@ -205,7 +205,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">

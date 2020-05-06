@@ -69,11 +69,6 @@ const config: Configuration = {
     'portal-vue/nuxt',
     'nuxt-basic-auth-module'
   ],
-  basic: {
-    name: 'admin',
-    pass: '1234',
-    enabled: process.env.NODE_ENV === 'production' // require boolean value(nullable)
-  },
   /*
    ** Build configuration
    */
