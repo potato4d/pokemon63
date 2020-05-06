@@ -137,7 +137,7 @@
             <p class="flex flex-col">
               <label class="pb-3">対戦シーズン</label>
               <select v-model="formData.season">
-                <option :value="season" v-for="season in constants.season"
+                <option :value="season" v-for="season in constants.season" :key="season"
                   >S{{ season }}</option
                 >
               </select>
@@ -154,7 +154,7 @@
             <p class="flex flex-col pt-15">
               <label class="pb-3">勝敗</label>
               <select v-model="formData.result">
-                <option v-for="result in constants.result" :value="result">
+                <option v-for="result in constants.result" :value="result" :key="result">
                   {{
                     {
                       win: '勝ち',
