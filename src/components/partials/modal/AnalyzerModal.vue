@@ -371,11 +371,8 @@ export default Vue.extend({
       this.formData.opponentChoice = this.formData.opponentChoice.map((c) => c)
     },
     async importFromTwitter() {
-      const twimgUrl = this.twimgUrl.split('?')[0]
-      if (
-        !twimgUrl.startsWith('https://pbs.twimg.com/media') ||
-        !twimgUrl.endsWith('.jpg')
-      ) {
+      const twimgUrl = this.twimgUrl.split('?')[0].split('.jp')[0]
+      if (!twimgUrl.startsWith('https://pbs.twimg.com/media')) {
         alert('不正なデータです。')
         return
       }
