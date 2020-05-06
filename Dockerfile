@@ -1,6 +1,6 @@
 # Use the official Node.js 10 image.
 # https://hub.docker.com/_/node
-FROM node:12
+FROM node:12.16.3-alpine3.10
 
 ENV NODE_ENV production
 ENV PORT 8080
