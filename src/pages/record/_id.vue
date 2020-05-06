@@ -132,12 +132,12 @@
               </div>
             </template>
             <div class="flex items-center justify-start">
-              <h3 class="text-3xl text-gray-900 font-bold py-9">メモ</h3>
+              <h3 class="text-3xl text-gray-900 font-bold py-9">結果</h3>
               <div class="flex-1 border-b ml-9"></div>
             </div>
             <div
               class="text-2xl text-gray-900 leading-loose"
-              v-html="note || 'この対戦にはメモがありません'"
+              v-html="note || 'この対戦には結果のメモがありません'"
             ></div>
           </div>
         </div>
