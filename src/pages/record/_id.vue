@@ -195,7 +195,7 @@
                   </dd>
                 </dl>
               </li>
-              <li class="flex items-center justify-start h-24">
+              <li class="flex items-center justify-start h-24" v-if="record.videoUrl">
                 <dl class="flex items-center">
                   <dt class="w-48">対戦動画のURL</dt>
                   <dd>
