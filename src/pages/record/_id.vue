@@ -195,6 +195,22 @@
                   </dd>
                 </dl>
               </li>
+              <client-only>
+                <li class="flex items-center justify-end px-9 h-24">
+                  <div
+                    class="flex justify-start overflow-hidden"
+                    style="width: 61px; overflow: hidden;"
+                  >
+                    <iframe
+                      title="Twitter Share"
+                      :src="`https://platform.twitter.com/widgets/tweet_button.html?url=${currentUrl}&text=${encodedTitle}&hashtags=pokedri`"
+                      width="81"
+                      height="21"
+                      style="overflow: hidden;"
+                    />
+                  </div>
+                </li>
+              </client-only>
               <li class="flex items-center justify-end px-9 h-24" v-if="false">
                 <button type="button">
                   <img src="~/assets/images/trash.svg" width="18" alt="" />
@@ -332,6 +348,19 @@ export default Vue.extend({
   computed: {
     note(): string {
       return xss.filterXSS(this.record!.note).replace(/\n/g, '<br>')
+    },
+    encodedTitle(): string {
+      return encodeURIComponent(
+        `S${this.record!.season} ${
+          this.record!.rank ? `/ ${this.record!.rank} 位` : ''
+        } シングルバトルの試合 | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
+      )
+    },
+    currentUrl(): string {
+      return process.browser ? `${location.origin}${location.pathname}` : ''
+    },
+    encodedUrl(): string {
+      return encodeURIComponent(`${this.currentUrl || ''}`)
     },
   },
 })
