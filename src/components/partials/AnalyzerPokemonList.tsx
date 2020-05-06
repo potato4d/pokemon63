@@ -30,7 +30,7 @@ export const AnalyzerPokemonList = tsx.component({
         {(this.$slots as any).default}
         <ul>
           {this.party.map((pokemon) => (
-            <li class="flex items-end">
+            <li class="flex mb-3 items-end">
               <div class="w-3/5 flex items-end justify-start">
                 <img
                   style={{
