@@ -17,6 +17,10 @@ service cloud.firestore {
     return text is string && min <= text.size() && text.size() <= max;
   }
 
+  function validateUrl(text) {
+    return text is string && text.matches('.*https://');
+  }
+
   function existingData() {
     return resource.data;
   }
@@ -42,6 +46,8 @@ service cloud.firestore {
                     && (validateInt(incomingData().rank, 0, 500000) || incomingData().rank == null)
                     && (incomingData().result == 'win' || incomingData().result == 'lose')
                     && validateString(incomingData().captureUrl, 0, 1024)
+                    && validateString(incomingData().videoUrl, 0, 1024)
+                    && validateUrl(incomingData().videoUrl)
         ;
         allow update: if request.auth.uid == existingData().userId
                     && (validateUndefined(incomingData(), 'note') || validateString(incomingData().note, 0, 1024))
@@ -49,6 +55,8 @@ service cloud.firestore {
                     && (validateInt(incomingData().rank, 0, 500000) || incomingData().rank == null)
                     && (incomingData().result == 'win' || incomingData().result == 'lose')
                     && validateString(incomingData().captureUrl, 0, 1024)
+                    && validateString(incomingData().videoUrl, 0, 1024)
+                    && validateUrl(incomingData().videoUrl)
         ;
         allow delete: if request.auth.uid == existingData().userId;
 
