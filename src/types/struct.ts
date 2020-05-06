@@ -24,4 +24,5 @@ export type BattleRecord = {
   opponentChoice: number[]
   note: string
   captureUrl: string | null
+  videoUrl: string | null
 }
