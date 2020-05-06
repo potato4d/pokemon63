@@ -196,7 +196,7 @@
                 </dl>
               </li>
               <client-only>
-                <li class="flex items-center justify-end px-9 h-24">
+                <li class="flex items-center justify-start pr-9 h-24">
                   <div
                     class="flex justify-start overflow-hidden"
                     style="width: 61px; overflow: hidden;"
