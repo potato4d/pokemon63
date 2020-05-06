@@ -299,7 +299,7 @@ export default Vue.extend({
       link: [
         {
           rel: 'canonical',
-          href: 'https://pokedri.com/pokemon63/' + this.$route.params.id,
+          href: 'https://pokedri.com/pokemon63/records/' + this.$route.params.id,
         },
       ],
     }
