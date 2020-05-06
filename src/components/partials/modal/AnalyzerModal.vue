@@ -221,7 +221,14 @@
 <script lang="ts">
 import Vue from 'vue'
 import Jimp from 'jimp/es'
-import { compare, readImage, createImage, MIME_PNG } from '~/analyzer/compare'
+import {
+  compare,
+  readImage,
+  createImage,
+  MIME_PNG,
+  AUTO,
+  readFromBuffer,
+} from '~/analyzer/compare'
 import { Season, Format, Result, Pokemon, BattleRecord } from '~/types/struct'
 import { AnalyzerPokemonList } from '../AnalyzerPokemonList'
 import { v4 as uuid } from 'uuid'
@@ -243,6 +250,7 @@ type LocalData = {
   twimgUrl: string
   imageUrl: string | null
   ogpBuffer: Buffer | null
+  ss: Jimp | null
   formData: Omit<BattleRecord, 'userId'>
 }
 
@@ -260,6 +268,7 @@ export default Vue.extend({
       imageUrl: null,
       anonymous: !this.$auth.currentUser,
       ogpBuffer: null,
+      ss: null,
       twimgUrl: '',
       formData: {
         captureUrl: null,
@@ -292,6 +301,7 @@ export default Vue.extend({
             ? 'anonymous'
             : this.$auth.user.uid
           : 'anonymous'
+
         const data = {
           userId,
           season: this.formData.season,
@@ -319,6 +329,7 @@ export default Vue.extend({
             })
           }),
         ])
+
         await this.$storage.ref(`opengraph/${doc.id}`).put(this.ogpBuffer!, {
           contentType: 'image/png',
         })
@@ -401,7 +412,11 @@ export default Vue.extend({
         this.indicator = 0
         this.status = 'processing'
         const imageUrl = URL.createObjectURL(file)
-        const ss = await readImage(imageUrl)
+        const ss = (await readImage(imageUrl)).resize(1280, AUTO)
+        const maskOpponentName = createImage(200, 24, '#E72D53')
+        ss.blit(maskOpponentName, 855, 90)
+        const imagePath = `captureImages/${uuid()}`
+
         const [
           { myPokemon, opponentPokemon, time },
           screenShotSnapshot,
@@ -409,15 +424,16 @@ export default Vue.extend({
           compare(ss, () => {
             this.indicator++
           }),
-          this.$storage.ref(`captureImages/${uuid()}`).put(file),
+          this.$storage.ref(imagePath).put(await ss.getBufferAsync(MIME_PNG)),
         ])
         await delay(1300)
-        const downloadURL = await screenShotSnapshot.ref.getDownloadURL()
+        const downloadURL = `https://storage.googleapis.com/${process.env.FIREBASE_STORAGE_BUCKET}/${imagePath}`
         this.formData.captureUrl = downloadURL
         this.formData.myParty = myPokemon
         this.formData.opponentParty = opponentPokemon
         this.status = 'done'
-        this.imageUrl = imageUrl
+        this.imageUrl = downloadURL
+        URL.revokeObjectURL(imageUrl)
 
         const logo = await readImage('/pokemon63/static/images/logo.png')
         const frame = await readImage(
@@ -427,6 +443,7 @@ export default Vue.extend({
         ogp.blit(ss.clone().resize(1200, 675), 0, 0)
         ogp.blit(logo.resize(300, 300), 1200 - 310, 630 - 270)
 
+        this.ss = ss
         this.ogpBuffer = await ogp.getBufferAsync(MIME_PNG)
       } catch (e) {
         alert(e)
