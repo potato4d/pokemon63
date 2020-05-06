@@ -165,6 +165,15 @@
               </select>
             </p>
             <p class="flex flex-col pt-15">
+              <label class="pb-3">この対戦が含まれる動画のURL</label>
+              <input
+                type="text"
+                class="input-rank"
+                placeholder="https://youtu.be/xxxxxx"
+                v-model="formData.videoUrl"
+              />
+            </p>
+            <p class="flex flex-col pt-15">
               <label class="pb-3">
                 <input
                   type="checkbox"
@@ -175,7 +184,7 @@
                 <span>匿名で投稿する</span>
               </label>
             </p>
-            <div class="flex flex-1 pt-15 items-center justify-center">
+            <div class="flex flex-1 pt-5 items-center justify-center">
               <button
                 :style="{
                   width: '104px',
@@ -303,6 +312,7 @@ export default Vue.extend({
           opponentChoice: this.formData.opponentChoice,
           captureUrl: this.formData.captureUrl,
           note: this.formData.note,
+          videoUrl: this.formData.videoUrl,
           createdAt: this.$firebase.firestore.FieldValue.serverTimestamp(),
         }
         const doc = await this.$firestore.collection('battlerecords').add(data)
