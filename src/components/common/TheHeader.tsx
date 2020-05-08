@@ -78,7 +78,7 @@ export const TheHeader = tsx.component({
           <nuxt-link to="/">
             <img
               src={Logo}
-              class="mx-auto"
+              class="mx-auto my-18 lg:my-auto w-2/3 lg:w-auto h-auto"
               alt="みんなの63 ソード・シールド"
               width="384"
               height="257.33"
@@ -86,10 +86,9 @@ export const TheHeader = tsx.component({
           </nuxt-link>
         </h1>
         <p
-          class="text-center pt-6"
+          class="text-center pt-6 text-2xl lg:text-2xl leading-loose lg:leading-normal"
           style={{
             color: '#333',
-            fontSize: '16px',
           }}
         >
           スクリーンショットから自動解析できるポケモンの選出投稿サイト
@@ -101,11 +100,9 @@ export const TheHeader = tsx.component({
           }}
         >
           <div
-            class="mt-30 rounded-full bg-white relative border"
+            class="mt-15 lg:mt-30 rounded-full bg-white relative border h-24 lg:h-36 text-xl lg:text-3xl"
             style={{
               borderColor: '#E5E5E5',
-              height: '60px',
-              fontSize: '18px',
             }}
           >
             <input
@@ -121,7 +118,7 @@ export const TheHeader = tsx.component({
               alt=""
               src={SearchIcon}
               width="18"
-              class="pointer-events-none absolute top-0 right-0 m-12"
+              class="pointer-events-none absolute top-0 right-0 m-4 mr-9 lg:mr-12 lg:m-12"
             />
           </div>
         </form>

@@ -8,20 +8,22 @@
       </AppHeading>
     </header>
     <div class="pt-18 pb-18 flex flex-wrap justify-between items-start">
-      <div class="w-full flex">
-        <div class="w-2/3">
+      <div class="w-full flex flex-wrap">
+        <div class="w-full lg:w-2/3">
           <div class="w-full pr-9">
             <div
               class="w-full rounded-t overflow-hidden"
               :style="{
-                height: `${611 * 0.6}px`,
+                maxHeight: `${611 * 0.6}px`,
+                height: `calc(calc(100vw - 20px) * 0.6)`,
               }"
             >
               <img
                 :src="record.captureUrl"
                 class="object-cover"
                 :style="{
-                  height: `${611 * 0.63}px`,
+                  maxHeight: `${611 * 0.6}px`,
+                  height: `calc(calc(100vw - 20px) * 0.63)`,
                 }"
                 alt=""
               />
@@ -91,7 +93,7 @@
             <template v-else>
               <div
                 id="PartySummary"
-                class="p-9 rounded-b flex text-white"
+                class="p-9 rounded-b flex text-white flex-wrap"
                 :style="{
                   background: '#343334',
                 }"
@@ -115,7 +117,7 @@
                   :choice="record.opponentChoice"
                   :party="myParty"
                 >
-                  <div>
+                  <div class="pt-12 lg:pt-0">
                     <h4 class="text-2xl font-bold pb-3 text-white">
                       相手の選出
                     </h4>
@@ -141,7 +143,7 @@
             ></div>
           </div>
         </div>
-        <div class="w-1/3">
+        <div class="w-full lg:w-1/3 pt-18 lg:pt-0">
           <div class="w-full pl-9 text-2xl">
             <ul>
               <li class="flex items-center justify-start h-24 mb-9">

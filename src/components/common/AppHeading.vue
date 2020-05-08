@@ -53,4 +53,10 @@ h2::after {
   );
   border-radius: 100px 0 0 100px;
 }
+
+@media (max-width: 1023px) {
+  h2 {
+    font-size: 18px;
+  }
+}
 </style>

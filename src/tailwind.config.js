@@ -28,6 +28,8 @@ module.exports = {
         '24': '4rem',
         '27': '4.5rem',
         '30': '5rem',
+        '33': '5.5rem',
+        '36': '6rem',
       },
       height: {
         '9': '1.5rem',
@@ -38,6 +40,8 @@ module.exports = {
         '24': '4rem',
         '27': '4.5rem',
         '30': '5rem',
+        '33': '5.5rem',
+        '36': '6rem',
       },
       margin: {
         '9': '1.5rem',

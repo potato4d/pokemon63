@@ -10,7 +10,7 @@ export const TheRecordChoiceList = tsx.component({
   },
   render() {
     return (
-      <div class="w-1/2">
+      <div class="w-full lg:w-1/2">
         {(this.$slots as any).default}
         <ul>
           {this.choice.map((item) => (
