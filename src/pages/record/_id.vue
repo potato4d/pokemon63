@@ -22,7 +22,7 @@
                 :src="record.captureUrl"
                 class="object-cover"
                 :style="{
-                  maxHeight: `${611 * 0.6}px`,
+                  maxHeight: `${611 * 0.63}px`,
                   height: `calc(calc(100vw - 20px) * 0.63)`,
                 }"
                 alt=""
