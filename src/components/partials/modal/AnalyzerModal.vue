@@ -9,7 +9,10 @@
       >
         <div>
           <div
-            class="relative rounded overflow-hidden"
+            class="relative rounded overflow-hidden ImageArea"
+            :class="{
+              ImageArea__masked: anonymous,
+            }"
             :style="{
               width: '738px',
               height: '415.13px',
@@ -302,6 +305,17 @@ export default Vue.extend({
             : this.$auth.user.uid
           : 'anonymous'
 
+        if (this.anonymous) {
+          const ss = this.ss!.clone()
+          const maskMyName = createImage(200, 24, '#126FF4')
+          ss.blit(maskMyName, 255, 90)
+          const imagePath = `captureImages/${uuid()}`
+          await this.$storage
+            .ref(imagePath)
+            .put(await ss.getBufferAsync(MIME_PNG))
+          this.formData.captureUrl = `https://storage.googleapis.com/${process.env.FIREBASE_STORAGE_BUCKET}/${imagePath}`
+        }
+
         const data = {
           userId,
           season: this.formData.season,
@@ -330,9 +344,21 @@ export default Vue.extend({
           }),
         ])
 
-        await this.$storage.ref(`opengraph/${doc.id}`).put(this.ogpBuffer!, {
-          contentType: 'image/png',
-        })
+        if (this.anonymous) {
+          const ogp = await readFromBuffer(this.ogpBuffer!)
+          const maskMyName = createImage(180, 24, '#126FF4')
+          ogp.blit(maskMyName, 250, 85)
+          await this.$storage
+            .ref(`opengraph/${doc.id}`)
+            .put(await ogp.getBufferAsync(MIME_PNG), {
+              contentType: 'image/png',
+            })
+        } else {
+          await this.$storage.ref(`opengraph/${doc.id}`).put(this.ogpBuffer!, {
+            contentType: 'image/png',
+          })
+        }
+
         this.$router.push(`/record/${doc.id}`)
         this.$emit('close')
       } catch (e) {
@@ -505,5 +531,17 @@ select,
     transform: translateY(0px);
     opacity: 1;
   }
+}
+
+.ImageArea.ImageArea__masked::before {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 20px;
+  position: absolute;
+  left: 155px;
+  top: 48px;
+  background: #126ff4;
+  z-index: 200;
 }
 </style>
