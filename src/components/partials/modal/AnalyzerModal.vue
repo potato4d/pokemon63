@@ -39,13 +39,13 @@
               ></div>
             </div>
             <img
-              v-if="imageUrl"
-              :src="imageUrl"
+              v-if="formData.captureUrl"
+              :src="formData.captureUrl"
               alt=""
               class="rounded absolute z-30 left-0 top-0 w-full h-full object-contain pointer-events-none"
             />
             <div
-              v-if="!imageUrl"
+              v-if="!formData.captureUrl"
               class="rounded absolute z-30 left-0 top-0 w-full h-full leading-loose bg-gray-200 text-gray-700 text-lg flex items-center justify-center flex-col object-contain cursor-pointer"
               @click="$refs.file.click()"
             >
@@ -256,6 +256,7 @@ import { v4 as uuid } from 'uuid'
 import axios from 'axios'
 
 type Status = 'wait' | 'processing' | 'done'
+type Side = 'my' | 'opponent'
 
 type Constants = {
   season: Season[]
@@ -269,13 +270,26 @@ type LocalData = {
   indicator: number
   status: Status
   twimgUrl: string
-  imageUrl: string | null
   ogpBuffer: Buffer | null
   ss: Jimp | null
   formData: Omit<BattleRecord, 'userId'>
 }
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+const getInitialFormData = (): Omit<BattleRecord, 'userId'> => ({
+  captureUrl: null,
+  season: 6,
+  format: 'single',
+  result: 'win',
+  rank: null,
+  myParty: [],
+  opponentParty: [],
+  myChoice: [0, 0, 0],
+  opponentChoice: [0, 0, 0],
+  note: '',
+  videoUrl: '',
+})
 
 export default Vue.extend({
   components: {
@@ -286,23 +300,12 @@ export default Vue.extend({
       isProcessing: false,
       indicator: 0,
       status: 'wait',
-      imageUrl: null,
       anonymous: !this.$auth.currentUser,
       ogpBuffer: null,
       ss: null,
       twimgUrl: '',
       formData: {
-        captureUrl: null,
-        season: 6,
-        format: 'single',
-        result: 'win',
-        rank: null,
-        myParty: [],
-        opponentParty: [],
-        myChoice: [0, 0, 0],
-        opponentChoice: [0, 0, 0],
-        note: '',
-        videoUrl: '',
+        ...getInitialFormData(),
       },
     }
   },
@@ -387,7 +390,7 @@ export default Vue.extend({
         this.isProcessing = false
       }
     },
-    fixPokemon(side: 'my' | 'opponent', index: number, fixPokemon: Pokemon) {
+    fixPokemon(side: Side, index: number, fixPokemon: Pokemon) {
       switch (side) {
         case 'my': {
           this.formData.myParty = this.formData.myParty.map((pokemon, i) => {
@@ -411,11 +414,7 @@ export default Vue.extend({
         }
       }
     },
-    async choosePokemon(
-      side: 'my' | 'opponent',
-      count: number,
-      pokemon: Pokemon
-    ) {
+    async choosePokemon(side: Side, count: number, pokemon: Pokemon) {
       switch (side) {
         case 'my': {
           if (this.formData.myChoice.includes(pokemon.img)) {
@@ -479,6 +478,10 @@ export default Vue.extend({
     },
     async upload(file: File | Blob) {
       try {
+        this.formData = {
+          ...this.formData,
+          ...getInitialFormData(),
+        }
         this.indicator = 0
         this.status = 'processing'
         const imageUrl = URL.createObjectURL(file)
@@ -502,7 +505,6 @@ export default Vue.extend({
         this.formData.myParty = myPokemon
         this.formData.opponentParty = opponentPokemon
         this.status = 'done'
-        this.imageUrl = downloadURL
         URL.revokeObjectURL(imageUrl)
 
         const logo = await readImage('/pokemon63/static/images/logo.png')
