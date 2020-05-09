@@ -36,7 +36,8 @@ const config: Configuration = {
     ],
     link: [
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap' },
-      { rel: 'icon', type: 'image/png', href: '/pokemon63/static/favicon.png' }
+      { rel: 'icon', type: 'image/png', href: '/pokemon63/static/favicon.png' },
+      { rel: 'apple-touch-icon', type: 'image/png', href: '/pokemon63/static/favicon.png' }
     ],
   },
   /*
