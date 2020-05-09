@@ -197,17 +197,20 @@
                   </dd>
                 </dl>
               </li>
-              <li class="flex items-center justify-start h-24" v-if="record.videoUrl">
+              <li
+                class="flex items-center justify-start h-24"
+                v-if="record.videoUrl"
+              >
                 <dl class="flex items-center">
-                  <dt class="w-48">対戦動画のURL</dt>
+                  <dt class="w-48">この対戦の動画</dt>
                   <dd>
-                    <input
-                      type="text"
-                      readonly
-                      class="flex-1 p-1 px-2 rounded-sm mr-2 bg-gray-300"
-                      id="copy"
-                      v-model="record.videoUrl"
-                    />
+                    <a
+                      class="flex-1 p-1 px-2 rounded-sm mr-2 bg-white border-none text-blue-600"
+                      :href="record.videoUrl"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >{{ record.videoUrl }}</a
+                    >
                   </dd>
                 </dl>
               </li>
