@@ -1,7 +1,5 @@
 rules_version = '2';
-youtubeUrl = '(http:|https:|)\/\/(www.)?(youtu(be\.com|\.be|be\.com))\/((\w+\/)|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?'
 service cloud.firestore {
-
   function validateUndefined(data, key) {
     return !data.keys().hasAll([key])
   }
@@ -47,8 +45,7 @@ service cloud.firestore {
                     && (validateInt(incomingData().rank, 0, 500000) || incomingData().rank == null)
                     && (incomingData().result == 'win' || incomingData().result == 'lose')
                     && validateString(incomingData().captureUrl, 0, 1024)
-                    && validateString(incomingData().videoUrl, 0, 1024)
-                    && validateRegExp(incomingData().videoUrl, youtubeUrl)
+                    && (validateUndefined(incomingData(), 'videoUrl') || validateString(incomingData().videoUrl, 0, 1024))
         ;
         allow update: if request.auth.uid == existingData().userId
                     && (validateUndefined(incomingData(), 'note') || validateString(incomingData().note, 0, 1024))
@@ -56,8 +53,7 @@ service cloud.firestore {
                     && (validateInt(incomingData().rank, 0, 500000) || incomingData().rank == null)
                     && (incomingData().result == 'win' || incomingData().result == 'lose')
                     && validateString(incomingData().captureUrl, 0, 1024)
-                    && validateString(incomingData().videoUrl, 0, 1024)
-                    && validateRegExp(incomingData().videoUrl, youtubeUrl)
+                    && (validateUndefined(incomingData(), 'videoUrl') || validateString(incomingData().videoUrl, 0, 1024))
         ;
         allow delete: if request.auth.uid == existingData().userId;
 
