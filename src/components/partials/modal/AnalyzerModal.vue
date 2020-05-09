@@ -345,7 +345,7 @@ export default Vue.extend({
           result: this.formData.result,
           rank: ~~this.formData.rank!,
           myChoice: this.formData.myChoice,
-          opponentChoice: this.formData.opponentChoice,
+          opponentChoice: this.formData.opponentChoice.filter((id) => !!id),
           captureUrl: this.formData.captureUrl,
           note: this.formData.note,
           videoUrl: this.formData.videoUrl,
@@ -526,7 +526,7 @@ export default Vue.extend({
     disabled(): boolean {
       if (
         this.formData.myChoice.includes(0) ||
-        this.formData.opponentChoice.includes(0)
+        this.formData.opponentChoice[0] === 0 // 相手はポケモンが全部見えないことがあるため先発だけわかれば登録可能とする
       ) {
         return true
       }
