@@ -91,11 +91,12 @@
             />
           </div>
         </div>
-        <div class="pt-9 flex">
+        <div class="pt-9 flex z-50 relative">
           <div class="flex-1 p-9 pr-0 border rounded-sm flex">
             <AnalyzerPokemonList
               :choice="formData.myChoice"
               :party="formData.myParty"
+              @fix="fixPokemon('my', $event.index, $event.pokemon)"
               @choose="choosePokemon('my', $event.index, $event.pokemon)"
             >
               <div>
@@ -115,6 +116,7 @@
             <AnalyzerPokemonList
               :choice="formData.opponentChoice"
               :party="formData.opponentParty"
+              @fix="fixPokemon('opponent', $event.index, $event.pokemon)"
               @choose="choosePokemon('opponent', $event.index, $event.pokemon)"
             >
               <div>
@@ -383,6 +385,30 @@ export default Vue.extend({
         alert('エラーが発生しました')
       } finally {
         this.isProcessing = false
+      }
+    },
+    fixPokemon(side: 'my' | 'opponent', index: number, fixPokemon: Pokemon) {
+      switch (side) {
+        case 'my': {
+          this.formData.myParty = this.formData.myParty.map((pokemon, i) => {
+            return i === index ? fixPokemon : pokemon
+          })
+          break
+        }
+
+        case 'opponent': {
+          this.formData.opponentParty = this.formData.opponentParty.map(
+            (pokemon, i) => {
+              return i === index ? fixPokemon : pokemon
+            }
+          )
+          this.formData.opponentChoice = this.formData.opponentChoice.map(
+            (img, i) => {
+              return i === index ? fixPokemon.img : img
+            }
+          )
+          break
+        }
       }
     },
     async choosePokemon(
