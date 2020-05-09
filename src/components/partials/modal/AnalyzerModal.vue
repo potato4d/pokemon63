@@ -254,6 +254,7 @@ import { Season, Format, Result, Pokemon, BattleRecord } from '~/types/struct'
 import { AnalyzerPokemonList } from '../AnalyzerPokemonList'
 import { v4 as uuid } from 'uuid'
 import axios from 'axios'
+import { delay } from '~/utils/effects/delay'
 
 type Status = 'wait' | 'processing' | 'done'
 type Side = 'my' | 'opponent'
@@ -274,8 +275,6 @@ type LocalData = {
   ss: Jimp | null
   formData: Omit<BattleRecord, 'userId'>
 }
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const getInitialFormData = (): Omit<BattleRecord, 'userId'> => ({
   captureUrl: null,
@@ -321,12 +320,6 @@ export default Vue.extend({
       }
       this.isProcessing = true
       try {
-        const userId = this.$auth.currentUser
-          ? this.anonymous
-            ? 'anonymous'
-            : this.$auth.user.uid
-          : 'anonymous'
-
         if (this.anonymous) {
           const ss = this.ss!.clone()
           const maskMyName = createImage(200, 24, '#126FF4')
@@ -339,7 +332,7 @@ export default Vue.extend({
         }
 
         const data = {
-          userId,
+          userId: this.userId,
           season: this.formData.season,
           format: this.formData.format,
           result: this.formData.result,
@@ -391,59 +384,47 @@ export default Vue.extend({
       }
     },
     fixPokemon(side: Side, index: number, fixPokemon: Pokemon) {
+      const replacePokemonList = (list: Pokemon[]): Pokemon[] => {
+        return list.map((pokemon, i) => {
+          return i === index ? fixPokemon : pokemon
+        })
+      }
       switch (side) {
         case 'my': {
-          this.formData.myParty = this.formData.myParty.map((pokemon, i) => {
-            return i === index ? fixPokemon : pokemon
-          })
+          this.formData.myParty = replacePokemonList(this.formData.myParty)
           break
         }
-
         case 'opponent': {
-          this.formData.opponentParty = this.formData.opponentParty.map(
-            (pokemon, i) => {
-              return i === index ? fixPokemon : pokemon
-            }
-          )
-          this.formData.opponentChoice = this.formData.opponentChoice.map(
-            (img, i) => {
-              return i === index ? fixPokemon.img : img
-            }
+          this.formData.opponentParty = replacePokemonList(
+            this.formData.opponentParty
           )
           break
         }
       }
     },
     async choosePokemon(side: Side, count: number, pokemon: Pokemon) {
+      const choose = (list: number[]) => {
+        list = [...list]
+        if (list.includes(pokemon.img)) {
+          if (list[count] === pokemon.img) {
+            list[count] = 0
+          } else {
+            list[list.indexOf(pokemon.img)] = 0
+            list[count] = pokemon.img
+          }
+        } else {
+          list[count] = pokemon.img
+        }
+        return list
+      }
+
       switch (side) {
         case 'my': {
-          if (this.formData.myChoice.includes(pokemon.img)) {
-            if (this.formData.myChoice[count] === pokemon.img) {
-              this.formData.myChoice[count] = 0
-            } else {
-              this.formData.myChoice[
-                this.formData.myChoice.indexOf(pokemon.img)
-              ] = 0
-              this.formData.myChoice[count] = pokemon.img
-            }
-          } else {
-            this.formData.myChoice[count] = pokemon.img
-          }
+          this.formData.myChoice = choose(this.formData.myChoice)
           break
         }
         case 'opponent': {
-          if (this.formData.opponentChoice.includes(pokemon.img)) {
-            if (this.formData.opponentChoice[count] === pokemon.img) {
-              this.formData.opponentChoice[count] = 0
-            } else {
-              this.formData.opponentChoice[
-                this.formData.opponentChoice.indexOf(pokemon.img)
-              ] = 0
-              this.formData.opponentChoice[count] = pokemon.img
-            }
-          } else {
-            this.formData.opponentChoice[count] = pokemon.img
-          }
+          this.formData.opponentChoice = choose(this.formData.opponentChoice)
           break
         }
       }
@@ -523,6 +504,13 @@ export default Vue.extend({
     },
   },
   computed: {
+    userId(): string | 'anonymous' {
+      return this.$auth.currentUser
+        ? this.anonymous
+          ? 'anonymous'
+          : this.$auth.user.uid
+        : 'anonymous'
+    },
     disabled(): boolean {
       if (
         this.formData.myChoice.includes(0) ||
