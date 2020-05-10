@@ -41,7 +41,7 @@ type LocalData = {
   battleRecords: BattleRecord[]
 }
 
-const LIMIT = 8
+const LIMIT = 28
 
 export default Vue.extend({
   head() {
