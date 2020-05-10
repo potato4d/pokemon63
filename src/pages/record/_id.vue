@@ -303,7 +303,8 @@ export default Vue.extend({
         {
           property: 'og:url',
           hid: 'og:url',
-          content: 'https://pokedri.com/pokemon63/' + this.$route.params.id,
+          content:
+            'https://pokedri.com/pokemon63/record/' + this.$route.params.id,
         },
         { property: 'og:image', hid: 'og:image', content: imageUrl },
         {

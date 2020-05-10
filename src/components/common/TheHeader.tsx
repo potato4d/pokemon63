@@ -33,13 +33,22 @@ export const TheHeader = tsx.component({
             選出を解析
           </button>
           {this.$auth.currentUser ? (
-            <img
-              src={this.$auth.currentUser.photoURL!}
-              width="40"
-              height="40"
-              class="rounded-full overflow-hidden"
-              alt=""
-            />
+            <nuxt-link
+              to={`/u/${this.$auth.currentUser.uid}`}
+              style={{
+                width: '40px',
+                height: '40px',
+              }}
+              class="inline-block"
+            >
+              <img
+                src={this.$auth.currentUser.photoURL!}
+                width="40"
+                height="40"
+                class="rounded-full overflow-hidden"
+                alt=""
+              />
+            </nuxt-link>
           ) : (
             <button
               type="button"
