@@ -147,15 +147,21 @@
           <div class="w-full pl-9 text-2xl">
             <ul>
               <li class="flex items-center justify-start h-24 mb-9">
-                <AppUserIcon
-                  class="rounded overflow-hidden"
-                  :userId="record.userId"
-                  :style="{
-                    width: '40px',
-                    height: '40px',
-                  }"
-                />
-                <p class="pl-6">{{ user ? user.displayName : '' }}</p>
+                <component
+                  :is="record.userId === 'anonymous' ? 'span' : 'nuxt-link'"
+                  class="w-full flex items-center justify-start"
+                  :to="`/u/${record.userId}`"
+                >
+                  <AppUserIcon
+                    class="rounded overflow-hidden"
+                    :userId="record.userId"
+                    :style="{
+                      width: '40px',
+                      height: '40px',
+                    }"
+                  />
+                  <p class="pl-6">{{ user ? user.displayName : '' }}</p>
+                </component>
               </li>
               <li class="flex items-center justify-start h-24">
                 <dl class="flex items-center">

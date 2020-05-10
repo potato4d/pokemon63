@@ -71,7 +71,10 @@ export default Vue.extend({
       battleRecords: [],
     }
   },
-  async asyncData({ app, params: { userId } }) {
+  async asyncData({ app, params: { userId }, redirect }) {
+    if (userId === 'anonymous') {
+      return redirect('/')
+    }
     const [user, records] = await Promise.all([
       app.$firestore.collection('users').doc(userId).get(),
       app.$firestore
