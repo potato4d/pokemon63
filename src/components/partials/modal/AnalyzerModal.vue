@@ -376,7 +376,10 @@ export default Vue.extend({
         }
 
         this.$router.push(`/record/${doc.id}`)
+        await delay(150)
         this.$emit('close')
+        await delay(150)
+        this.$toast.show('選出の投稿が完了しました')
       } catch (e) {
         alert('エラーが発生しました')
       } finally {

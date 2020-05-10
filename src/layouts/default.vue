@@ -4,13 +4,19 @@
     <nuxt class="flex-1" />
     <TheFooter />
     <portal-target name="modal" />
+    <AppToast :text="$toast.text" v-if="$toast.display" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import AppToast from '~/components/common/AppToast.vue'
 
-export default Vue.extend({})
+export default Vue.extend({
+  components: {
+    AppToast,
+  },
+})
 </script>
 
 <style>
