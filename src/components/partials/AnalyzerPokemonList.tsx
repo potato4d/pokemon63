@@ -13,6 +13,10 @@ const PokemonFixPopUp = tsx.component({
       }),
     }
   },
+  mounted() {
+    const { input }: { input: HTMLInputElement } = this.$refs as any
+    input.focus()
+  },
   render() {
     return (
       <div
@@ -29,6 +33,7 @@ const PokemonFixPopUp = tsx.component({
       >
         <input
           type="text"
+          ref="input"
           onInput={(event) => {
             this.search = `${event.target.value}`
           }}
