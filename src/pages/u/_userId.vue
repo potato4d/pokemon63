@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="pt-21">
-      <div class="flex text-2xl justify-start items-center">
+      <AppSubHeading class="flex text-2xl justify-start items-center">
         <img
           :src="user.photoUrl"
           width="40"
@@ -11,7 +11,7 @@
         />
         <span>{{ user.displayName }}</span>
         <span>&nbsp;さんの選出ログ</span>
-      </div>
+      </AppSubHeading>
     </div>
     <div class="HomeGrid pt-18 grid justify-between items-start">
       <AppRecordCard
