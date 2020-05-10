@@ -14,9 +14,14 @@
     </div>
 
     <!-- TODO: Implement pagination -->
-    <!-- <div class="text-center pb-30 mb-30 pt-9">
-      <AppButton>更に読み込む</AppButton>
-    </div> -->
+    <div class="text-center pb-30 mb-30 pt-9" v-if="hasNext">
+      <AppButton
+        @click.native="readMoreBattleRecord"
+        :class="{ 'opacity-50': isProcessing }"
+        :disabled="isProcessing"
+        >更に読み込む</AppButton
+      >
+    </div>
   </div>
 </template>
 
@@ -28,10 +33,15 @@ import {
   toBattleRecordDocument,
   toPokemonDocument,
 } from '~/utils/transformer/toObject'
+import { firestore } from 'firebase'
 
 type LocalData = {
+  hasNext: boolean
+  isProcessing: boolean
   battleRecords: BattleRecord[]
 }
+
+const LIMIT = 8
 
 export default Vue.extend({
   head() {
@@ -40,8 +50,10 @@ export default Vue.extend({
       meta: [{ name: 'viewport', hid: 'viewport', content: 'width=1024' }],
     }
   },
-  data() {
+  data(): LocalData {
     return {
+      hasNext: true,
+      isProcessing: false,
       battleRecords: [],
     }
   },
@@ -50,14 +62,45 @@ export default Vue.extend({
       .collection('battlerecords')
       .orderBy('season', 'desc')
       .orderBy('createdAt', 'desc')
-      .limit(200)
+      .limit(LIMIT)
       .get()
     const battleRecords = records.docs.map(
-      (doc): BattleRecord => toBattleRecordDocument(doc, ['createdAt'])
+      (doc): BattleRecord => ({
+        ...toBattleRecordDocument(doc, ['createdAt']),
+        createdAt: doc.data().createdAt.toDate(),
+      })
     )
     return {
       battleRecords,
     }
+  },
+  methods: {
+    async readMoreBattleRecord(): Promise<void> {
+      this.isProcessing = true
+      try {
+        const lastRecord = await this.$firestore
+          .collection('battlerecords')
+          .doc(this.battleRecords[this.battleRecords.length - 1].id)
+          .get()
+        const records = await this.$firestore
+          .collection('battlerecords')
+          .orderBy('createdAt', 'desc')
+          .startAfter(lastRecord.data().createdAt)
+          .limit(LIMIT)
+          .get()
+        const battleRecords: BattleRecord[] = records.docs.map(
+          (doc: any): BattleRecord => ({
+            ...toBattleRecordDocument(doc, ['createdAt']),
+            createdAt: doc.data().createdAt.toDate(),
+          })
+        )
+        this.battleRecords = [...this.battleRecords, ...battleRecords]
+        this.hasNext = battleRecords.length === LIMIT
+      } catch (e) {
+      } finally {
+        this.isProcessing = false
+      }
+    },
   },
 })
 </script>
