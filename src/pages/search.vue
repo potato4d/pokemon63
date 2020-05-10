@@ -17,6 +17,11 @@
 import Vue from 'vue'
 import { BattleRecord } from '~/types/struct'
 import { Pokemon } from '~/types/struct'
+import {
+  toUserDocument,
+  toBattleRecordDocument,
+  toPokemonDocument,
+} from '~/utils/transformer/toObject'
 
 type LocalData = {
   battleRecords: BattleRecord[]
@@ -50,10 +55,7 @@ export default Vue.extend({
     const rawList: BattleRecord[] = await Promise.all(
       pokemonList.map(async (doc) => {
         const snapshot = await doc.ref.parent!.parent!.get()
-        return {
-          id: snapshot.id,
-          ...snapshot.data(),
-        } as BattleRecord
+        return toBattleRecordDocument(snapshot)
       })
     )
     rawList.forEach((listItem) => {
@@ -86,10 +88,7 @@ export default Vue.extend({
       const rawList: BattleRecord[] = await Promise.all(
         pokemonList.map(async (doc) => {
           const snapshot = await doc.ref.parent!.parent!.get()
-          return {
-            id: snapshot.id,
-            ...snapshot.data(),
-          } as BattleRecord
+          return toBattleRecordDocument(snapshot)
         })
       )
       rawList.forEach((listItem) => {

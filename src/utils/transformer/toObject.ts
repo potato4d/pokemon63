@@ -1,5 +1,5 @@
 import { firebase } from '../externals/firebase'
-import { User, BattleRecord } from '../../types/struct'
+import { User, BattleRecord, Pokemon } from '../../types/struct'
 
 type Document = firebase.firestore.DocumentSnapshot<
   firebase.firestore.DocumentData
@@ -7,22 +7,25 @@ type Document = firebase.firestore.DocumentSnapshot<
 type Key<T> = keyof T
 
 export function toObject<T>(doc: Document, omit?: Key<T>[]): T {
-  let data: Partial<Document> = doc
-  ;(omit || []).forEach((k) => {
-    const { [k]: tmp, ...d } = data
-    data = d
-  })
-  if (omit && omit.length) {
-  }
   const obj: any = {
     id: doc.id,
     ...doc.data(),
   }
+  ;(omit || []).forEach((k) => {
+    delete obj[k]
+  })
   return obj as T
 }
 
 export function toUserDocument(doc: Document, omit?: Key<User>[]): User {
   return toObject<User>(doc, omit)
+}
+
+export function toPokemonDocument(
+  doc: Document,
+  omit?: Key<Pokemon>[]
+): Pokemon {
+  return toObject<Pokemon>(doc, omit)
 }
 
 export function toBattleRecordDocument(

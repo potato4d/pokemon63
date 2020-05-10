@@ -23,6 +23,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import { BattleRecord } from '~/types/struct'
+import {
+  toUserDocument,
+  toBattleRecordDocument,
+  toPokemonDocument,
+} from '~/utils/transformer/toObject'
 
 type LocalData = {
   battleRecords: BattleRecord[]
@@ -48,13 +53,7 @@ export default Vue.extend({
       .limit(200)
       .get()
     const battleRecords = records.docs.map(
-      (doc): BattleRecord => {
-        const { createdAt, ...data } = doc.data()
-        return {
-          id: doc.id,
-          ...data,
-        } as BattleRecord
-      }
+      (doc): BattleRecord => toBattleRecordDocument(doc, ['createdAt'])
     )
     return {
       battleRecords,

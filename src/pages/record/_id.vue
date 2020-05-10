@@ -261,6 +261,11 @@ import { Pokemon } from '~/types/struct'
 import { AnalyzerPokemonList } from '../../components/partials/AnalyzerPokemonList'
 import { TheRecordChoiceList } from '../../components/partials/record/TheRecordChoiceList'
 import { TheRecordQuestion } from '../../components/partials/record/TheRecordQuestion'
+import {
+  toUserDocument,
+  toBattleRecordDocument,
+  toPokemonDocument,
+} from '~/utils/transformer/toObject'
 import xss from 'xss'
 
 type LocalData = {
@@ -355,19 +360,11 @@ export default Vue.extend({
       recordRef.collection('myParty').orderBy('order', 'asc').get(),
       recordRef.collection('opponentParty').orderBy('order', 'asc').get(),
     ])
-    const record = {
-      ...doc.data(),
-    } as BattleRecord
-    const myParty = myPartySnapshot.docs.map((d) => {
-      return {
-        ...d.data(),
-      } as Pokemon
-    })
-    const opponentParty = opponentPartySnapshot.docs.map((d) => {
-      return {
-        ...d.data(),
-      } as Pokemon
-    })
+    const record = toBattleRecordDocument(doc, ['createdAt'])
+    const myParty = myPartySnapshot.docs.map((d) => toPokemonDocument(d))
+    const opponentParty = opponentPartySnapshot.docs.map((d) =>
+      toPokemonDocument(d)
+    )
     return {
       record,
       myParty,

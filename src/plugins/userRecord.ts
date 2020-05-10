@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { Plugin } from '@nuxt/types'
 import { firestore } from '../utils/externals/firebase'
 import { User } from '../types/struct'
+import { toUserDocument } from '~/utils/transformer/toObject'
 
 declare module '@nuxt/types' {
   interface Context {
@@ -43,10 +44,7 @@ const UsersPlugin: Plugin = (_, inject) => {
       if (!snapshot.exists) {
         throw new Error('User not found')
       }
-      return {
-        id: snapshot.id,
-        ...snapshot.data(),
-      } as User
+      return toUserDocument(snapshot)
     },
   }
   inject('userRecord', users)
