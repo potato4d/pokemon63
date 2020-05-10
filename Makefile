@@ -15,7 +15,11 @@ ssr:
 	gcloud beta run deploy --image gcr.io/pokedri-minnnano63/web:1.0.0
 
 deploy:
+	rm .env
+	cp .env.production .env
 	make build
 	make ssr
 	make hosting
 	yarn firebase deploy
+	rm .env
+	cp .env.sample .env
