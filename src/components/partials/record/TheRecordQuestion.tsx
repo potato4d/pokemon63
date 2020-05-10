@@ -1,6 +1,6 @@
 import Vue, { CreateElement, VNode } from 'vue'
 import * as tsx from 'vue-tsx-support'
-import { Pokemon } from '~/analyzer/config/dex'
+import { Pokemon } from '~/types/struct'
 
 export const TheRecordQuestion = tsx.component({
   name: 'TheRecordQuestion',

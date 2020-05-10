@@ -16,7 +16,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { BattleRecord } from '~/types/struct'
-import { Pokemon } from '../analyzer/config/dex'
+import { Pokemon } from '~/types/struct'
 
 type LocalData = {
   battleRecords: BattleRecord[]

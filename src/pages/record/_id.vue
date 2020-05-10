@@ -257,7 +257,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { BattleRecord, User } from '~/types/struct'
-import { Pokemon } from '../../analyzer/config/dex'
+import { Pokemon } from '~/types/struct'
 import { AnalyzerPokemonList } from '../../components/partials/AnalyzerPokemonList'
 import { TheRecordChoiceList } from '../../components/partials/record/TheRecordChoiceList'
 import { TheRecordQuestion } from '../../components/partials/record/TheRecordQuestion'
