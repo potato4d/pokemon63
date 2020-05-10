@@ -465,6 +465,7 @@ export default Vue.extend({
         this.formData = {
           ...this.formData,
           ...getInitialFormData(),
+          note: this.formData.note
         }
         this.indicator = 0
         this.status = 'processing'
