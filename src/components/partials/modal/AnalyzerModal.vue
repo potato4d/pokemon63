@@ -11,7 +11,7 @@
           <div
             class="relative rounded overflow-hidden ImageArea"
             :class="{
-              ImageArea__masked: anonymous,
+              ImageArea__masked: anonymous && formData.captureUrl,
             }"
             :style="{
               width: '738px',
