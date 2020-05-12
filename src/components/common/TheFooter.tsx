@@ -19,7 +19,7 @@ export const TheFooter = tsx.component({
               <p class="text-xl mt-6 text-gray-400">ポケモン支援ツールまとめ</p>
             </li>
             <li class="mt-9">
-              本サービスは非公式サービスです。任天堂株式会社とは一切関係ありません。
+              本サービスは非公式サービスです。株式会社ポケモンおよび任天堂株式会社とは一切関係ありません。
             </li>
             <li class="mt-9">
               このサイトのソースコードは{' '}
