@@ -16,7 +16,7 @@ h2 {
   font-weight: bold;
   font-size: 30px;
   color: #000000;
-  padding-bottom: 3px;
+  padding-bottom: 2px;
 }
 
 h2::before {
@@ -26,7 +26,7 @@ h2::before {
   left: 0;
   bottom: 0;
   width: 50%;
-  height: 3px;
+  height: 2px;
   background-image: linear-gradient(
     90deg,
     #00a0e9 0%,
@@ -43,7 +43,7 @@ h2::after {
   right: 0;
   bottom: 0;
   width: 50%;
-  height: 3px;
+  height: 2px;
   transform: rotate(-180deg);
   background-image: linear-gradient(
     90deg,
