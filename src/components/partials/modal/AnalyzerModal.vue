@@ -139,53 +139,68 @@
             class="border flex flex-col p-9 rounded text-xl text-gray-800 font-bold"
             :style="{ width: '230px' }"
           >
-            <p class="flex flex-col">
-              <label class="pb-3">対戦シーズン</label>
-              <select v-model="formData.season">
-                <option
-                  :value="season"
-                  v-for="season in constants.season"
-                  :key="season"
-                  >S{{ season }}</option
-                >
-              </select>
-            </p>
-            <p class="flex flex-col pt-15">
-              <label class="pb-3">順位帯</label>
-              <input
-                type="text"
-                class="input-rank"
-                placeholder="10000(省略可)"
-                v-model="formData.rank"
-              />
-            </p>
-            <p class="flex flex-col pt-15">
-              <label class="pb-3">勝敗</label>
-              <select v-model="formData.result">
-                <option
-                  v-for="result in constants.result"
-                  :value="result"
-                  :key="result"
-                >
-                  {{
-                    {
-                      win: '勝ち',
-                      lose: '負け',
-                    }[result]
-                  }}
-                </option>
-              </select>
-            </p>
-            <p class="flex flex-col pt-15">
+            <div class="flex justify-between items-start">
+              <p class="flex flex-col w-1/2">
+                <label class="pb-3">シーズン</label>
+                <select v-model="formData.season">
+                  <option
+                    :value="season"
+                    v-for="season in constants.season"
+                    :key="season"
+                    >S{{ season }}</option
+                  >
+                </select>
+              </p>
+              <div class="w-6 h-1"></div>
+              <p class="flex flex-col w-1/2">
+                <label class="pb-3">勝敗</label>
+                <select v-model="formData.result">
+                  <option
+                    v-for="result in constants.result"
+                    :value="result"
+                    :key="result"
+                  >
+                    {{
+                      {
+                        win: '勝ち',
+                        lose: '負け',
+                      }[result]
+                    }}
+                  </option>
+                </select>
+              </p>
+            </div>
+            <div class="flex justify-between items-start">
+              <p class="flex flex-col pt-12 w-1/2">
+                <label class="pb-3">自分の順位</label>
+                <input
+                  type="text"
+                  class="input-rank"
+                  placeholder="10000(省略可)"
+                  v-model="formData.rank"
+                />
+              </p>
+              <div class="w-6 h-1"></div>
+              <p class="flex flex-col pt-12 w-1/2">
+                <label class="pb-3">相手の順位</label>
+                <input
+                  type="text"
+                  class="input-rank"
+                  placeholder="10000(省略可)"
+                  v-model="formData.opponentRank"
+                />
+              </p>
+            </div>
+            <p class="flex flex-col pt-12">
               <label class="pb-3">この対戦が含まれる動画のURL</label>
               <input
                 type="text"
                 class="input-rank"
-                placeholder="https://youtu.be/xxxxxx"
+                placeholder="YouTube, Twitter, ニコ生など"
                 v-model="formData.videoUrl"
               />
             </p>
-            <p class="flex flex-col pt-15">
+            <p class="flex flex-col pt-12">
               <label class="pb-3">
                 <input
                   type="checkbox"
@@ -282,6 +297,7 @@ const getInitialFormData = (): Omit<BattleRecord, 'userId'> => ({
   format: 'single',
   result: 'win',
   rank: null,
+  opponentRank: null,
   myParty: [],
   opponentParty: [],
   myChoice: [0, 0, 0],
@@ -337,6 +353,7 @@ export default Vue.extend({
           format: this.formData.format,
           result: this.formData.result,
           rank: ~~this.formData.rank!,
+          opponentRank: ~~this.formData.opponentRank!,
           myChoice: this.formData.myChoice,
           opponentChoice: this.formData.opponentChoice.filter((id) => !!id),
           captureUrl: this.formData.captureUrl,

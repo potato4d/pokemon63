@@ -18,6 +18,7 @@ export type BattleRecord = {
   format: Format
   result: Result
   rank: number | null
+  opponentRank: number | null
   myParty: Pokemon[]
   opponentParty: Pokemon[]
   myChoice: number[]

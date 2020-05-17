@@ -180,8 +180,17 @@
                 v-if="record.rank"
               >
                 <dl class="flex items-center">
-                  <dt class="w-48">順位帯</dt>
+                  <dt class="w-48">自分の順位</dt>
                   <dd>{{ record.rank }}位台</dd>
+                </dl>
+              </li>
+              <li
+                class="flex items-center justify-start h-24"
+                v-if="record.opponentRank"
+              >
+                <dl class="flex items-center">
+                  <dt class="w-48">相手の順位</dt>
+                  <dd>{{ record.opponentRank }}位台</dd>
                 </dl>
               </li>
               <li class="flex items-center justify-start h-24">
