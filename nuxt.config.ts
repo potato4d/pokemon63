@@ -43,7 +43,7 @@ const config: Configuration = {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: 'transparent' },
   /*
    ** Global CSS
    */
@@ -82,7 +82,7 @@ const config: Configuration = {
       'pages/**/*.vue',
       'plugins/**/*.ts'
     ],
-    whitelist: ['body', 'html', 'nuxt-progress', 'nuxt-link-active'],
+    whitelist: ['body', 'html', 'nuxt-progress', '.nuxt-progress', 'nuxt-link-active'],
     whitelistPatterns: [/mb-.+/],
     extractors: [
       {
