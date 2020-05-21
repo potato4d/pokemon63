@@ -193,6 +193,15 @@
                   <dd>{{ record.opponentRank }}位台</dd>
                 </dl>
               </li>
+              <li
+                class="flex items-center justify-start h-24"
+                v-if="createdDate"
+              >
+                <dl class="flex items-center">
+                  <dt class="w-48">投稿日</dt>
+                  <dd>{{ createdDate }}</dd>
+                </dl>
+              </li>
               <li class="flex items-center justify-start h-24">
                 <dl class="flex items-center">
                   <dt class="w-48">勝敗</dt>
@@ -276,6 +285,7 @@ import {
   toPokemonDocument,
 } from '~/utils/transformer/toObject'
 import xss from 'xss'
+import dayjs from 'dayjs'
 
 type LocalData = {
   user: User | null
@@ -375,7 +385,10 @@ export default Vue.extend({
         statusCode: 404,
       })
     }
-    const record = toBattleRecordDocument(doc, ['createdAt'])
+    const record = {
+      createdAt: doc.data()!.createdAt.toDate(),
+      ...toBattleRecordDocument(doc, ['createdAt']),
+    }
     const myParty = myPartySnapshot.docs.map((d) => toPokemonDocument(d))
     const opponentParty = opponentPartySnapshot.docs.map((d) =>
       toPokemonDocument(d)
@@ -390,6 +403,15 @@ export default Vue.extend({
     this.user = await this.$userRecord.get({ id: this.record!.userId })
   },
   computed: {
+    createdDate(): string | null {
+      if (!this.record) {
+        return null
+      }
+      if (!(this.record.createdAt instanceof Date)) {
+        return null
+      }
+      return dayjs(this.record.createdAt).format('YYYY/MM/DD')
+    },
     note(): string {
       return xss.filterXSS(this.record!.note).replace(/\n/g, '<br>')
     },
