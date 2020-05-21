@@ -250,9 +250,16 @@
                   </div>
                 </li>
               </client-only>
-              <li class="flex items-center justify-end px-9 h-24" v-if="false">
-                <button type="button">
-                  <img src="~/assets/images/trash.svg" width="18" alt="" />
+              <li
+                class="flex items-center justify-end px-9 h-24"
+                v-if="isOwnRecord"
+              >
+                <button type="button" @click="handleClickTrashButton">
+                  <img
+                    src="~/assets/images/trash.svg"
+                    width="18"
+                    alt="レコードの削除"
+                  />
                 </button>
               </li>
             </ul>
@@ -383,7 +390,40 @@ export default Vue.extend({
   async mounted() {
     this.user = await this.$userRecord.get({ id: this.record!.userId })
   },
+  methods: {
+    async handleClickTrashButton() {
+      if (!this.record) {
+        return
+      }
+      if (!window.confirm('削除してもよろしいですか？')) {
+        return
+      }
+      try {
+        await this.$firestore
+          .collection('battlerecords')
+          .doc(this.record.id)
+          .delete()
+        this.$router.push('/')
+        this.$toast.show('試合記録を削除しました')
+      } catch (e) {
+        if (e.message === 'Missing or insufficient permissions.') {
+          alert('他のユーザーの記録は削除できません')
+          return
+        }
+        alert('エラーが発生しました。')
+      }
+    },
+  },
   computed: {
+    isOwnRecord(): boolean {
+      if (!this.$auth.currentUser) {
+        return false
+      }
+      if (!this.record) {
+        return false
+      }
+      return this.$auth.currentUser.uid === this.record.userId
+    },
     note(): string {
       return xss.filterXSS(this.record!.note).replace(/\n/g, '<br>')
     },
