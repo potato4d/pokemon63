@@ -10,7 +10,7 @@
     <div class="pt-18 pb-18 flex flex-wrap justify-between items-start">
       <div class="w-full flex flex-wrap">
         <div class="w-full lg:w-2/3">
-          <div class="w-full pr-9">
+          <div class="w-full pr-0 lg:pr-9">
             <div
               class="w-full rounded-t overflow-hidden"
               :style="{
