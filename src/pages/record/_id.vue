@@ -362,13 +362,19 @@ export default Vue.extend({
       record: null,
     }
   },
-  async asyncData({ app, params }) {
+  async asyncData({ app, params, error }) {
     const recordRef = app.$firestore.collection('battlerecords').doc(params.id)
     const [doc, myPartySnapshot, opponentPartySnapshot] = await Promise.all([
       recordRef.get(),
       recordRef.collection('myParty').orderBy('order', 'asc').get(),
       recordRef.collection('opponentParty').orderBy('order', 'asc').get(),
     ])
+    if (!doc.exists) {
+      return error({
+        message: 'Record is not found.',
+        statusCode: 404,
+      })
+    }
     const record = toBattleRecordDocument(doc, ['createdAt'])
     const myParty = myPartySnapshot.docs.map((d) => toPokemonDocument(d))
     const opponentParty = opponentPartySnapshot.docs.map((d) =>

@@ -71,7 +71,7 @@ export default Vue.extend({
       battleRecords: [],
     }
   },
-  async asyncData({ app, params: { userId }, redirect }) {
+  async asyncData({ app, params: { userId }, redirect, error }) {
     if (userId === 'anonymous') {
       return redirect('/')
     }
@@ -85,6 +85,12 @@ export default Vue.extend({
         .limit(200)
         .get(),
     ])
+    if (!user.exists) {
+      return error({
+        message: 'User is not found.',
+        statusCode: 404,
+      })
+    }
     const battleRecords = records.docs.map((doc) =>
       toBattleRecordDocument(doc, ['createdAt'])
     )
