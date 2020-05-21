@@ -46,6 +46,7 @@
             />
             <div
               v-if="!formData.captureUrl"
+              @dragenter="formMeta.isDragging = true"
               class="rounded absolute z-30 left-0 top-0 w-full h-full leading-loose bg-gray-200 text-gray-700 text-lg flex items-center justify-center flex-col object-contain cursor-pointer"
               @click="$refs.file.click()"
             >
@@ -87,6 +88,11 @@
               ref="file"
               type="file"
               @change="handleUploadFile"
+              @drop="formMeta.isDragging = false"
+              @dragleave="formMeta.isDragging = false"
+              :class="{
+                'z-50': formMeta.isDragging,
+              }"
               class="rounded absolute opacity-0 left-0 top-0 w-full h-full bg-gray-300 appearance-none rounded absolute left-0 top-0 w-full h-full cursor-pointer"
             />
           </div>
@@ -289,6 +295,9 @@ type LocalData = {
   ogpBuffer: Buffer | null
   ss: Jimp | null
   formData: Omit<BattleRecord, 'userId'>
+  formMeta: {
+    isDragging: boolean
+  }
 }
 
 const getInitialFormData = (): Omit<BattleRecord, 'userId'> => ({
@@ -321,6 +330,9 @@ export default Vue.extend({
       twimgUrl: '',
       formData: {
         ...getInitialFormData(),
+      },
+      formMeta: {
+        isDragging: false,
       },
     }
   },
