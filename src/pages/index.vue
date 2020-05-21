@@ -13,7 +13,6 @@
       />
     </div>
 
-    <!-- TODO: Implement pagination -->
     <div class="text-center pb-30 mb-30 pt-9" v-if="hasNext">
       <AppButton
         @click.native="readMoreBattleRecord"

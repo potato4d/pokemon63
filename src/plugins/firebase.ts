@@ -1,6 +1,38 @@
 import Vue from 'vue'
 import { Plugin } from '@nuxt/types'
 import * as Firebase from '../utils/externals/firebase'
+import * as _firebase from 'firebase'
+
+declare module '@nuxt/types' {
+  interface Context {
+    $firebase: typeof _firebase
+    $firestore: firebase.firestore.Firestore
+    $storage: firebase.storage.Storage
+    $functions: firebase.functions.Functions
+    $messaging: firebase.messaging.Messaging
+  }
+  interface NuxtAppOptions {
+    $firebase: typeof _firebase
+    $firestore: firebase.firestore.Firestore
+    $storage: firebase.storage.Storage
+    $functions: firebase.functions.Functions
+    $messaging: firebase.messaging.Messaging
+  }
+}
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    $auth: firebase.auth.Auth & {
+      user: firebase.User
+      currentUser: firebase.User
+    }
+    $firebase: typeof _firebase
+    $firestore: firebase.firestore.Firestore
+    $storage: firebase.storage.Storage
+    $functions: firebase.functions.Functions
+    $messaging: firebase.messaging.Messaging
+  }
+}
 
 const _auth = (Firebase.auth as any) as firebase.auth.Auth & {
   __defineGetter__: any
