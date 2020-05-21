@@ -32,6 +32,9 @@ function initialize(app: any) {
       console.log(e)
     }
   }
+  return {
+    logEvent: () => {},
+  }
 }
 
 export const firebase = _firebase

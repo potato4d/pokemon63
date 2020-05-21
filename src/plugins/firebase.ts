@@ -10,6 +10,7 @@ declare module '@nuxt/types' {
     $storage: firebase.storage.Storage
     $functions: firebase.functions.Functions
     $messaging: firebase.messaging.Messaging
+    $analytics: firebase.analytics.Analytics
   }
   interface NuxtAppOptions {
     $firebase: typeof _firebase
@@ -17,6 +18,7 @@ declare module '@nuxt/types' {
     $storage: firebase.storage.Storage
     $functions: firebase.functions.Functions
     $messaging: firebase.messaging.Messaging
+    $analytics: firebase.analytics.Analytics
   }
 }
 
@@ -31,6 +33,7 @@ declare module 'vue/types/vue' {
     $storage: firebase.storage.Storage
     $functions: firebase.functions.Functions
     $messaging: firebase.messaging.Messaging
+    $analytics: firebase.analytics.Analytics
   }
 }
 
@@ -66,6 +69,7 @@ const FirebasePlugin: Plugin = (context, inject) => {
   inject('storage', Firebase.storage)
   inject('functions', Firebase.functions)
   inject('auth', _auth as firebase.auth.Auth)
+  inject('analytics', Firebase.analytics)
 }
 
 export default FirebasePlugin

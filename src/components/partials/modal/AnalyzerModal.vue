@@ -276,6 +276,7 @@ import { AnalyzerPokemonList } from '../AnalyzerPokemonList'
 import { v4 as uuid } from 'uuid'
 import axios from 'axios'
 import { delay } from '~/utils/effects/delay'
+import { ANALYTICS_EVENT } from '~/utils/constants/analytics'
 
 type Status = 'wait' | 'processing' | 'done'
 type Side = 'my' | 'opponent'
@@ -423,10 +424,24 @@ export default Vue.extend({
       }
       switch (side) {
         case 'my': {
+          try {
+            this.$analytics.logEvent(ANALYTICS_EVENT.ANALYZER.FIX_POKEMON, {
+              side: 'my',
+              from: this.formData.myParty[index].img,
+              to: fixPokemon.img,
+            })
+          } catch (e) {}
           this.formData.myParty = replacePokemonList(this.formData.myParty)
           break
         }
         case 'opponent': {
+          try {
+            this.$analytics.logEvent(ANALYTICS_EVENT.ANALYZER.FIX_POKEMON, {
+              side: 'opponent',
+              from: this.formData.opponentParty[index].img,
+              to: fixPokemon.img,
+            })
+          } catch (e) {}
           this.formData.opponentParty = replacePokemonList(
             this.formData.opponentParty
           )
