@@ -7,6 +7,7 @@ type Result = { id: number; distance: number }
 const CHUNKS = 8
 const PROCESS_PER_CHUNK = 66
 const FOREACH_BASE = new Array(CHUNKS).fill(0)
+const workers: Worker[] = []
 
 function debug(...args: any) {}
 
@@ -14,9 +15,12 @@ async function check(croppedSS: Jimp): Promise<Pokemon> {
   const results: Result[] = []
   const startedAt = new Date()
 
-  const workers = FOREACH_BASE.map(() => {
-    return new CompareWorker()
-  })
+  if (!workers.length) {
+    FOREACH_BASE.forEach(() => {
+      workers.push(new CompareWorker())
+    })
+  }
+
   const arr = Uint8Array.from(await croppedSS.getBufferAsync(Jimp.MIME_JPEG))
 
   function checkChunk(shift: number): Promise<void> {
@@ -37,12 +41,6 @@ async function check(croppedSS: Jimp): Promise<Pokemon> {
   await Promise.all(
     FOREACH_BASE.map(async (_, i) => {
       return checkChunk(i)
-    })
-  )
-
-  await Promise.all(
-    workers.map(async (worker) => {
-      return worker.terminate()
     })
   )
 
