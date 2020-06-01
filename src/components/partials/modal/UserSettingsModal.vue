@@ -29,7 +29,7 @@
               class="input"
               type="text"
               placeholder=""
-              v-model="user.displayName"
+              v-model="formMeta.displayName"
             />
             <input
               type="file"
