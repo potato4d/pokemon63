@@ -1,14 +1,14 @@
 import Vue, { CreateElement, VNode } from 'vue'
 import * as tsx from 'vue-tsx-support'
 import Logo from '~/assets/images/logo.svg'
-import SearchIcon from '~/assets/images/search.svg'
 import AnalyzerModal from '~/components/partials/modal/AnalyzerModal.vue'
+import UserSettingsModal from '~/components/partials/modal/UserSettingsModal.vue'
 
 export const TheHeader = tsx.component({
   data() {
     return {
-      search: '',
       isOpenAnalyzeModal: false,
+      isOpenUserSettingsModal: false,
     }
   },
   render() {
@@ -33,22 +33,38 @@ export const TheHeader = tsx.component({
             選出を解析
           </button>
           {this.$auth.currentUser ? (
-            <nuxt-link
-              to={`/u/${this.$auth.currentUser.uid}`}
-              style={{
-                width: '40px',
-                height: '40px',
-              }}
-              class="inline-block"
-            >
-              <img
-                src={this.$auth.currentUser.photoURL!}
-                width="40"
-                height="40"
-                class="rounded-full overflow-hidden"
-                alt=""
-              />
-            </nuxt-link>
+            <div class="flex items-center justify-between">
+              <nuxt-link
+                to={`/u/${this.$auth.currentUser.uid}`}
+                style={{
+                  width: '40px',
+                  height: '40px',
+                }}
+                class="inline-block"
+              >
+                <img
+                  src={this.$auth.currentUser.photoURL!}
+                  width="40"
+                  height="40"
+                  class="rounded-full overflow-hidden"
+                  alt=""
+                />
+              </nuxt-link>
+              <a
+                href="#"
+                onClick={(event) => {
+                  event.preventDefault()
+                  this.isOpenUserSettingsModal = true
+                }}
+                class="ml-9 mt-1 "
+              >
+                <img
+                  src={require('~/assets/images/settings.svg')}
+                  width={20}
+                  alt=""
+                />
+              </a>
+            </div>
           ) : (
             <button
               type="button"
@@ -102,41 +118,23 @@ export const TheHeader = tsx.component({
         >
           スクリーンショットから自動解析できるポケモンの選出投稿サイト
         </p>
-        <form
-          onSubmit={(event: Event) => {
-            event.preventDefault()
-            this.$router.push(`/search?q=${this.search}`)
-          }}
-        >
-          <div
-            class="mt-15 lg:mt-30 rounded-full bg-white relative border h-24 lg:h-36 text-xl lg:text-3xl"
-            style={{
-              borderColor: '#E5E5E5',
-            }}
-          >
-            <input
-              placeholder="ポケモン名で検索"
-              type="text"
-              value={this.search}
-              onInput={(event: any) => {
-                this.search = event.target.value
-              }}
-              class="w-full h-full rounded-full bg-white outline-none appearance-none block px-12 py-9 TheHeader__searchBox"
-            />
-            <img
-              alt=""
-              src={SearchIcon}
-              width="18"
-              class="pointer-events-none absolute top-0 right-0 m-4 mr-9 lg:mr-12 lg:m-12"
-            />
-          </div>
-        </form>
         <client-only>
           {this.isOpenAnalyzeModal && (
             <portal to="modal">
               <AnalyzerModal
                 onClose={() => {
                   this.isOpenAnalyzeModal = false
+                }}
+              />
+            </portal>
+          )}
+        </client-only>
+        <client-only>
+          {this.isOpenUserSettingsModal && (
+            <portal to="modal">
+              <UserSettingsModal
+                onClose={() => {
+                  this.isOpenUserSettingsModal = false
                 }}
               />
             </portal>

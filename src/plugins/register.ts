@@ -6,8 +6,10 @@ import AppUserIcon from '~/components/common/AppUserIcon.vue'
 import AppRecordCard from '~/components/common/AppRecordCard.vue'
 import { TheHeader } from '~/components/common/TheHeader'
 import { TheFooter } from '~/components/common/TheFooter'
+import { TheSearchForm } from '~/components/common/TheSearchForm'
 
 export default () => {
+  Vue.component('TheSearchForm', TheSearchForm)
   Vue.component('AppButton', AppButton)
   Vue.component('AppUserIcon', AppUserIcon)
   Vue.component('AppHeading', AppHeading)

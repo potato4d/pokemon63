@@ -1,7 +1,6 @@
 <template>
   <div id="__content">
     <TheHeader />
-    <TheSearchForm />
     <nuxt class="flex-1" />
     <TheFooter />
     <portal-target name="modal" />
