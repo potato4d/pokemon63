@@ -3,6 +3,10 @@ service firebase.storage {
     match /{allPaths=**} {
       allow read;
       allow create;
+
+      match /icons/{userId}/me {
+        allow update: if userId == request.auth.uid;
+      }
     }
   }
 }

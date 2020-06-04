@@ -159,7 +159,9 @@ export default Vue.extend({
       const [file] = (this.$refs.fileInput as any).files as [File]
       const blob = await this.fileToBlob(file)
       await this.$storage.ref(path).put(blob)
-      this.formMeta.photoUrl = `https://storage.googleapis.com/${process.env.FIREBASE_STORAGE_BUCKET}/${path}`
+      this.formMeta.photoUrl = `https://storage.googleapis.com/${
+        process.env.FIREBASE_STORAGE_BUCKET
+      }/${path}?_=${~~(Math.random() * 10000)}`
     },
     async handleUpdatePhoto(event: any) {
       const [file] = event.target.files as [File]
