@@ -11,6 +11,15 @@
         />
         <span>{{ user.displayName }}</span>
         <span>&nbsp;さんの選出ログ</span>
+        <a
+          :href="`https://twitter.com/intent/user?user_id=${user.twitterId}`"
+          target="_blank"
+          rel="noopener noreferrer"
+          v-if="user.twitterId"
+          class="ml-3 mt-1"
+        >
+          <img src="~/assets/images/twitter.svg" width="18" alt="" />
+        </a>
       </AppSubHeading>
     </div>
     <div class="HomeGrid pt-18 grid justify-between items-start">

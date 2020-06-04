@@ -38,6 +38,18 @@
               @change="handleUpdatePhoto"
               class="mt-6"
             />
+            <div class="mt-6">
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  :value="true"
+                  v-model="showTwitterAccount"
+                />
+                <span class="inline-block ml-3"
+                  >Twitter アカウントを表示する</span
+                >
+              </label>
+            </div>
             <div class="flex justify-end mt-9">
               <button
                 :style="{
@@ -72,6 +84,7 @@ import { v4 as uuid } from 'uuid'
 
 type LocalData = {
   formMeta: Pick<User, 'displayName' | 'photoUrl'>
+  showTwitterAccount: boolean
   user: User | null
 }
 
@@ -82,6 +95,7 @@ export default Vue.extend({
         displayName: '',
         photoUrl: '',
       },
+      showTwitterAccount: false,
       user: null,
     }
   },
@@ -93,6 +107,7 @@ export default Vue.extend({
           .doc(this.$auth.currentUser!.uid)
           .get()
       )
+      this.showTwitterAccount = !!this.user.twitterId
       this.formMeta = {
         displayName: this.user!.displayName,
         photoUrl: this.user!.photoUrl,
@@ -108,6 +123,14 @@ export default Vue.extend({
       location.reload()
     },
     async updateUser() {
+      const payload: Pick<User, 'displayName' | 'photoUrl' | 'twitterId'> = {
+        ...this.formMeta,
+      }
+      if (this.showTwitterAccount) {
+        payload.twitterId = this.$auth.currentUser!.providerData[0]!.uid
+      } else {
+        payload.twitterId = ''
+      }
       if (!this.user || !this.$auth.currentUser) {
         return false
       }
@@ -117,11 +140,11 @@ export default Vue.extend({
           .collection('users')
           .doc(this.$auth.currentUser.uid)
           .set({
-            ...this.formMeta,
+            ...payload,
           }),
         this.$auth.currentUser.updateProfile({
-          photoURL: this.formMeta.photoUrl,
-          ...this.formMeta,
+          ...payload,
+          photoURL: payload.photoUrl,
         }),
       ])
     },
