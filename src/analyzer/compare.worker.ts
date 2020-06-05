@@ -7,8 +7,8 @@ type Result = { id: number; distance: number }
 type Message = {
   start: number
   end: number
-  arr: Uint8Array
   note?: string
+  currentHash: string
 }
 
 function debug(...v: any) {
@@ -16,15 +16,13 @@ function debug(...v: any) {
 }
 
 self.onmessage = async (message: MessageEvent) => {
-  const { start, end, arr } = message.data as Message
-  const ss = await Jimp.read(Buffer.from(arr))
+  const { start, end, currentHash } = message.data as Message
   // ss.write('./log/'+note+'.jpeg')
   debug(`[START] (${start} to ${end})`)
 
   // 最小限の配列を作成
   const items = list.slice(start, end)
   const pHash = new ImagePHash()
-  const currentHash = pHash.getHash(ss)
 
   try {
     const results = await Promise.all(

@@ -1,6 +1,7 @@
 import Jimp from 'jimp'
 import { dex, Pokemon } from './config/dex'
 const CompareWorker = require('./compare.worker.ts')
+const ImagePHash = require('@jimp/core/es/modules/phash')
 
 type Result = { id: number; distance: number }
 
@@ -14,14 +15,14 @@ function debug(...args: any) {}
 async function check(croppedSS: Jimp): Promise<Pokemon> {
   const results: Result[] = []
   const startedAt = new Date()
+  const pHash = new ImagePHash()
+  const currentHash = pHash.getHash(croppedSS)
 
   if (!workers.length) {
     FOREACH_BASE.forEach(() => {
       workers.push(new CompareWorker())
     })
   }
-
-  const arr = Uint8Array.from(await croppedSS.getBufferAsync(Jimp.MIME_JPEG))
 
   function checkChunk(shift: number): Promise<void> {
     return new Promise((resolve) => {
@@ -33,7 +34,7 @@ async function check(croppedSS: Jimp): Promise<Pokemon> {
       workers[shift].postMessage({
         start: shiftX,
         end: shiftX + PROCESS_PER_CHUNK,
-        arr,
+        currentHash,
       })
     })
   }
