@@ -6,7 +6,7 @@ const ImagePHash = require('@jimp/core/es/modules/phash')
 type Result = { slug: string; distance: number }
 
 const CHUNKS = 8
-const PROCESS_PER_CHUNK = 66
+const PROCESS_PER_CHUNK = 153
 const FOREACH_BASE = new Array(CHUNKS).fill(0)
 const workers: Worker[] = []
 
@@ -25,10 +25,6 @@ async function check(croppedSS: Jimp): Promise<Pokemon> {
       workers.push(new CompareWorker())
     })
   }
-  console.log({
-    width: ~~(width * 0.74),
-    height: ~~(height * 0.74),
-  })
 
   function checkChunk(shift: number): Promise<void> {
     return new Promise((resolve) => {
@@ -92,8 +88,6 @@ export async function compare(
       .autocrop({
         tolerance: 0.01,
       })
-    const b = await cropped.getBufferAsync(Jimp.MIME_PNG)
-    console.log(URL.createObjectURL(new Blob([b], { type: 'image/png' })))
     myPokemon.push(await __check(cropped))
   }
 

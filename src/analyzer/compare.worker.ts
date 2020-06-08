@@ -1,4 +1,3 @@
-import Jimp from 'jimp'
 import hashList from './config/v2_hash'
 const ImagePHash = require('@jimp/core/es/modules/phash')
 
@@ -31,15 +30,6 @@ self.onmessage = async (message: MessageEvent) => {
     const results = await Promise.all(
       items.map(
         async (item, i): Promise<Result | null> => {
-          if (
-            Math.abs(width - item.w * 1.34) > 5 ||
-            Math.abs(height - item.h * 1.34) > 5
-          ) {
-            return {
-              slug: item.slug,
-              distance: 1,
-            }
-          }
           return {
             slug: item.slug,
             distance: pHash.distance(currentHash, item.hash),
