@@ -9266,6 +9266,11 @@ pngjs@^3.0.0, pngjs@^3.3.3:
   resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-3.4.0.tgz#99ca7d725965fb655814eaf65f38f12bbdbf555f"
   integrity sha512-NCrCHhWmnQklfH4MtJMRjZ2a8c80qXeMlQMv2uVp9ISJMTt562SbGd6n2oq0PaPgKm7Z6pL9E2UlLIhC+SHL3w==
 
+pokesprite-images@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/pokesprite-images/-/pokesprite-images-2.0.6.tgz#a60dbd4ac1c1b4e1d1c7c8f0ae0eb75803f4ba92"
+  integrity sha512-31p469auEzsQWD6zlG2NJYhAQcD6a8sGddKiOo+fK5hBslF7x233Y8ppVIW/3SIE6LVfXd42fq2EmgBtflU8Jg==
+
 portal-vue@^2.1.7:
   version "2.1.7"
   resolved "https://registry.yarnpkg.com/portal-vue/-/portal-vue-2.1.7.tgz#ea08069b25b640ca08a5b86f67c612f15f4e4ad4"

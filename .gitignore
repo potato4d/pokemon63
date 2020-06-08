@@ -98,3 +98,4 @@ src/static/static/images/icons/*.png
 .firebaserc
 
 public
+.data
