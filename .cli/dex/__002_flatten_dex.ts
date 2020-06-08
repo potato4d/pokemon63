@@ -39,6 +39,15 @@ Object.entries(pokeDex).forEach(([dex, pokemon]) => {
     if (formName === '$') {
       return
     }
+    if ((v as any).is_alias_of) {
+      return
+    }
+    if (formName.startsWith('totem')) {
+      return
+    }
+    if (formName.includes('mega')) {
+      return
+    }
     aggregateData.push({
       ...base,
       slug: `${slug}-${formName}`,
