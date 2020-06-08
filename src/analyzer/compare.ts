@@ -3,7 +3,7 @@ import { dex, Pokemon } from './config/dex'
 const CompareWorker = require('./compare.worker.ts')
 const ImagePHash = require('@jimp/core/es/modules/phash')
 
-type Result = { id: number; distance: number }
+type Result = { slug: string; distance: number }
 
 const CHUNKS = 8
 const PROCESS_PER_CHUNK = 66
@@ -16,6 +16,8 @@ async function check(croppedSS: Jimp): Promise<Pokemon> {
   const results: Result[] = []
   const startedAt = new Date()
   const pHash = new ImagePHash()
+  const width = croppedSS.getWidth()
+  const height = croppedSS.getHeight()
   const currentHash = pHash.getHash(croppedSS)
 
   if (!workers.length) {
@@ -23,6 +25,10 @@ async function check(croppedSS: Jimp): Promise<Pokemon> {
       workers.push(new CompareWorker())
     })
   }
+  console.log({
+    width: ~~(width * 0.74),
+    height: ~~(height * 0.74),
+  })
 
   function checkChunk(shift: number): Promise<void> {
     return new Promise((resolve) => {
@@ -34,6 +40,8 @@ async function check(croppedSS: Jimp): Promise<Pokemon> {
       workers[shift].postMessage({
         start: shiftX,
         end: shiftX + PROCESS_PER_CHUNK,
+        width,
+        height,
         currentHash,
       })
     })
@@ -48,16 +56,11 @@ async function check(croppedSS: Jimp): Promise<Pokemon> {
   let r = results.reduce((a, b) => {
     return a.distance < b.distance ? a : b
   }, results[0])
-  if (r.id === 116) {
-    r = results.find((a) => a.id === 117)!
-  }
+
   debug(r.distance)
-  debug(`${dex[r.id - 1].name}`)
-  debug(`System ID: ${r.id}`)
-  debug(`Pokedex NO: https://yakkun.com/swsh/zukan/n${dex[r.id - 1].dexno}`)
   const endAt = new Date()
   debug(`実行時間: ${endAt.getTime() - startedAt.getTime()}ms`)
-  return dex[r.id - 1]
+  return dex.find((p) => p.slug === r.slug)!
 }
 
 export async function compare(
@@ -89,6 +92,8 @@ export async function compare(
       .autocrop({
         tolerance: 0.01,
       })
+    const b = await cropped.getBufferAsync(Jimp.MIME_PNG)
+    console.log(URL.createObjectURL(new Blob([b], { type: 'image/png' })))
     myPokemon.push(await __check(cropped))
   }
 

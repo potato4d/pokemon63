@@ -310,8 +310,8 @@ const getInitialFormData = (): Omit<BattleRecord, 'userId'> => ({
   opponentRank: null,
   myParty: [],
   opponentParty: [],
-  myChoice: [0, 0, 0],
-  opponentChoice: [0, 0, 0],
+  myChoice: [null, null, null],
+  opponentChoice: [null, null, null],
   note: '',
   videoUrl: '',
 })
@@ -427,8 +427,8 @@ export default Vue.extend({
           try {
             this.$analytics.logEvent(ANALYTICS_EVENT.ANALYZER.FIX_POKEMON, {
               side: 'my',
-              from: this.formData.myParty[index].img,
-              to: fixPokemon.img,
+              from: this.formData.myParty[index].slug,
+              to: fixPokemon.slug,
             })
           } catch (e) {}
           this.formData.myParty = replacePokemonList(this.formData.myParty)
@@ -438,8 +438,8 @@ export default Vue.extend({
           try {
             this.$analytics.logEvent(ANALYTICS_EVENT.ANALYZER.FIX_POKEMON, {
               side: 'opponent',
-              from: this.formData.opponentParty[index].img,
-              to: fixPokemon.img,
+              from: this.formData.opponentParty[index].slug,
+              to: fixPokemon.slug,
             })
           } catch (e) {}
           this.formData.opponentParty = replacePokemonList(
@@ -450,17 +450,18 @@ export default Vue.extend({
       }
     },
     async choosePokemon(side: Side, count: number, pokemon: Pokemon) {
-      const choose = (list: number[]) => {
+      type C = string | null
+      const choose = (list: C[]) => {
         list = [...list]
-        if (list.includes(pokemon.img)) {
-          if (list[count] === pokemon.img) {
-            list[count] = 0
+        if (list.includes(pokemon.slug)) {
+          if (list[count] === pokemon.slug) {
+            list[count] = null
           } else {
-            list[list.indexOf(pokemon.img)] = 0
-            list[count] = pokemon.img
+            list[list.indexOf(pokemon.slug)] = null
+            list[count] = pokemon.slug
           }
         } else {
-          list[count] = pokemon.img
+          list[count] = pokemon.slug
         }
         return list
       }
@@ -561,8 +562,8 @@ export default Vue.extend({
     },
     disabled(): boolean {
       if (
-        this.formData.myChoice.includes(0) ||
-        this.formData.opponentChoice[0] === 0 // 相手はポケモンが全部見えないことがあるため先発だけわかれば登録可能とする
+        this.formData.myChoice.includes(null) ||
+        this.formData.opponentChoice[0] === null // 相手はポケモンが全部見えないことがあるため先発だけわかれば登録可能とする
       ) {
         return true
       }

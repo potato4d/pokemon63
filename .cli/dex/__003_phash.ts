@@ -7,11 +7,12 @@ async function run() {
   const pHash = new ImagePHash()
   const data = await Promise.all(
     dex.map(async ({ slug }) => {
-      const img = await Jimp.read(__dirname+`/../../.data/cropped/${slug}.png`)
-      const hash = pHash.getHash(img)
+      const img = (await Jimp.read(__dirname+`/../../.data/cropped/${slug}.png`)).autocrop()
       return {
         slug,
-        hash
+        w: img.getWidth(),
+        h: img.getHeight(),
+        hash: (img as any).pHash()
       }
     })
   )

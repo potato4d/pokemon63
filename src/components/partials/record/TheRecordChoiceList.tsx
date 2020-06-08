@@ -24,12 +24,12 @@ export const TheRecordChoiceList = tsx.component({
                   }}
                   class="mr-3 object-cover object-center-bottom"
                   src={`/pokemon63/static/images/icons/${
-                    dex[item - 1].img
+                    dex[item - 1].slug
                   }.png`}
                   alt=""
                 />
                 <p class="pb-3 font-bold text-lg">
-                  {dex[item - 1].name.split('(')[0]}
+                  {dex[item - 1].name_jpn.split('(')[0]}
                 </p>
               </div>
               <div class="w-2/5">

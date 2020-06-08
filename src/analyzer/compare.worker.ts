@@ -1,13 +1,16 @@
 import Jimp from 'jimp'
-import list from './config/imageHash'
-import { SKIP_INDEX } from './config/constants'
+import hashList from './config/v2_hash'
 const ImagePHash = require('@jimp/core/es/modules/phash')
 
-type Result = { id: number; distance: number }
+type Result = { slug: string; distance: number }
+
 type Message = {
   start: number
   end: number
   note?: string
+
+  width: number
+  height: number
   currentHash: string
 }
 
@@ -16,24 +19,30 @@ function debug(...v: any) {
 }
 
 self.onmessage = async (message: MessageEvent) => {
-  const { start, end, currentHash } = message.data as Message
+  const { start, end, currentHash, width, height } = message.data as Message
   // ss.write('./log/'+note+'.jpeg')
   debug(`[START] (${start} to ${end})`)
 
   // 最小限の配列を作成
-  const items = list.slice(start, end)
+  const items = hashList.slice(start, end)
   const pHash = new ImagePHash()
 
   try {
     const results = await Promise.all(
       items.map(
         async (item, i): Promise<Result | null> => {
-          if ((SKIP_INDEX as any)[`${start + i + 1}`]) {
-            return null
+          if (
+            Math.abs(width - item.w * 1.34) > 5 ||
+            Math.abs(height - item.h * 1.34) > 5
+          ) {
+            return {
+              slug: item.slug,
+              distance: 1,
+            }
           }
           return {
-            id: start + i + 1,
-            distance: pHash.distance(currentHash, item),
+            slug: item.slug,
+            distance: pHash.distance(currentHash, item.hash),
           }
         }
       )

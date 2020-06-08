@@ -12,6 +12,8 @@ export type User = {
   twitterId?: string
 }
 
+type C = string | null
+
 export type BattleRecord = {
   id?: string
   userId: string
@@ -22,8 +24,8 @@ export type BattleRecord = {
   opponentRank: number | null
   myParty: Pokemon[]
   opponentParty: Pokemon[]
-  myChoice: number[]
-  opponentChoice: number[]
+  myChoice: C[]
+  opponentChoice: C[]
   note: string
   captureUrl: string | null
   videoUrl: string | null

@@ -34,11 +34,11 @@ export const TheRecordQuestion = tsx.component({
         }
       }
       const base = 'inline-block outline-none border border-gray-600 ' + rounded
-      if (this.choice[index] === pokemon.img) {
-        return `${base} text-white bg-blue-600`
-      } else {
-        return `${base} focus:bg-gray-700 hover:bg-gray-700`
-      }
+      // if (this.choice[index] === pokemon.slug) {
+      //   return `${base} text-white bg-blue-600`
+      // } else {
+      //   return `${base} focus:bg-gray-700 hover:bg-gray-700`
+      // }
     },
   },
   render() {
@@ -56,11 +56,11 @@ export const TheRecordQuestion = tsx.component({
                     imageRendering: 'pixelated',
                   }}
                   class="mr-3 object-cover object-center-bottom"
-                  src={`/pokemon63/static/images/icons/${pokemon.img}.png`}
+                  src={`/pokemon63/static/images/icons/${pokemon.slug}.png`}
                   alt=""
                 />
                 <p class="pb-3 font-bold text-lg">
-                  {pokemon.name.split('(')[0]}
+                  {pokemon.name_jpn.split('(')[0]}
                 </p>
               </div>
               <div class="w-2/5">
