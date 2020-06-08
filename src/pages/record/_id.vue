@@ -285,7 +285,6 @@ import {
   toPokemonDocument,
 } from '~/utils/transformer/toObject'
 import xss from 'xss'
-import dayjs from 'dayjs'
 
 type LocalData = {
   user: User | null
@@ -410,7 +409,7 @@ export default Vue.extend({
       if (!(this.record.createdAt instanceof Date)) {
         return null
       }
-      return dayjs(this.record.createdAt).format('YYYY/MM/DD')
+      return this.$dayjs(this.record.createdAt).format('YYYY/MM/DD')
     },
     note(): string {
       return xss.filterXSS(this.record!.note).replace(/\n/g, '<br>')

@@ -67,6 +67,7 @@ const config: Configuration = {
    */
   modules: [
     'portal-vue/nuxt',
+    '@nuxtjs/dayjs',
     'nuxt-basic-auth-module'
   ],
   /*
