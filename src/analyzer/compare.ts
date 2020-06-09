@@ -3,10 +3,10 @@ import { dex, Pokemon } from './config/dex'
 const CompareWorker = require('./compare.worker.ts')
 const ImagePHash = require('@jimp/core/es/modules/phash')
 
-type Result = { id: number; distance: number }
+type Result = { slug: string; distance: number }
 
 const CHUNKS = 8
-const PROCESS_PER_CHUNK = 66
+const PROCESS_PER_CHUNK = 153
 const FOREACH_BASE = new Array(CHUNKS).fill(0)
 const workers: Worker[] = []
 
@@ -16,6 +16,8 @@ async function check(croppedSS: Jimp): Promise<Pokemon> {
   const results: Result[] = []
   const startedAt = new Date()
   const pHash = new ImagePHash()
+  const width = croppedSS.getWidth()
+  const height = croppedSS.getHeight()
   const currentHash = pHash.getHash(croppedSS)
 
   if (!workers.length) {
@@ -34,6 +36,8 @@ async function check(croppedSS: Jimp): Promise<Pokemon> {
       workers[shift].postMessage({
         start: shiftX,
         end: shiftX + PROCESS_PER_CHUNK,
+        width,
+        height,
         currentHash,
       })
     })
@@ -48,16 +52,11 @@ async function check(croppedSS: Jimp): Promise<Pokemon> {
   let r = results.reduce((a, b) => {
     return a.distance < b.distance ? a : b
   }, results[0])
-  if (r.id === 116) {
-    r = results.find((a) => a.id === 117)!
-  }
+
   debug(r.distance)
-  debug(`${dex[r.id - 1].name}`)
-  debug(`System ID: ${r.id}`)
-  debug(`Pokedex NO: https://yakkun.com/swsh/zukan/n${dex[r.id - 1].dexno}`)
   const endAt = new Date()
   debug(`実行時間: ${endAt.getTime() - startedAt.getTime()}ms`)
-  return dex[r.id - 1]
+  return dex.find((p) => p.slug === r.slug)!
 }
 
 export async function compare(

@@ -166,7 +166,6 @@ export default Vue.extend({
     async handleUpdatePhoto(event: any) {
       const [file] = event.target.files as [File]
       this.formMeta.photoUrl = URL.createObjectURL(await this.fileToBlob(file))
-      console.log(this.formMeta.photoUrl)
     },
     async fileToBlob(file: File): Promise<Blob> {
       return new Promise((resolve) => {

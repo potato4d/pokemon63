@@ -9,7 +9,7 @@ const PokemonFixPopUp = tsx.component({
     return {
       search: '',
       dex: dex.filter((poke) => {
-        return !(SKIP_INDEX as any)[poke.img]
+        return !(SKIP_INDEX as any)[poke.slug]
       }),
     }
   },
@@ -50,10 +50,10 @@ const PokemonFixPopUp = tsx.component({
           }}
         >
           {this.dex
-            .filter((poke) => poke.name.includes(this.search))
+            .filter((poke) => poke.slug.includes(this.search))
             .map((poke) => (
               <img
-                src={`/pokemon63/static/images/icons/${poke.img}.png`}
+                src={`/pokemon63/static/images/icons/${poke.slug}.png`}
                 onClick={() => {
                   this.$emit('fix', poke)
                 }}
@@ -76,7 +76,7 @@ const PokemonFixPopUp = tsx.component({
 export const AnalyzerPokemonList = tsx.component({
   name: 'AnalyzerPokemonList',
   props: {
-    choice: Array as () => number[],
+    choice: Array as () => string[],
     party: Array as () => Pokemon[],
   },
   components: {
@@ -96,7 +96,7 @@ export const AnalyzerPokemonList = tsx.component({
     },
     buttonClass(index: number, pokemon: Pokemon) {
       const base = 'inline-block outline-none rounded-l border'
-      if (this.choice[index] === pokemon.img) {
+      if (this.choice[index] === pokemon.slug) {
         return `${base} text-white bg-blue-600`
       } else {
         return `${base} focus:bg-gray-200 hover:bg-gray-200`
@@ -143,7 +143,7 @@ export const AnalyzerPokemonList = tsx.component({
                       imageRendering: 'pixelated',
                     }}
                     class="mr-3 object-cover object-center-bottom"
-                    src={`/pokemon63/static/images/icons/${pokemon.img}.png`}
+                    src={`/pokemon63/static/images/icons/${pokemon.slug}.png`}
                     alt=""
                   />
                   <div
@@ -159,7 +159,7 @@ export const AnalyzerPokemonList = tsx.component({
                   </div>
                 </div>
                 <p class="pb-3 font-bold text-lg">
-                  {pokemon.name.split('(')[0]}
+                  {pokemon.name_jpn.split('(')[0]}
                 </p>
               </div>
               <div class="w-2/5">

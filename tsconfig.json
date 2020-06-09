@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2018",
-    "module": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "lib": [
       "DOM",
@@ -11,7 +11,7 @@
     "esModuleInterop": true,
     "allowJs": true,
     "sourceMap": true,
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "baseUrl": ".",
     "noImplicitAny": true,
@@ -40,6 +40,7 @@
     "src"
   ],
   "exclude": [
+    ".cli",
     "node_modules",
     ".nuxt",
     "dist"
