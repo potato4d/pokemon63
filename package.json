@@ -39,6 +39,7 @@
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-jest": "^24.1.0",
     "core-js": "3",
+    "firebase-admin": "^8.12.1",
     "firebase-tools": "^8.2.0",
     "jest": "^24.1.0",
     "nuxt-purgecss": "^1.0.0",

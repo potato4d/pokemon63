@@ -529,7 +529,7 @@ export default Vue.extend({
           }),
           this.$storage.ref(imagePath).put(await ss.getBufferAsync(MIME_PNG)),
         ])
-        await delay(1300)
+        await delay(800)
         const downloadURL = `https://storage.googleapis.com/${process.env.FIREBASE_STORAGE_BUCKET}/${imagePath}`
         this.formData.captureUrl = downloadURL
         this.formData.myParty = myPokemon

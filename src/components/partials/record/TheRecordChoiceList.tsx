@@ -5,7 +5,7 @@ import { dex, Pokemon } from '~/analyzer/config/dex'
 export const TheRecordChoiceList = tsx.component({
   name: 'TheRecordChoiceList',
   props: {
-    choice: Array as () => number[],
+    choice: Array as () => string[],
     party: Array as () => Pokemon[],
   },
   render() {
@@ -24,12 +24,12 @@ export const TheRecordChoiceList = tsx.component({
                   }}
                   class="mr-3 object-cover object-center-bottom"
                   src={`/pokemon63/static/images/icons/${
-                    dex[item - 1].slug
+                    dex.find((p) => p.slug === item)!.slug
                   }.png`}
                   alt=""
                 />
                 <p class="pb-3 font-bold text-lg">
-                  {dex[item - 1].name_jpn.split('(')[0]}
+                  {dex.find((p) => p.slug === item)!.name_jpn}
                 </p>
               </div>
               <div class="w-2/5">

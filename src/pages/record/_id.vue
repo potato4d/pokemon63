@@ -160,7 +160,9 @@
                       height: '40px',
                     }"
                   />
-                  <p class="pl-6">{{ user ? user.displayName : '' }}</p>
+                  <client-only>
+                    <p class="pl-6">{{ user ? user.displayName : '' }}</p>
+                  </client-only>
                 </component>
               </li>
               <li class="flex items-center justify-start h-24">
@@ -193,15 +195,17 @@
                   <dd>{{ record.opponentRank }}位台</dd>
                 </dl>
               </li>
-              <li
-                class="flex items-center justify-start h-24"
-                v-if="createdDate"
-              >
-                <dl class="flex items-center">
-                  <dt class="w-48">投稿日</dt>
-                  <dd>{{ createdDate }}</dd>
-                </dl>
-              </li>
+              <client-only>
+                <li
+                  class="flex items-center justify-start h-24"
+                  v-if="createdDate"
+                >
+                  <dl class="flex items-center">
+                    <dt class="w-48">投稿日</dt>
+                    <dd>{{ createdDate }}</dd>
+                  </dl>
+                </li>
+              </client-only>
               <li class="flex items-center justify-start h-24">
                 <dl class="flex items-center">
                   <dt class="w-48">勝敗</dt>
@@ -243,12 +247,12 @@
                   </dd>
                 </dl>
               </li>
-              <client-only>
-                <li class="flex items-center justify-start pr-9 h-24">
-                  <div
-                    class="flex justify-start overflow-hidden"
-                    style="width: 61px; overflow: hidden;"
-                  >
+              <li class="flex items-center justify-start pr-9 h-24">
+                <div
+                  class="flex justify-start overflow-hidden"
+                  style="width: 61px; overflow: hidden;"
+                >
+                  <client-only>
                     <iframe
                       title="Twitter Share"
                       :src="`https://platform.twitter.com/widgets/tweet_button.html?url=${currentUrl}&text=${encodedTitle}&hashtags=pokedri,ポケモン剣盾`"
@@ -256,9 +260,9 @@
                       height="21"
                       style="overflow: hidden;"
                     />
-                  </div>
-                </li>
-              </client-only>
+                  </client-only>
+                </div>
+              </li>
               <li class="flex items-center justify-end px-9 h-24" v-if="false">
                 <button type="button">
                   <img src="~/assets/images/trash.svg" width="18" alt="" />

@@ -76,7 +76,7 @@ const PokemonFixPopUp = tsx.component({
 export const AnalyzerPokemonList = tsx.component({
   name: 'AnalyzerPokemonList',
   props: {
-    choice: Array as () => number[],
+    choice: Array as () => string[],
     party: Array as () => Pokemon[],
   },
   components: {
@@ -96,11 +96,11 @@ export const AnalyzerPokemonList = tsx.component({
     },
     buttonClass(index: number, pokemon: Pokemon) {
       const base = 'inline-block outline-none rounded-l border'
-      // if (this.choice[index] === pokemon.slug) {
-      //   return `${base} text-white bg-blue-600`
-      // } else {
-      //   return `${base} focus:bg-gray-200 hover:bg-gray-200`
-      // }
+      if (this.choice[index] === pokemon.slug) {
+        return `${base} text-white bg-blue-600`
+      } else {
+        return `${base} focus:bg-gray-200 hover:bg-gray-200`
+      }
     },
   },
   render() {
