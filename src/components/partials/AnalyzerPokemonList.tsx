@@ -3,6 +3,7 @@ import * as tsx from 'vue-tsx-support'
 import { Pokemon, dex } from '~/analyzer/config/dex'
 import EditIcon from '~/assets/images/edit.svg'
 import { SKIP_INDEX } from '~/analyzer/config/constants'
+import { toKatakana } from '~/utils/filters/toKatakana'
 
 const PokemonFixPopUp = tsx.component({
   data() {
@@ -50,7 +51,13 @@ const PokemonFixPopUp = tsx.component({
           }}
         >
           {this.dex
-            .filter((poke) => poke.slug.includes(this.search))
+            .filter(
+              (poke) =>
+                poke.slug.includes(this.search) ||
+                poke.name_eng.includes(this.search) ||
+                poke.name_jpn.includes(this.search) ||
+                poke.name_jpn.includes(toKatakana(this.search))
+            )
             .map((poke) => (
               <img
                 src={`/pokemon63/static/images/icons/${poke.slug}.png`}
