@@ -11,13 +11,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import AppToast from '~/components/common/AppToast.vue'
 
-export default Vue.extend({
-  components: {
-    AppToast,
-  },
-})
+export default Vue.extend({})
 </script>
 
 <style>

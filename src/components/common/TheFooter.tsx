@@ -64,3 +64,5 @@ export const TheFooter = tsx.component({
     )
   },
 })
+
+export default TheFooter
