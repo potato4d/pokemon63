@@ -144,5 +144,3 @@ export const TheHeader = tsx.component({
     )
   },
 })
-
-export default TheHeader
