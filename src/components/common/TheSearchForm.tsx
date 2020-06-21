@@ -44,3 +44,5 @@ export const TheSearchForm = tsx.component({
     )
   },
 })
+
+export default TheSearchForm

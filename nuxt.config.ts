@@ -51,7 +51,7 @@ const config: Configuration = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/firebase.ts', '~/plugins/toast.ts', '~/plugins/register.ts', '~/plugins/userRecord.ts'],
+  plugins: ['~/plugins/firebase.ts', '~/plugins/toast.ts', '~/plugins/userRecord.ts'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -59,8 +59,15 @@ const config: Configuration = {
     '@nuxtjs/dotenv',
     '@nuxt/typescript-build',
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
-    '@nuxtjs/tailwindcss',
+    '@nuxtjs/tailwindcss'
     // 'nuxt-purgecss',
+  ],
+  components: [
+   {
+     path: '~/components/common',
+     prefix: '',
+     extensions: ['vue', 'tsx']
+   }
   ],
   /*
    ** Nuxt.js modules
