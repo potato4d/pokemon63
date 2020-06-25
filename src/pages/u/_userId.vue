@@ -22,12 +22,35 @@
         </a>
       </AppSubHeading>
     </div>
-    <div class="HomeGrid pt-18 grid justify-between items-start">
-      <AppRecordCard
-        :record="record"
-        :key="record.id"
-        v-for="record in battleRecords"
-      />
+    <div v-for="recordSets in groupedBattleRecord" class="mb-15">
+      <div>
+        <ul class="flex items-end justify-start">
+          <span v-for="pokemon in recordSets.party" class="inline-block">
+            <img
+              :src="`/pokemon63/static/images/icons/${pokemon.slug}.png`"
+              :style="{
+                imageRendering: 'pixelated',
+                width: '60px',
+                height: '50px',
+                objectFit: 'cover',
+              }"
+              alt=""
+            />
+          </span>
+          <span
+            class="mb-2 flex items-center justify-center h-full text-2xl font-bold"
+          >
+            での戦績
+          </span>
+        </ul>
+      </div>
+      <div class="HomeGrid pt-18 grid justify-between items-start">
+        <AppRecordCard
+          :record="record"
+          :key="record.id"
+          v-for="record in recordSets.items"
+        />
+      </div>
     </div>
 
     <!-- TODO: Implement pagination -->
@@ -43,11 +66,17 @@ import { BattleRecord, User } from '~/types/struct'
 import {
   toUserDocument,
   toBattleRecordDocument,
+  toPokemonDocument,
 } from '~/utils/transformer/toObject'
 
 type LocalData = {
   user: User | null
-  battleRecords: BattleRecord[]
+  groupedBattleRecord: RecordSet[]
+}
+
+type RecordSet = {
+  party: BattleRecord['myParty']
+  items: BattleRecord[]
 }
 
 export default Vue.extend({
@@ -78,14 +107,14 @@ export default Vue.extend({
   data() {
     return {
       user: null,
-      battleRecords: [],
+      groupedBattleRecord: [],
     }
   },
   async asyncData({ app, params: { userId }, redirect, error }) {
     if (userId === 'anonymous') {
       return redirect('/')
     }
-    const [user, records] = await Promise.all([
+    const [user, _records] = await Promise.all([
       app.$firestore.collection('users').doc(userId).get(),
       app.$firestore
         .collection('battlerecords')
@@ -95,18 +124,66 @@ export default Vue.extend({
         .limit(200)
         .get(),
     ])
+    const records = await Promise.all(
+      _records.docs.map(async (record) => {
+        const [myParty, opponentParty] = await Promise.all([
+          record.ref.collection('myParty').get(),
+          record.ref.collection('opponentParty').get(),
+        ])
+        return {
+          ...toBattleRecordDocument(record),
+          myParty: myParty.docs
+            .map((poke) => toPokemonDocument(poke))
+            .sort((a, b) => (a.idx > b.idx ? 1 : -1)),
+          opponentParty: opponentParty.docs
+            .map((poke) => toPokemonDocument(poke))
+            .sort((a, b) => (a.idx > b.idx ? 1 : -1)),
+        }
+      })
+    )
     if (!user.exists) {
       return error({
         message: 'User is not found.',
         statusCode: 404,
       })
     }
-    const battleRecords = records.docs.map((doc) =>
-      toBattleRecordDocument(doc, ['createdAt'])
+    const [first, ...rawgroupedBattleRecord] = records
+
+    const groupedBattleRecord: RecordSet[] = rawgroupedBattleRecord.reduce(
+      (before, record) => {
+        const lastRecordSet = before[before.length - 1]
+        if (
+          lastRecordSet.party.every(
+            (pokemon, i) => pokemon.slug === record.myParty[i].slug
+          )
+        ) {
+          return [
+            ...before.filter((_, i) => i !== before.length - 1),
+            {
+              party: lastRecordSet.party,
+              items: [...lastRecordSet.items, record],
+            },
+          ]
+        } else {
+          return [
+            ...before,
+            {
+              party: record.myParty,
+              items: [record],
+            },
+          ]
+        }
+      },
+      [
+        {
+          party: first.myParty,
+          items: [first],
+        },
+      ]
     )
     return {
       user: toUserDocument(user),
-      battleRecords,
+      groupedBattleRecord,
     }
   },
 })
