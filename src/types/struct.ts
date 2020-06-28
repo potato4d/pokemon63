@@ -3,7 +3,9 @@ export type Format = 'single'
 export type Result = 'win' | 'lose'
 import * as Dex from '../analyzer/config/dex'
 
-export type Pokemon = Dex.Pokemon
+export type Pokemon = Dex.Pokemon & {
+  order?: number
+}
 
 export type User = {
   id: string

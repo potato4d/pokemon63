@@ -176,13 +176,13 @@ export default Vue.extend({
     const records = await Promise.all(
       _records.docs.map(async (record) => {
         const [myParty] = await Promise.all([
-          record.ref.collection('myParty').get(),
+          record.ref.collection('myParty').orderBy('order', 'asc').get(),
         ])
         return {
           ...toBattleRecordDocument(record),
           myParty: myParty.docs
             .map((poke) => toPokemonDocument(poke))
-            .sort((a, b) => (a.idx > b.idx ? 1 : -1)),
+            .sort((a, b) => (a.order > b.order ? 1 : -1)),
         }
       })
     )
