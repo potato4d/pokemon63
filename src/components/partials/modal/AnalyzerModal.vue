@@ -303,7 +303,7 @@ type LocalData = {
 
 const getInitialFormData = (): Omit<BattleRecord, 'userId'> => ({
   captureUrl: null,
-  season: 7,
+  season: 8,
   format: 'single',
   result: 'win',
   rank: null,
