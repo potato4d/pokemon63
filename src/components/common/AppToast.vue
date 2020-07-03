@@ -5,17 +5,19 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent, onMounted } from '@vue/composition-api'
 import { delay } from '../../utils/effects/delay'
 
-export default Vue.extend({
+export default defineComponent({
   props: {
     text: String,
   },
-  async mounted() {
-    await delay(3500)
-    this.$toast.hide()
-  },
+  setup(_, { root }) {
+    onMounted(async () => {
+      await delay(3500)
+      root.$toast.hide()
+    })
+  }
 })
 </script>
 
