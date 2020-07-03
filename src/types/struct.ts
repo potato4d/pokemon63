@@ -1,4 +1,4 @@
-export type Season = 1 | 2 | 3 | 4 | 5 | 6 | 7
+export type Season = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
 export type Format = 'single'
 export type Result = 'win' | 'lose'
 import * as Dex from '../analyzer/config/dex'
