@@ -51,7 +51,12 @@ const config: Configuration = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/firebase.ts', '~/plugins/toast.ts', '~/plugins/userRecord.ts'],
+  plugins: [
+    '~/plugins/firebase.ts',
+    '~/plugins/toast.ts',
+    '~/plugins/userRecord.ts',
+    '~/plugins/compositionApi.ts'
+  ],
   /*
    ** Nuxt.js dev-modules
    */
