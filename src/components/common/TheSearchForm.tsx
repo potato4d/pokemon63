@@ -1,5 +1,8 @@
 import * as tsx from 'vue-tsx-support'
 import SearchIcon from '~/assets/images/search.svg'
+import { Pokemon } from '~/types/struct'
+import { dex } from '~/analyzer/config/dex'
+import { toKatakana } from '~/utils/filters/toKatakana'
 
 export const TheSearchForm = tsx.component({
   data() {
@@ -8,17 +11,48 @@ export const TheSearchForm = tsx.component({
       isOpenAnalyzeModal: false,
     }
   },
+  computed: {
+    suggestions(): Pokemon[] {
+      if (!this.search) {
+        return []
+      }
+      const matches = dex
+        .filter(
+          (poke) =>
+            poke.slug.includes(this.search) ||
+            poke.name_eng.includes(this.search) ||
+            poke.name_jpn.includes(this.search) ||
+            poke.name_jpn.includes(toKatakana(this.search))
+        )
+        .reduce((b, a) => {
+          const found = b.find((p) => p.name_jpn === a.name_jpn)
+          return found ? b : [...b, a]
+        }, [] as Pokemon[])
+      if (matches.length > 10) {
+        return []
+      }
+      return matches
+    },
+  },
   render() {
     return (
-      <div class="container mx-auto">
+      <div class={`container mx-auto relative z-30`}>
         <form
           onSubmit={(event: Event) => {
             event.preventDefault()
             this.$router.push(`/search?q=${this.search}`)
           }}
+          style="border-radius: 30px"
+          class={`overflow-hidden mt-15 lg:mt-30 TheHeader__searchBoxContainer absolute left-0 w-full ${
+            this.search
+              ? 'TheHeader__searchBoxContainer-hasSuggestion bg-white'
+              : ''
+          }`}
         >
           <div
-            class="mt-15 lg:mt-30 rounded-full bg-white relative border h-24 lg:h-36 text-xl lg:text-3xl"
+            class={`bg-white relative h-24 lg:h-36 text-xl lg:text-3xl ${
+              this.search ? 'border-b' : 'border rounded-full'
+            }`}
             style={{
               borderColor: '#E5E5E5',
             }}
@@ -26,6 +60,7 @@ export const TheSearchForm = tsx.component({
             <input
               placeholder="ポケモン名で検索"
               type="text"
+              ref="input"
               value={this.search}
               onInput={(event: any) => {
                 this.search = event.target.value
@@ -39,7 +74,35 @@ export const TheSearchForm = tsx.component({
               class="pointer-events-none absolute top-0 right-0 m-4 mr-9 lg:mr-12 lg:m-12"
             />
           </div>
+          {this.search ? (
+            <div class="bg-white outline-none appearance-none block list-reset list-none text-xl lg:text-2xl">
+              {this.suggestions.map((pokemon) => (
+                <li>
+                  <nuxt-link
+                    to={`/search?q=${pokemon.name_jpn}`}
+                    href="#"
+                    nativeOnClick={() => {
+                      this.search = ''
+                    }}
+                    class="px-12 flex items-center py-9 block bg-white text-black hover:bg-blue-600 hover:text-white"
+                  >
+                    <img
+                      src={`/pokemon63/static/images/icons/${pokemon.slug}.png`}
+                      style={{
+                        width: '36px',
+                        height: '30px',
+                        imageRendering: 'pixelated',
+                      }}
+                      class="cursor-pointer object-cover object-center-bottom"
+                    />
+                    <span class="block mt-2">{pokemon.name_jpn}</span>
+                  </nuxt-link>
+                </li>
+              ))}
+            </div>
+          ) : null}
         </form>
+        <div class="w-full" style="height: 110px;"></div>
       </div>
     )
   },
