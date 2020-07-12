@@ -26,6 +26,13 @@ export const dex: Pokemon[] = [
     dex: 3,
     name_eng: 'Venusaur',
     name_jpn: 'フシギバナ',
+    slug: 'venusaur-gmax',
+  },
+  {
+    idx: 3,
+    dex: 3,
+    name_eng: 'Venusaur',
+    name_jpn: 'フシギバナ',
     slug: 'venusaur',
   },
   {
@@ -69,6 +76,13 @@ export const dex: Pokemon[] = [
     name_eng: 'Wartortle',
     name_jpn: 'カメール',
     slug: 'wartortle',
+  },
+  {
+    idx: 9,
+    dex: 9,
+    name_eng: 'Blastoise',
+    name_jpn: 'カメックス',
+    slug: 'blastoise-gmax',
   },
   {
     idx: 9,
@@ -208,6 +222,13 @@ export const dex: Pokemon[] = [
     dex: 25,
     name_eng: 'Pikachu',
     name_jpn: 'ピカチュウ',
+    slug: 'pikachu-world-cap',
+  },
+  {
+    idx: 25,
+    dex: 25,
+    name_eng: 'Pikachu',
+    name_jpn: 'ピカチュウ',
     slug: 'pikachu-unova-cap',
   },
   {
@@ -307,6 +328,13 @@ export const dex: Pokemon[] = [
     name_eng: 'Pikachu',
     name_jpn: 'ピカチュウ',
     slug: 'pikachu-alola-cap',
+  },
+  {
+    idx: 25,
+    dex: 25,
+    name_eng: 'Pikachu',
+    name_jpn: 'ピカチュウ',
+    slug: 'pikachu-female',
   },
   {
     idx: 25,
@@ -818,6 +846,13 @@ export const dex: Pokemon[] = [
     name_eng: 'Slowpoke',
     name_jpn: 'ヤドン',
     slug: 'slowpoke',
+  },
+  {
+    idx: 80,
+    dex: 80,
+    name_eng: 'Slowbro',
+    name_jpn: 'ヤドラン',
+    slug: 'slowbro-galar',
   },
   {
     idx: 80,
@@ -7061,6 +7096,13 @@ export const dex: Pokemon[] = [
     dex: 774,
     name_eng: 'Minior',
     name_jpn: 'メテノ',
+    slug: 'minior-blue-gen7',
+  },
+  {
+    idx: 774,
+    dex: 774,
+    name_eng: 'Minior',
+    name_jpn: 'メテノ',
     slug: 'minior-blue',
   },
   {
@@ -7292,6 +7334,13 @@ export const dex: Pokemon[] = [
     dex: 802,
     name_eng: 'Marshadow',
     name_jpn: 'マーシャドー',
+    slug: 'marshadow-gen7',
+  },
+  {
+    idx: 802,
+    dex: 802,
+    name_eng: 'Marshadow',
+    name_jpn: 'マーシャドー',
     slug: 'marshadow',
   },
   {
@@ -7369,6 +7418,13 @@ export const dex: Pokemon[] = [
     dex: 812,
     name_eng: 'Rillaboom',
     name_jpn: 'ゴリランダー',
+    slug: 'rillaboom-gmax',
+  },
+  {
+    idx: 812,
+    dex: 812,
+    name_eng: 'Rillaboom',
+    name_jpn: 'ゴリランダー',
     slug: 'rillaboom',
   },
   {
@@ -7390,6 +7446,13 @@ export const dex: Pokemon[] = [
     dex: 815,
     name_eng: 'Cinderace',
     name_jpn: 'エースバーン',
+    slug: 'cinderace-gmax',
+  },
+  {
+    idx: 815,
+    dex: 815,
+    name_eng: 'Cinderace',
+    name_jpn: 'エースバーン',
     slug: 'cinderace',
   },
   {
@@ -7405,6 +7468,13 @@ export const dex: Pokemon[] = [
     name_eng: 'Drizzile',
     name_jpn: 'ジメレオン',
     slug: 'drizzile',
+  },
+  {
+    idx: 818,
+    dex: 818,
+    name_eng: 'Inteleon',
+    name_jpn: 'インテレオン',
+    slug: 'inteleon-gmax',
   },
   {
     idx: 818,
@@ -8574,5 +8644,47 @@ export const dex: Pokemon[] = [
     name_eng: 'Eternatus',
     name_jpn: 'ムゲンダイナ',
     slug: 'eternatus',
+  },
+  {
+    idx: 891,
+    dex: 891,
+    name_eng: 'Kubfu',
+    name_jpn: 'ダクマ',
+    slug: 'kubfu',
+  },
+  {
+    idx: 892,
+    dex: 892,
+    name_eng: 'Urshifu',
+    name_jpn: 'ウーラオス',
+    slug: 'urshifu-rapid-strike-gmax',
+  },
+  {
+    idx: 892,
+    dex: 892,
+    name_eng: 'Urshifu',
+    name_jpn: 'ウーラオス',
+    slug: 'urshifu-gmax',
+  },
+  {
+    idx: 892,
+    dex: 892,
+    name_eng: 'Urshifu',
+    name_jpn: 'ウーラオス',
+    slug: 'urshifu',
+  },
+  {
+    idx: 893,
+    dex: 893,
+    name_eng: 'Zarude',
+    name_jpn: 'ザルード',
+    slug: 'zarude-dada',
+  },
+  {
+    idx: 893,
+    dex: 893,
+    name_eng: 'Zarude',
+    name_jpn: 'ザルード',
+    slug: 'zarude',
   },
 ]
