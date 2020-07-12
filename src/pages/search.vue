@@ -42,11 +42,11 @@ export default Vue.extend({
     const [myPokemonList, oppoentPokemonList] = await Promise.all([
       app.$firestore
         .collectionGroup('myParty')
-        .where('name', '==', `${query.q || ''}`)
+        .where('name_jpn', '==', `${query.q || ''}`)
         .get(),
       app.$firestore
         .collectionGroup('opponentParty')
-        .where('name', '==', `${query.q || ''}`)
+        .where('name_jpn', '==', `${query.q || ''}`)
         .get(),
     ])
     const pokemonList = [...myPokemonList.docs, ...oppoentPokemonList.docs]
@@ -66,7 +66,9 @@ export default Vue.extend({
       battleRecords.push(listItem)
     })
     return {
-      battleRecords,
+      battleRecords: battleRecords.sort((a, b) =>
+        a.season > b.season ? -1 : 1
+      ),
     }
   },
   methods: {
@@ -75,11 +77,11 @@ export default Vue.extend({
       const [myPokemonList, oppoentPokemonList] = await Promise.all([
         this.$firestore
           .collectionGroup('myParty')
-          .where('name', '==', `${this.$route.query.q || ''}`)
+          .where('name_jpn', '==', `${this.$route.query.q || ''}`)
           .get(),
         this.$firestore
           .collectionGroup('opponentParty')
-          .where('name', '==', `${this.$route.query.q || ''}`)
+          .where('name_jpn', '==', `${this.$route.query.q || ''}`)
           .get(),
       ])
       const pokemonList = [...myPokemonList.docs, ...oppoentPokemonList.docs]
@@ -98,7 +100,9 @@ export default Vue.extend({
         addedIdList.push(listItem.id!)
         battleRecords.push(listItem)
       })
-      this.battleRecords = battleRecords
+      this.battleRecords = battleRecords.sort((a, b) =>
+        a.season > b.season ? -1 : 1
+      )
     },
   },
   watch: {

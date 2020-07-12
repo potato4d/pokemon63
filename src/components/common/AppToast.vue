@@ -17,7 +17,7 @@ export default defineComponent({
       await delay(3500)
       root.$toast.hide()
     })
-  }
+  },
 })
 </script>
 

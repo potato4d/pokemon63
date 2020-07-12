@@ -83,11 +83,17 @@ button {
   z-index: 5;
 }
 
+.TheHeader__searchBoxContainer,
 .TheHeader__searchBox {
   transition: box-shadow 0.15s ease-out;
 }
 
+.TheHeader__searchBoxContainer-hasSuggestion,
 .TheHeader__searchBox:focus {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.TheHeader__searchBoxContainer-hasSuggestion .TheHeader__searchBox:focus {
+  box-shadow: initial;
 }
 </style>

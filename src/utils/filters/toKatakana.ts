@@ -222,7 +222,10 @@ export function toKatakana(roman: string) {
       hiragana += roman[i]
     }
   }
-  return hiragana.replace(/[ぁ-ん]/g, (s) => {
-    return String.fromCharCode(s.charCodeAt(0) + 0x60)
-  })
+  return hiragana
+    .replace(/-/g, 'ー')
+    .replace('n', 'ン')
+    .replace(/[ぁ-ん]/g, (s) => {
+      return String.fromCharCode(s.charCodeAt(0) + 0x60)
+    })
 }
