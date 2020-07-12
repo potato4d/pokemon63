@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.1.0](https://github.com/potato4d/pokemon63/compare/v1.0.0...v1.1.0) (2020-07-12)
 
+### Features
+
+* Support SW/SH DLC vol.1 ([d12c200](https://github.com/potato4d/pokemon63/commit/d12c20027796264c92eaf3f509ba557b2a7df39a))
+
+## [1.0.0](https://github.com/potato4d/pokemon63/releases/tag/v1.0.0)
 
 ### Features
 
@@ -30,4 +35,3 @@ All notable changes to this project will be documented in this file. See [standa
 * Show Twitter account on user page ([45da936](https://github.com/potato4d/pokemon63/commit/45da93680dba4edf7db0c0b64cc1222d65c81aac))
 * Support DLC v1 ([76052b0](https://github.com/potato4d/pokemon63/commit/76052b094c84fa0faf9ae68eedd9c3a713d8028e))
 * Support drag and drop on AnalyzerModal([#27](https://github.com/potato4d/pokemon63/issues/27)) ([b857a62](https://github.com/potato4d/pokemon63/commit/b857a62a81dd15f0002f70caa4bb6327eee59154))
-* Support SW/SH DLC vol.1 ([d12c200](https://github.com/potato4d/pokemon63/commit/d12c20027796264c92eaf3f509ba557b2a7df39a))
