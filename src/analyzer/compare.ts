@@ -3,7 +3,7 @@ import { dex, Pokemon } from './config/dex'
 const CompareWorker = require('./compare.worker.ts')
 const ImagePHash = require('@jimp/core/es/modules/phash')
 
-type Result = { slug: string; distance: number }
+type Result = { width: number; height: number; slug: string; distance: number }
 
 const CHUNKS = 8
 const PROCESS_PER_CHUNK = 155
@@ -49,9 +49,35 @@ async function check(croppedSS: Jimp): Promise<Pokemon> {
     })
   )
 
-  let r = results.reduce((a, b) => {
-    return a.distance < b.distance ? a : b
-  }, results[0])
+  let rs = results.sort((a, b) => {
+    return a.distance < b.distance ? -1 : 1
+  })
+  const [first, second, third] = rs
+  const r = [first, second, third].reduce((a, b) => {
+    if (a === null) return b
+    const originalRatio = width / height
+    const beforeRatio = a.width / a.height
+    const afterRatio = b.width / b.height
+
+    // そもそも類似度の差が大きい場合は SKIP
+    if (a.distance * 2 < b.distance) {
+      return a
+    }
+
+    // 類似度の差が小さい場合、アスペクト比を考慮する
+    return Math.abs(originalRatio - beforeRatio) >
+      Math.abs(originalRatio - afterRatio)
+      ? b
+      : a
+  }, null)
+  debug(r)
+  debug('Original ratio: ' + width / height)
+  debug(`Suggestion:
+  1. ${first.slug} / ${first.distance} / ratio: ${first.width / rs[0].height}
+  2. ${second.slug} / ${second.distance} / ratio: ${second.width / rs[1].height}
+  3. ${third.slug} / ${third.distance} / ratio: ${third.width / rs[2].height}
+`)
+  debug('-----')
 
   debug(r.distance)
   const endAt = new Date()
