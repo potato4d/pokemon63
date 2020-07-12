@@ -6,38 +6,97 @@ const config: Configuration = {
   mode: 'universal',
   server: {
     host: '0.0.0.0',
-    port: ~~(process.env.PORT) || 3000,
-    timing: false
+    port: ~~process.env.PORT || 3000,
+    timing: false,
   },
   /*
    ** Headers of the page
    */
   head: {
-    title: 'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト',
+    title:
+      'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト',
     htmlAttrs: {
-      lang: 'ja'
+      lang: 'ja',
     },
     meta: [
       { charset: 'utf-8' },
-      { name: 'description', hid: 'description', content: 'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。' },
+      {
+        name: 'description',
+        hid: 'description',
+        content:
+          'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
+      },
       { name: 'viewport', hid: 'viewport', content: 'width=device-width' },
       { property: 'og:locale', hid: 'og:locale', content: 'ja_JP' },
       { property: 'og:type', hid: 'og:type', content: 'website' },
-      { property: 'og:title', hid: 'og:title', content: 'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト' },
-      { property: 'og:description', hid: 'og:description', content: 'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。' },
-      { property: 'og:site_name', hid: 'og:site_name', content: 'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト' },
-      { name: 'twitter:card', hid: 'twitter:card', content: 'summary_large_image' },
-      { property: 'og:url', hid: 'og:url', content: 'https://pokedri.com/pokemon63/' },
-      { property: 'og:image', hid: 'og:image', content: 'https://pokedri.com/pokemon63/static/images/opengraph.png' },
-      { property: 'og:image:secure_url', hid: 'og:image:secure_url', content: 'https://pokedri.com/pokemon63/static/images/opengraph.png' },
-      { name: 'twitter:description', hid: 'twitter:description', content: 'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。' },
-      { name: 'twitter:title', hid: 'twitter:title', content: 'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト' },
-      { name: 'twitter:image', hid: 'twitter:image', content: 'https://pokedri.com/pokemon63/static/images/opengraph.png' },
+      {
+        property: 'og:title',
+        hid: 'og:title',
+        content:
+          'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト',
+      },
+      {
+        property: 'og:description',
+        hid: 'og:description',
+        content:
+          'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
+      },
+      {
+        property: 'og:site_name',
+        hid: 'og:site_name',
+        content:
+          'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト',
+      },
+      {
+        name: 'twitter:card',
+        hid: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        property: 'og:url',
+        hid: 'og:url',
+        content: 'https://pokedri.com/pokemon63/',
+      },
+      {
+        property: 'og:image',
+        hid: 'og:image',
+        content: 'https://pokedri.com/pokemon63/static/images/opengraph.png',
+      },
+      {
+        property: 'og:image:secure_url',
+        hid: 'og:image:secure_url',
+        content: 'https://pokedri.com/pokemon63/static/images/opengraph.png',
+      },
+      {
+        name: 'twitter:description',
+        hid: 'twitter:description',
+        content:
+          'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
+      },
+      {
+        name: 'twitter:title',
+        hid: 'twitter:title',
+        content:
+          'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト',
+      },
+      {
+        name: 'twitter:image',
+        hid: 'twitter:image',
+        content: 'https://pokedri.com/pokemon63/static/images/opengraph.png',
+      },
     ],
     link: [
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap' },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap',
+      },
       { rel: 'icon', type: 'image/png', href: '/pokemon63/static/favicon.png' },
-      { rel: 'apple-touch-icon', type: 'image/png', href: '/pokemon63/static/apple-touch-icon.png' }
+      {
+        rel: 'apple-touch-icon',
+        type: 'image/png',
+        href: '/pokemon63/static/apple-touch-icon.png',
+      },
     ],
   },
   /*
@@ -55,7 +114,7 @@ const config: Configuration = {
     '~/plugins/firebase.ts',
     '~/plugins/toast.ts',
     '~/plugins/userRecord.ts',
-    '~/plugins/compositionApi.ts'
+    '~/plugins/compositionApi.ts',
   ],
   /*
    ** Nuxt.js dev-modules
@@ -64,24 +123,20 @@ const config: Configuration = {
     '@nuxtjs/dotenv',
     '@nuxt/typescript-build',
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
     // 'nuxt-purgecss',
   ],
   components: [
-   {
-     path: '~/components/common',
-     prefix: '',
-     extensions: ['vue', 'tsx']
-   }
+    {
+      path: '~/components/common',
+      prefix: '',
+      extensions: ['vue', 'tsx'],
+    },
   ],
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    'portal-vue/nuxt',
-    '@nuxtjs/dayjs',
-    'nuxt-basic-auth-module'
-  ],
+  modules: ['portal-vue/nuxt', '@nuxtjs/dayjs', 'nuxt-basic-auth-module'],
   /*
    ** Build configuration
    */
@@ -93,20 +148,28 @@ const config: Configuration = {
       'components/**/*.tsx',
       'layouts/**/*.vue',
       'pages/**/*.vue',
-      'plugins/**/*.ts'
+      'plugins/**/*.ts',
     ],
-    whitelist: ['body', 'html', 'vue-portal-target', '.vue-portal-target', 'nuxt-progress', '.nuxt-progress', 'nuxt-link-active'],
+    whitelist: [
+      'body',
+      'html',
+      'vue-portal-target',
+      '.vue-portal-target',
+      'nuxt-progress',
+      '.nuxt-progress',
+      'nuxt-link-active',
+    ],
     whitelistPatterns: [/mb-.+/],
     extractors: [
       {
         extractor: (content: string) => content.match(/[A-z0-9-:\\/]+/g) || [],
-        extensions: ['vue', 'js', 'tsx', 'ts']
-      }
-    ]
+        extensions: ['vue', 'js', 'tsx', 'ts'],
+      },
+    ],
   },
   build: {
     terser: {
-      extractComments: false
+      extractComments: false,
     },
     extend: ({ module, output }, { isClient }) => {
       output.globalObject = 'this'
@@ -142,11 +205,11 @@ const config: Configuration = {
     FIREBASE_STORAGE_BUCKET: process.env.FIREBASE_STORAGE_BUCKET!,
     FIREBASE_MESSAGING_SENDER_ID: process.env.FIREBASE_MESSAGING_SENDER_ID!,
     FIREBASE_APP_ID: process.env.FIREBASE_APP_ID!,
-    FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID || ''
+    FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID || '',
   },
   router: {
-    base: '/pokemon63/'
-  }
+    base: '/pokemon63/',
+  },
 }
 
 export default config
