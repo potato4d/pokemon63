@@ -20,7 +20,7 @@ export const TheHeader = tsx.component({
   },
   render() {
     return (
-      <header class="container mx-auto">
+      <header class="container mx-auto z-50">
         <div
           class="flex justify-between items-center pt-6"
           style="height: 40px"
