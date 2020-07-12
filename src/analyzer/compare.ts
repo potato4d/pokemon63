@@ -6,7 +6,7 @@ const ImagePHash = require('@jimp/core/es/modules/phash')
 type Result = { slug: string; distance: number }
 
 const CHUNKS = 8
-const PROCESS_PER_CHUNK = 153
+const PROCESS_PER_CHUNK = 155
 const FOREACH_BASE = new Array(CHUNKS).fill(0)
 const workers: Worker[] = []
 

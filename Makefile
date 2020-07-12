@@ -23,3 +23,18 @@ deploy:
 	yarn firebase deploy
 	rm .env
 	cp .env.sample .env
+
+create-data:
+	yarn ts-node ./.cli/__001_flatten_images.ts
+	sleep 60
+	yarn ts-node ./.cli/__002_addframe.ts
+	sleep 30
+	yarn ts-node ./.cli/__004_autocrop.ts
+	sleep 30
+	yarn ts-node ./.cli/dex/__001_diet.ts
+	sleep 5
+	yarn ts-node ./.cli/dex/__002_flatten_dex.ts
+	sleep 5
+	yarn ts-node ./.cli/dex/__003_phash.ts
+	sleep 5
+	yarn ts-node ./.cli/dex/__004_dexgen.ts
