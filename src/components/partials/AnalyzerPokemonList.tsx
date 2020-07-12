@@ -21,7 +21,7 @@ const PokemonFixPopUp = tsx.component({
   render() {
     return (
       <div
-        class="bg-white absolute border"
+        class="bg-white absolute border z-50"
         style={{
           width: '260px',
           height: '350px',
