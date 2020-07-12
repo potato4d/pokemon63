@@ -95,7 +95,7 @@ const config: Configuration = {
       'pages/**/*.vue',
       'plugins/**/*.ts'
     ],
-    whitelist: ['body', 'html', 'nuxt-progress', '.nuxt-progress', 'nuxt-link-active'],
+    whitelist: ['body', 'html', 'vue-portal-target', '.vue-portal-target', 'nuxt-progress', '.nuxt-progress', 'nuxt-link-active'],
     whitelistPatterns: [/mb-.+/],
     extractors: [
       {
