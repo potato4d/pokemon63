@@ -1,7 +1,7 @@
 import hashList from './config/v2_hash'
 const ImagePHash = require('@jimp/core/es/modules/phash')
 
-type Result = { slug: string; distance: number }
+type Result = { width: number; height: number; slug: string; distance: number }
 
 type Message = {
   start: number
@@ -32,6 +32,8 @@ self.onmessage = async (message: MessageEvent) => {
         async (item, i): Promise<Result | null> => {
           return {
             slug: item.slug,
+            width: item.w,
+            height: item.h,
             distance: pHash.distance(currentHash, item.hash),
           }
         }
