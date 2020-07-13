@@ -46,7 +46,6 @@ export default Vue.extend({
   head() {
     return {
       link: [{ rel: 'canonical', href: 'https://pokedri.com/pokemon63/' }],
-      meta: [{ name: 'viewport', hid: 'viewport', content: 'width=1024' }],
     }
   },
   data(): LocalData {
