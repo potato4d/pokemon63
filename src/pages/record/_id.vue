@@ -302,20 +302,63 @@ const getOpenGraphUrl = (path: string) =>
   `https://storage.googleapis.com/pokedri-minnnano63.appspot.com/${path}`
 
 export default Vue.extend({
-  head() {
+  head(): any {
     const record = this.record as BattleRecord
+    const url = 'https://pokedri.com/pokemon63/record/' + this.$route.params.id
+    const description =
+      'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。'
     const title = `S${record.season} ${
       record.rank ? `/ ${record.rank} 位` : ''
     } シングルバトルの試合 | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
     const imageUrl = getOpenGraphUrl('opengraph%2F' + this.$route.params.id)
+    const createdAt =
+      record.createdAt instanceof Date ? record.createdAt : record.createdAt
     return {
       title,
+      __dangerouslyDisableSanitizers: ['script'],
+      script: [
+        {
+          hid: 'jsonld',
+          type: 'application/ld+json',
+          innerHTML: JSON.stringify(
+            {
+              '@context': 'https://schema.org',
+              '@type': 'Article',
+              headline: title,
+              description,
+              url,
+              mainEntityOfPage: {
+                '@type': 'WebPage',
+                '@id': url,
+              },
+              image: [imageUrl],
+              author: {
+                '@type': 'Person',
+                name: this.user.displayName,
+                url: `https://pokedri.com/pokemon63/u/${this.user.id}`,
+              },
+              publisher: {
+                '@type': 'Organization',
+                name: 'みんなの63 powered by Pokemon Driven',
+                url: 'https://pokedri.com/pokemon63/',
+                logo: {
+                  '@type': 'ImageObject',
+                  url: 'https://pokedri.com/pokemon63/favicon.png',
+                },
+              },
+              datePublished: createdAt,
+              dateModified: createdAt,
+            },
+            null,
+            2
+          ),
+        },
+      ],
       meta: [
         {
           name: 'description',
           hid: 'description',
-          content:
-            'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
+          content: description,
         },
         { name: 'viewport', hid: 'viewport', content: 'width=device-width' },
         { property: 'og:locale', hid: 'og:locale', content: 'ja_JP' },
@@ -336,8 +379,7 @@ export default Vue.extend({
         {
           property: 'og:url',
           hid: 'og:url',
-          content:
-            'https://pokedri.com/pokemon63/record/' + this.$route.params.id,
+          content: url,
         },
         { property: 'og:image', hid: 'og:image', content: imageUrl },
         {
@@ -357,8 +399,7 @@ export default Vue.extend({
       link: [
         {
           rel: 'canonical',
-          href:
-            'https://pokedri.com/pokemon63/records/' + this.$route.params.id,
+          href: url,
         },
       ],
     }
@@ -375,7 +416,7 @@ export default Vue.extend({
       record: null,
     }
   },
-  async asyncData({ app, params, error }) {
+  async asyncData({ app, params, error, $userRecord }) {
     const recordRef = app.$firestore.collection('battlerecords').doc(params.id)
     const [doc, myPartySnapshot, opponentPartySnapshot] = await Promise.all([
       recordRef.get(),
@@ -396,14 +437,13 @@ export default Vue.extend({
     const opponentParty = opponentPartySnapshot.docs.map((d) =>
       toPokemonDocument(d)
     )
+    const user = await $userRecord.get({ id: record!.userId })
     return {
+      user,
       record,
       myParty,
       opponentParty,
     }
-  },
-  async mounted() {
-    this.user = await this.$userRecord.get({ id: this.record!.userId })
   },
   computed: {
     createdDate(): string | null {
