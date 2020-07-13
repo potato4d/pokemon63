@@ -11,8 +11,8 @@ build:
 	yarn build
 
 ssr:
-	gcloud builds submit --tag gcr.io/pokedri-minnnano63/web:1.0.0
-	gcloud beta run deploy --image gcr.io/pokedri-minnnano63/web:1.0.0
+	gcloud builds submit --tag gcr.io/pokedri-minnnano63/web:1.2.0
+	gcloud beta run deploy --image gcr.io/pokedri-minnnano63/web:1.2.0
 
 deploy:
 	rm .env
