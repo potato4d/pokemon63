@@ -12,6 +12,9 @@ export const TheSearchForm = tsx.component({
     }
   },
   computed: {
+    inputElement() {
+      return (this.$refs.input as any) as HTMLInputElement | null
+    },
     suggestions(): Pokemon[] {
       if (!this.search) {
         return []
@@ -61,7 +64,24 @@ export const TheSearchForm = tsx.component({
               placeholder="ポケモン名で検索"
               type="text"
               ref="input"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellCheck="false"
               value={this.search}
+              onKeydown={(event: KeyboardEvent) => {
+                if (event.keyCode === 40) {
+                  event.preventDefault()
+                  const a: HTMLAnchorElement = this.$el.querySelector(
+                    '.suggestions a'
+                  )
+                  if (a) {
+                    ;(event.target as HTMLInputElement).blur()
+                    console.log(a)
+                    a.focus()
+                  }
+                }
+              }}
               onInput={(event: any) => {
                 this.search = event.target.value
               }}
@@ -75,16 +95,55 @@ export const TheSearchForm = tsx.component({
             />
           </div>
           {this.search ? (
-            <div class="bg-white outline-none appearance-none block list-reset list-none text-xl lg:text-2xl">
+            <ul
+              ref="suggestions"
+              class="suggestions bg-white outline-none appearance-none block list-reset list-none text-xl lg:text-2xl"
+            >
               {this.suggestions.map((pokemon) => (
                 <li>
                   <nuxt-link
                     to={`/search?q=${pokemon.name_jpn}`}
-                    href="#"
+                    nativeOnKeydown={(event: KeyboardEvent) => {
+                      const target = (event.target as HTMLAnchorElement)
+                        .parentElement as HTMLElement
+                      const anchorNize = (
+                        el: Element
+                      ): HTMLAnchorElement | null =>
+                        (el as any) as HTMLAnchorElement | null
+
+                      if (event.keyCode === 38) {
+                        event.preventDefault()
+                        const sibling: HTMLAnchorElement = anchorNize(
+                          target.previousElementSibling
+                        )
+                        if (sibling) {
+                          const anchor = anchorNize(sibling.querySelector('a'))
+                          if (anchor) {
+                            anchor.focus()
+                          }
+                        } else {
+                          if (this.inputElement) {
+                            this.inputElement.focus()
+                          }
+                        }
+                      }
+                      if (event.keyCode === 40) {
+                        event.preventDefault()
+                        const sibling: HTMLAnchorElement = anchorNize(
+                          target.nextElementSibling
+                        )
+                        if (sibling) {
+                          const anchor = anchorNize(sibling.querySelector('a'))
+                          if (anchor) {
+                            anchor.focus()
+                          }
+                        }
+                      }
+                    }}
                     nativeOnClick={() => {
                       this.search = ''
                     }}
-                    class="px-12 flex items-center py-9 block bg-white text-black hover:bg-blue-600 hover:text-white"
+                    class="px-12 flex items-center py-9 block bg-white text-black hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white"
                   >
                     <img
                       src={`/pokemon63/static/images/icons/${pokemon.slug}.png`}
@@ -99,7 +158,7 @@ export const TheSearchForm = tsx.component({
                   </nuxt-link>
                 </li>
               ))}
-            </div>
+            </ul>
           ) : null}
         </form>
         <div class="w-full" style="height: 110px;"></div>
