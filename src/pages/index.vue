@@ -108,7 +108,7 @@ export default Vue.extend({
   grid-template-columns: repeat(4, 220px);
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 980px) {
   .HomeGrid {
     grid-template-columns: repeat(3, 220px);
   }
