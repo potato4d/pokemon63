@@ -5,26 +5,26 @@
       v-if="user"
       class="relative z-20 mx-auto"
       :style="{
-        width: '480px',
+        width: '320px',
         maxWidth: 'calc(100% - 20px)',
       }"
     >
       <div
-        class="ModalContent mx-auto my-18 w-full p-9 bg-white rounded overflow-hidden"
+        class="ModalContent mx-auto my-18 mt-24 w-full p-9 bg-white rounded overflow-hidden"
       >
+        <div class="py-9 pb-18 text-center flex items-center justify-center">
+          <img
+            :src="formMeta.photoUrl"
+            :style="{
+              width: '128px',
+              height: '128px',
+            }"
+            alt=""
+            class="rounded-full overflow-hidden"
+          />
+        </div>
         <div class="flex">
-          <div class="py-9">
-            <img
-              :src="formMeta.photoUrl"
-              :style="{
-                width: '64px',
-                height: '64px',
-              }"
-              alt=""
-              class="rounded-full overflow-hidden"
-            />
-          </div>
-          <div class="flex-1 pl-9">
+          <div class="flex-1">
             <input
               class="input"
               type="text"
@@ -50,7 +50,7 @@
                 >
               </label>
             </div>
-            <div class="flex justify-end mt-9">
+            <div class="flex justify-center mt-9">
               <button
                 :style="{
                   width: '90px',
@@ -209,7 +209,8 @@ select,
 }
 
 .ModalContent {
-  animation: slideIn 0.3s ease-out forwards;
+  filter: blur(2px);
+  animation: slideIn 0.2s ease-out forwards, blurIn 0.2s ease-out forwards;
 }
 
 @keyframes slideIn {
@@ -220,6 +221,15 @@ select,
   100% {
     transform: translateY(0px);
     opacity: 1;
+  }
+}
+
+@keyframes blurIn {
+  0% {
+    filter: blur(2px);
+  }
+  100% {
+    filter: blur(0px);
   }
 }
 
