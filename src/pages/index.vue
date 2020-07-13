@@ -107,4 +107,28 @@ export default Vue.extend({
 .HomeGrid {
   grid-template-columns: repeat(4, 220px);
 }
+
+@media (max-width: 1023px) {
+  .HomeGrid {
+    grid-template-columns: repeat(3, 220px);
+  }
+}
+
+@media (max-width: 767px) {
+  .HomeGrid {
+    grid-template-columns: repeat(2, 220px);
+  }
+}
+
+@media (max-width: 640px) {
+  .HomeGrid {
+    margin-top: 30px;
+    grid-template-columns: repeat(1, 100%);
+  }
+  .HomeGrid .HomeListItem {
+    transform: scale(1.2);
+    margin-bottom: 60px;
+    margin-left: calc(50vw - 120px);
+  }
+}
 </style>
