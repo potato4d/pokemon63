@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/potato4d/pokemon63/compare/v1.2.0...v1.2.1) (2020-07-13)
+
+
+### Features
+
+* Mobile HOME ([be12be9](https://github.com/potato4d/pokemon63/commit/be12be9b4c2dc47ebaeb7dfc121381c2b07b42c9))
+* Support JSON-LD on battlerecord page ([8ad3bd9](https://github.com/potato4d/pokemon63/commit/8ad3bd9f99bf58469bb998b68f25a91e5c207c81))
+
 ## [1.2.0](https://github.com/potato4d/pokemon63/compare/v1.1.0...v1.2.0) (2020-07-13)
 
 
