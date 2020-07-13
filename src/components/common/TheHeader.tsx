@@ -127,10 +127,11 @@ export const TheHeader = tsx.component({
             <nuxt-link to="/">
               <img
                 src={Logo}
-                class="mx-auto my-18 lg:my-auto w-2/3 lg:w-auto h-auto"
+                class="mx-auto my-0 lg:my-auto w-2/3 lg:w-auto h-auto"
                 alt="みんなの63 ソード・シールド"
+                style="max-width: 384px;"
                 width="384"
-                height="257.33"
+                height="340.98"
               />
             </nuxt-link>
           </h1>
