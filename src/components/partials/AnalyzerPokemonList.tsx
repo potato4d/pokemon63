@@ -1,8 +1,6 @@
-import Vue, { CreateElement, VNode } from 'vue'
 import * as tsx from 'vue-tsx-support'
 import { Pokemon, dex } from '~/analyzer/config/dex'
 import EditIcon from '~/assets/images/edit.svg'
-import { SKIP_INDEX } from '~/analyzer/config/constants'
 import { toKatakana } from '~/utils/filters/toKatakana'
 
 const PokemonFixPopUp = tsx.component({
@@ -10,7 +8,11 @@ const PokemonFixPopUp = tsx.component({
     return {
       search: '',
       dex: dex.filter((poke) => {
-        return !(SKIP_INDEX as any)[poke.slug]
+        return (
+          !poke.slug.includes('gmax') &&
+          !poke.slug.includes('eternamax') &&
+          !poke.slug.includes('silvally-')
+        )
       }),
     }
   },
