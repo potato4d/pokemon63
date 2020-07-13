@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/potato4d/pokemon63/compare/v1.1.0...v1.2.0) (2020-07-13)
+
+
+### Features
+
+* Ignore gmax/eternamax in fixpopup ([dee4144](https://github.com/potato4d/pokemon63/commit/dee4144cafe7506a1fdf387bcfdc3fff5f23fa15))
+* Implement aspect ratio-based recognition logic ([6f8ff34](https://github.com/potato4d/pokemon63/commit/6f8ff348be061ef99162e3124157a42b43c25e06))
+* Implement keyboard control in search ([a94ac04](https://github.com/potato4d/pokemon63/commit/a94ac04e188a969a8b77f6c45c5736022523b5e9))
+
 ## [1.1.0](https://github.com/potato4d/pokemon63/compare/v1.0.0...v1.1.0) (2020-07-12)
 
 ### Features
