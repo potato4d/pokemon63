@@ -111,6 +111,7 @@ const config: Configuration = {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/json-ld.ts',
     '~/plugins/firebase.ts',
     '~/plugins/toast.ts',
     '~/plugins/userRecord.ts',

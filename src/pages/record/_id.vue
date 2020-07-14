@@ -291,7 +291,7 @@ import {
 import xss from 'xss'
 
 type LocalData = {
-  user: User | null
+  user: User
   mode: string
   record: BattleRecord | null
   myParty: Pokemon[]
@@ -304,56 +304,15 @@ const getOpenGraphUrl = (path: string) =>
 export default Vue.extend({
   head(): any {
     const record = this.record as BattleRecord
-    const url = 'https://pokedri.com/pokemon63/record/' + this.$route.params.id
+    const url = this.pageUrl
     const description =
       'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。'
-    const title = `S${record.season} ${
-      record.rank ? `/ ${record.rank} 位` : ''
-    } シングルバトルの試合 | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
+    const title = `${this.pageTitle} | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
     const imageUrl = getOpenGraphUrl('opengraph%2F' + this.$route.params.id)
     const createdAt =
       record.createdAt instanceof Date ? record.createdAt : record.createdAt
     return {
       title,
-      __dangerouslyDisableSanitizers: ['script'],
-      script: [
-        {
-          hid: 'jsonld',
-          type: 'application/ld+json',
-          innerHTML: JSON.stringify(
-            {
-              '@context': 'https://schema.org',
-              '@type': 'Article',
-              headline: title,
-              description,
-              url,
-              mainEntityOfPage: {
-                '@type': 'WebPage',
-                '@id': url,
-              },
-              image: [imageUrl],
-              author: {
-                '@type': 'Person',
-                name: this.user.displayName,
-                url: `https://pokedri.com/pokemon63/u/${this.user.id}`,
-              },
-              publisher: {
-                '@type': 'Organization',
-                name: 'みんなの63 powered by Pokemon Driven',
-                url: 'https://pokedri.com/pokemon63/',
-                logo: {
-                  '@type': 'ImageObject',
-                  url: 'https://pokedri.com/pokemon63/favicon.png',
-                },
-              },
-              datePublished: createdAt,
-              dateModified: createdAt,
-            },
-            null,
-            2
-          ),
-        },
-      ],
       meta: [
         {
           name: 'description',
@@ -411,10 +370,66 @@ export default Vue.extend({
   },
   data(): Partial<LocalData> {
     return {
-      user: null,
       mode: 'result',
       record: null,
     }
+  },
+  jsonld(): object[] {
+    const record = this.record as BattleRecord
+    const url = this.pageUrl
+    const description =
+      'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。'
+    const title = `${this.pageTitle} | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
+    const imageUrl = getOpenGraphUrl('opengraph%2F' + this.$route.params.id)
+    const createdAt = record.createdAt
+    return [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: title,
+        description,
+        url,
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': url,
+        },
+        image: [imageUrl],
+        author: {
+          '@type': 'Person',
+          name: this.user!.displayName,
+          url: `https://pokedri.com/pokemon63/u/${this.user!.id}`,
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'みんなの63 powered by Pokemon Driven',
+          url: 'https://pokedri.com/pokemon63/',
+          logo: {
+            '@type': 'ImageObject',
+            url: 'https://pokedri.com/pokemon63/favicon.png',
+          },
+        },
+        datePublished: createdAt,
+        dateModified: createdAt,
+      },
+      {
+        '@context': 'http://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'トップページ',
+            item: 'https://pokedri.com/pokemon63/',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: this.pageTitle,
+            item: this.pageUrl,
+          },
+        ],
+      },
+    ]
   },
   async asyncData({ app, params, error, $userRecord }) {
     const recordRef = app.$firestore.collection('battlerecords').doc(params.id)
@@ -446,6 +461,15 @@ export default Vue.extend({
     }
   },
   computed: {
+    pageTitle(): string {
+      const record = this.record as BattleRecord
+      return `S${record.season} ${
+        record.rank ? `/ ${record.rank} 位` : ''
+      } シングルバトルの試合`
+    },
+    pageUrl(): string {
+      return `https://pokedri.com/pokemon63/record/${this.$route.params.id}`
+    },
     createdDate(): string | null {
       if (!this.record) {
         return null
