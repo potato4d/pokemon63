@@ -4,7 +4,7 @@
       <AppHeading>
         S{{ record.season }}
         <template v-if="record.rank">/ {{ record.rank }} 位</template>
-        シングルバトルの試合
+        シングルバトルの選出ログ
       </AppHeading>
     </header>
     <div class="pt-18 pb-18 flex flex-wrap justify-between items-start">
@@ -465,7 +465,7 @@ export default Vue.extend({
       const record = this.record as BattleRecord
       return `S${record.season} ${
         record.rank ? `/ ${record.rank} 位` : ''
-      } シングルバトルの試合`
+      } シングルバトルの選出ログ`
     },
     pageUrl(): string {
       return `https://pokedri.com/pokemon63/record/${this.$route.params.id}`
@@ -486,7 +486,7 @@ export default Vue.extend({
       return encodeURIComponent(
         `S${this.record!.season} ${
           this.record!.rank ? `/ ${this.record!.rank} 位` : ''
-        } シングルバトルの試合 | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
+        } シングルバトルの選出ログ | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
       )
     },
     currentUrl(): string {
