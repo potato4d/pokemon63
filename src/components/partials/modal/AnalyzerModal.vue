@@ -218,17 +218,28 @@
               </label>
             </p>
             <div class="flex flex-1 pt-5 items-center justify-center">
-              <button
-                :style="{
-                  width: '104px',
-                  height: '36px',
-                  fontSize: '13px',
-                }"
-                :disabled="disabled"
-                class="btn-primary hover:opacity-75"
-              >
-                取り込む
-              </button>
+              <template v-if="isProcessing">
+                <div class="relative w-full" style="height: 30px;">
+                  <div
+                    class="absolute left-0 top-0 w-full flex items-center justify-center"
+                  >
+                    <AppSpinner />
+                  </div>
+                </div>
+              </template>
+              <template v-if="!isProcessing">
+                <button
+                  :style="{
+                    width: '104px',
+                    height: '36px',
+                    fontSize: '13px',
+                  }"
+                  :disabled="disabled"
+                  class="btn-primary hover:opacity-75"
+                >
+                  取り込む
+                </button>
+              </template>
             </div>
           </div>
         </div>
