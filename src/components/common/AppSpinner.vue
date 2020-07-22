@@ -23,6 +23,7 @@
   display: inline-block;
   border: solid 1px;
   position: relative;
+  border-radius: 50%;
 }
 .ball-container .ball-main {
   width: 60px;

@@ -12,7 +12,7 @@ build:
 
 ssr:
 	gcloud builds submit --tag gcr.io/pokedri-minnnano63/web:1.2.0
-	gcloud beta run deploy --image gcr.io/pokedri-minnnano63/web:1.2.0
+	gcloud beta run deploy web --image gcr.io/pokedri-minnnano63/web:1.2.0 --region asia-northeast1 --platform managed --quiet
 
 deploy:
 	rm .env
