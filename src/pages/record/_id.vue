@@ -2,8 +2,8 @@
   <section class="container">
     <header class="pt-21">
       <AppHeading>
-        S{{ record.season }}
-        <template v-if="record.rank">/ {{ record.rank }} 位</template>
+        {{ season }}
+        {{ rank }}
         シングルバトルの選出ログ
       </AppHeading>
     </header>
@@ -182,8 +182,12 @@
                 v-if="record.rank"
               >
                 <dl class="flex items-center">
-                  <dt class="w-48">自分の順位</dt>
-                  <dd>{{ record.rank }}位台</dd>
+                  <dt class="w-48">
+                    自分の{{ record.season == 8.5 ? 'レート' : '順位' }}
+                  </dt>
+                  <dd>
+                    {{ record.rank }}{{ record.season != 8.5 ? '位' : '' }}台
+                  </dd>
                 </dl>
               </li>
               <li
@@ -191,8 +195,13 @@
                 v-if="record.opponentRank"
               >
                 <dl class="flex items-center">
-                  <dt class="w-48">相手の順位</dt>
-                  <dd>{{ record.opponentRank }}位台</dd>
+                  <dt class="w-48">
+                    相手の{{ record.season == 8.5 ? 'レート' : '順位' }}
+                  </dt>
+                  <dd>
+                    {{ record.opponentRank
+                    }}{{ record.season != 8.5 ? '位' : '' }}台
+                  </dd>
                 </dl>
               </li>
               <client-only>
@@ -461,11 +470,22 @@ export default Vue.extend({
     }
   },
   computed: {
-    pageTitle(): string {
+    season(): string {
       const record = this.record as BattleRecord
-      return `S${record.season} ${
-        record.rank ? `/ ${record.rank} 位` : ''
-      } シングルバトルの選出ログ`
+      const season =
+        record.season === 8.5 ? 'ヨロイビギニング ' : `S${record.season} `
+      return season
+    },
+    rank(): string {
+      const record = this.record as BattleRecord
+      const rank =
+        record.season === 8.5
+          ? `${record.rank ? `/ レート ${record.rank} ` : ''}`
+          : `${record.rank ? `/ ${record.rank} 位` : ''}`
+      return rank
+    },
+    pageTitle(): string {
+      return `${this.season}${this.rank}シングルバトルの選出ログ`
     },
     pageUrl(): string {
       return `https://pokedri.com/pokemon63/record/${this.$route.params.id}`
@@ -484,9 +504,7 @@ export default Vue.extend({
     },
     encodedTitle(): string {
       return encodeURIComponent(
-        `S${this.record!.season} ${
-          this.record!.rank ? `/ ${this.record!.rank} 位` : ''
-        } シングルバトルの選出ログ | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
+        `${this.pageTitle} | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
       )
     },
     currentUrl(): string {

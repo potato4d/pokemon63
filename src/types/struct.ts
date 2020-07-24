@@ -1,4 +1,5 @@
-export type Season = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
+const YOROI_BEGINNING = 8.5
+export type Season = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | typeof YOROI_BEGINNING
 export type Format = 'single'
 export type Result = 'win' | 'lose'
 import * as Dex from '../analyzer/config/dex'

@@ -149,6 +149,7 @@
               <p class="flex flex-col w-1/2">
                 <label class="pb-3">シーズン</label>
                 <select v-model="formData.season">
+                  <option :value="8.5">ヨロイビギニング</option>
                   <option
                     :value="season"
                     v-for="season in constants.season"
@@ -178,7 +179,11 @@
             </div>
             <div class="flex justify-between items-start">
               <p class="flex flex-col pt-12 w-1/2">
-                <label class="pb-3">自分の順位</label>
+                <label class="pb-3"
+                  >自分の{{
+                    formData.season !== 8.5 ? '順位' : 'レート'
+                  }}</label
+                >
                 <input
                   type="text"
                   class="input-rank"
@@ -188,7 +193,11 @@
               </p>
               <div class="w-6 h-1"></div>
               <p class="flex flex-col pt-12 w-1/2">
-                <label class="pb-3">相手の順位</label>
+                <label class="pb-3"
+                  >相手の{{
+                    formData.season !== 8.5 ? '順位' : 'レート'
+                  }}</label
+                >
                 <input
                   type="text"
                   class="input-rank"

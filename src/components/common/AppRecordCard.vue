@@ -38,8 +38,14 @@
       class="GridItemLabel px-4 flex items-center justify-start"
     >
       <span class="relative z-10">
-        <span>S{{ record.season }}</span>
-        <span v-if="record.rank">/ {{ record.rank }} 位</span>
+        <span>
+          <template v-if="record.season !== 8.5">S{{ record.season }}</template>
+          <template v-if="record.season === 8.5">ヨロイビギニング</template>
+        </span>
+        <span v-if="record.rank"
+          >/ {{ record.rank }}
+          <template v-if="record.season !== 8.5"> 位</template>
+        </span>
       </span>
     </div>
     <AppUserIcon
