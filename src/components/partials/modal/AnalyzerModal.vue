@@ -179,11 +179,7 @@
             </div>
             <div class="flex justify-between items-start">
               <p class="flex flex-col pt-12 w-1/2">
-                <label class="pb-3"
-                  >自分の{{
-                    formData.season !== 8.5 ? '順位' : 'レート'
-                  }}</label
-                >
+                <label class="pb-3">自分の順位</label>
                 <input
                   type="text"
                   class="input-rank"
@@ -193,11 +189,7 @@
               </p>
               <div class="w-6 h-1"></div>
               <p class="flex flex-col pt-12 w-1/2">
-                <label class="pb-3"
-                  >相手の{{
-                    formData.season !== 8.5 ? '順位' : 'レート'
-                  }}</label
-                >
+                <label class="pb-3">相手の順位</label>
                 <input
                   type="text"
                   class="input-rank"

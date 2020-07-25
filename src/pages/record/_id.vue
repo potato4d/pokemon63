@@ -183,7 +183,7 @@
               >
                 <dl class="flex items-center">
                   <dt class="w-48">
-                    自分の{{ record.season == 8.5 ? 'レート' : '順位' }}
+                    自分の順位
                   </dt>
                   <dd>
                     {{ record.rank }}{{ record.season != 8.5 ? '位' : '' }}台
@@ -196,7 +196,7 @@
               >
                 <dl class="flex items-center">
                   <dt class="w-48">
-                    相手の{{ record.season == 8.5 ? 'レート' : '順位' }}
+                    相手の順位
                   </dt>
                   <dd>
                     {{ record.opponentRank
@@ -478,10 +478,7 @@ export default Vue.extend({
     },
     rank(): string {
       const record = this.record as BattleRecord
-      const rank =
-        record.season === 8.5
-          ? `${record.rank ? `/ レート ${record.rank} ` : ''}`
-          : `${record.rank ? `/ ${record.rank} 位` : ''}`
+      const rank = `${record.rank ? `/ ${record.rank} 位` : ''}`
       return rank
     },
     pageTitle(): string {

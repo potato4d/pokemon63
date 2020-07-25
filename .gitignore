@@ -100,3 +100,5 @@ src/static/static/images/icons/*.png
 public
 .data
 .firebase
+
+src/public/pp-counter

@@ -20,6 +20,7 @@ deploy:
 	make build
 	make ssr
 	make hosting
+	cp -r ../pp-counter/dist/ ./public/pp-counter
 	yarn firebase deploy
 	rm .env
 	cp .env.sample .env
