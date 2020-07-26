@@ -185,9 +185,7 @@
                   <dt class="w-48">
                     自分の順位
                   </dt>
-                  <dd>
-                    {{ record.rank }}{{ record.season != 8.5 ? '位' : '' }}台
-                  </dd>
+                  <dd>{{ record.rank }}位台</dd>
                 </dl>
               </li>
               <li
@@ -198,10 +196,7 @@
                   <dt class="w-48">
                     相手の順位
                   </dt>
-                  <dd>
-                    {{ record.opponentRank
-                    }}{{ record.season != 8.5 ? '位' : '' }}台
-                  </dd>
+                  <dd>{{ record.opponentRank }}位台</dd>
                 </dl>
               </li>
               <client-only>

@@ -5,7 +5,7 @@ service cloud.firestore {
   }
 
   function validateInt(num, min, max) {
-    return num is int && min <= num && num <= max;
+    return (num is int || num is float) && min <= num && num <= max;
   }
 
   function incomingData() {
