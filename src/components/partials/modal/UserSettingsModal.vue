@@ -14,7 +14,7 @@
       >
         <div class="py-9 pb-18 text-center flex items-center justify-center">
           <img
-            :src="formMeta.photoUrl"
+            :src="photoUrl"
             :style="{
               width: '128px',
               height: '128px',
@@ -85,6 +85,8 @@ import { v4 as uuid } from 'uuid'
 type LocalData = {
   formMeta: Pick<User, 'displayName' | 'photoUrl'>
   showTwitterAccount: boolean
+  hasFile: boolean
+  photoUrl: string
   user: User | null
 }
 
@@ -95,6 +97,8 @@ export default Vue.extend({
         displayName: '',
         photoUrl: '',
       },
+      photoUrl: '',
+      hasFile: false,
       showTwitterAccount: false,
       user: null,
     }
@@ -112,6 +116,7 @@ export default Vue.extend({
         displayName: this.user!.displayName,
         photoUrl: this.user!.photoUrl,
       }
+      this.photoUrl = this.formMeta.photoUrl
     } catch (e) {
       alert('エラーが発生しました')
       this.$emit('close')
@@ -135,6 +140,7 @@ export default Vue.extend({
         return false
       }
       await this.updatePhotoUrl()
+      payload.photoUrl = this.formMeta.photoUrl
       await Promise.all([
         this.$firestore
           .collection('users')
@@ -152,7 +158,7 @@ export default Vue.extend({
       if (!this.user) {
         return false
       }
-      if (this.formMeta.photoUrl === this.user.photoUrl) {
+      if (!this.hasFile) {
         return this.user.photoUrl
       }
       const path = `icons/${this.$auth.currentUser.uid}/me`
@@ -164,8 +170,9 @@ export default Vue.extend({
       }/${path}?_=${~~(Math.random() * 10000)}`
     },
     async handleUpdatePhoto(event: any) {
+      this.hasFile = true
       const [file] = event.target.files as [File]
-      this.formMeta.photoUrl = URL.createObjectURL(await this.fileToBlob(file))
+      this.photoUrl = URL.createObjectURL(await this.fileToBlob(file))
     },
     async fileToBlob(file: File): Promise<Blob> {
       return new Promise((resolve) => {
