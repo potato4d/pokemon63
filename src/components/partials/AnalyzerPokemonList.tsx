@@ -58,6 +58,11 @@ const PokemonFixPopUp = tsx.component({
                 poke.slug.includes(this.search) ||
                 poke.name_eng.includes(this.search) ||
                 poke.name_jpn.includes(this.search) ||
+                poke.name_jpn.includes(
+                  this.search.replace(/[ぁ-ん]/g, (s) =>
+                    String.fromCharCode(s.charCodeAt(0) + 0x60)
+                  )
+                ) ||
                 poke.name_jpn.includes(toKatakana(this.search))
             )
             .map((poke) => (
