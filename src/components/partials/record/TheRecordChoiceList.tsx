@@ -2,6 +2,9 @@ import Vue, { CreateElement, VNode } from 'vue'
 import * as tsx from 'vue-tsx-support'
 import { dex, Pokemon } from '~/analyzer/config/dex'
 
+const foo = "test"
+foo = 1
+
 export const TheRecordChoiceList = tsx.component({
   name: 'TheRecordChoiceList',
   props: {
