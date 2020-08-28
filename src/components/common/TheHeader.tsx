@@ -143,7 +143,7 @@ export const TheHeader = tsx.component({
               color: '#333',
             }}
           >
-            スクリーンショットから自動解析できるポケモンの選出投稿サイト
+            振り返って強くなる自動解析できるポケモン選出投稿サイト
           </p>
         )}
         <client-only>

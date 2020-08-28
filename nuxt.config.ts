@@ -14,7 +14,7 @@ const config: Configuration = {
    */
   head: {
     title:
-      'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト',
+      'みんなの63 - 振り返って強くなる自動解析できるポケモン選出投稿サイト',
     htmlAttrs: {
       lang: 'ja',
     },
@@ -24,7 +24,7 @@ const config: Configuration = {
         name: 'description',
         hid: 'description',
         content:
-          'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
+          'みんなの63は、振り返って強くなる自動解析できるポケモン選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
       },
       { name: 'viewport', hid: 'viewport', content: 'width=device-width' },
       { property: 'og:locale', hid: 'og:locale', content: 'ja_JP' },
@@ -33,19 +33,19 @@ const config: Configuration = {
         property: 'og:title',
         hid: 'og:title',
         content:
-          'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト',
+          'みんなの63 - 振り返って強くなる自動解析できるポケモン選出投稿サイト',
       },
       {
         property: 'og:description',
         hid: 'og:description',
         content:
-          'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
+          'みんなの63は、振り返って強くなる自動解析できるポケモン選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
       },
       {
         property: 'og:site_name',
         hid: 'og:site_name',
         content:
-          'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト',
+          'みんなの63 - 振り返って強くなる自動解析できるポケモン選出投稿サイト',
       },
       {
         name: 'twitter:card',
@@ -71,13 +71,13 @@ const config: Configuration = {
         name: 'twitter:description',
         hid: 'twitter:description',
         content:
-          'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
+          'みんなの63は、振り返って強くなる自動解析できるポケモン選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
       },
       {
         name: 'twitter:title',
         hid: 'twitter:title',
         content:
-          'みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト',
+          'みんなの63 - 振り返って強くなる自動解析できるポケモン選出投稿サイト',
       },
       {
         name: 'twitter:image',

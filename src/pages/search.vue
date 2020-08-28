@@ -30,7 +30,7 @@ type LocalData = {
 export default Vue.extend({
   head() {
     return {
-      title: `${this.$route.query.q}入り構築の対戦ログ | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`,
+      title: `${this.$route.query.q}入り構築の対戦ログ | みんなの63 - 振り返って強くなる自動解析できるポケモン選出投稿サイト`,
     }
   },
   data(): LocalData {

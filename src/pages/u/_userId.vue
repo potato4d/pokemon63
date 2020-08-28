@@ -124,7 +124,7 @@ export default Vue.extend({
   layout: 'minimal',
   head() {
     const user = this.user! as User
-    const title = `${user.displayName} さんの選出ログ | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
+    const title = `${user.displayName} さんの選出ログ | みんなの63 - 振り返って強くなる自動解析できるポケモン選出投稿サイト`
     return {
       title,
       meta: [

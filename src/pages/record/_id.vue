@@ -310,8 +310,8 @@ export default Vue.extend({
     const record = this.record as BattleRecord
     const url = this.pageUrl
     const description =
-      'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。'
-    const title = `${this.pageTitle} | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
+      'みんなの63は、振り返って強くなる自動解析できるポケモン選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。'
+    const title = `${this.pageTitle} | みんなの63 - 振り返って強くなる自動解析できるポケモン選出投稿サイト`
     const imageUrl = getOpenGraphUrl('opengraph%2F' + this.$route.params.id)
     const createdAt =
       record.createdAt instanceof Date ? record.createdAt : record.createdAt
@@ -331,7 +331,7 @@ export default Vue.extend({
           property: 'og:description',
           hid: 'og:description',
           content:
-            'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
+            'みんなの63は、振り返って強くなる自動解析できるポケモン選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
         },
         { property: 'og:site_name', hid: 'og:site_name', content: title },
         {
@@ -354,7 +354,7 @@ export default Vue.extend({
           name: 'twitter:description',
           hid: 'twitter:description',
           content:
-            'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
+            'みんなの63は、振り返って強くなる自動解析できるポケモン選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
         },
         { name: 'twitter:title', hid: 'twitter:title', content: title },
         { name: 'twitter:image', hid: 'twitter:image', content: imageUrl },
@@ -382,8 +382,8 @@ export default Vue.extend({
     const record = this.record as BattleRecord
     const url = this.pageUrl
     const description =
-      'みんなの63は、スクリーンショットから自動解析できるポケモンの選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。'
-    const title = `${this.pageTitle} | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
+      'みんなの63は、振り返って強くなる自動解析できるポケモン選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。'
+    const title = `${this.pageTitle} | みんなの63 - 振り返って強くなる自動解析できるポケモン選出投稿サイト`
     const imageUrl = getOpenGraphUrl('opengraph%2F' + this.$route.params.id)
     const createdAt = record.createdAt
     return [
@@ -496,7 +496,7 @@ export default Vue.extend({
     },
     encodedTitle(): string {
       return encodeURIComponent(
-        `${this.pageTitle} | みんなの63 - スクリーンショットから自動解析できるポケモンの選出投稿サイト`
+        `${this.pageTitle} | みんなの63 - 振り返って強くなる自動解析できるポケモン選出投稿サイト`
       )
     },
     currentUrl(): string {
