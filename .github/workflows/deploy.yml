@@ -11,6 +11,7 @@ env:
   FIREBASE_MESSAGING_SENDER_ID: "943360468967"
   FIREBASE_APP_ID: "1:943360468967:web:600853e2b3aa13fde7ff42"
   FIREBASE_MEASUREMENT_ID: "G-JV3VCF42F8"
+  FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
 jobs:
   production:
@@ -37,4 +38,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Deploy
         run: |
-          make deploy
+          gcloud config set project "$FIREBASE_PROJECT_ID"
+          gcloud components install beta --quiet
+          make ci-deploy

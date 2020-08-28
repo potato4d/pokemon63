@@ -4,7 +4,7 @@ hosting:
 	mkdir -p ./public/pokemon63/
 	cp -r ./.nuxt/dist/client ./public/pokemon63/_nuxt/
 	cp -r ./src/static/ ./public/pokemon63/
-	yarn firebase deploy --only hosting
+	yarn firebase deploy --only hosting --project "${FIREBASE_PROJECT_ID}" --token "${FIREBASE_TOKEN}"
 
 build:
 	yarn
@@ -26,15 +26,10 @@ deploy:
 	cp .env.sample .env
 
 ci-deploy:
-	rm .env
-	cp .env.production .env
 	make build
 	make ssr
 	make hosting
-	# cp -r ../pp-counter/dist/ ./public/pp-counter
-	yarn firebase deploy --token "$FIREBASE_TOKEN"
-	rm .env
-	cp .env.sample .env
+	yarn firebase deploy --project "${FIREBASE_PROJECT_ID}" --token "${FIREBASE_TOKEN}"
 
 create-data:
 	yarn ts-node ./.cli/__001_flatten_images.ts
