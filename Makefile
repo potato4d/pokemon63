@@ -20,8 +20,19 @@ deploy:
 	make build
 	make ssr
 	make hosting
-	cp -r ../pp-counter/dist/ ./public/pp-counter
+	# cp -r ../pp-counter/dist/ ./public/pp-counter
 	yarn firebase deploy
+	rm .env
+	cp .env.sample .env
+
+ci-deploy:
+	rm .env
+	cp .env.production .env
+	make build
+	make ssr
+	make hosting
+	# cp -r ../pp-counter/dist/ ./public/pp-counter
+	yarn firebase deploy --token "$FIREBASE_TOKEN"
 	rm .env
 	cp .env.sample .env
 
