@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@firebase-enhancement/tools@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@firebase-enhancement/tools/-/tools-0.1.0.tgz#6135af91e36f988900249ba673941390c1447e7f"
+  integrity sha512-HjvYWycRcAfYKwY93WNd+xWPj3r2n78kT6nM07lqJT/hQdcVz0/QtwgbSVxmkOofj2OloYiOg946koYF+xrVTA==
+  dependencies:
+    sharp "^0.26.0"
+
 "@firebase/app-types@0.6.1":
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/@firebase/app-types/-/app-types-0.6.1.tgz#dcbd23030a71c0c74fc95d4a3f75ba81653850e9"

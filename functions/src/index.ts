@@ -1,9 +1,9 @@
 import * as functions from 'firebase-functions'
 import admin from 'firebase-admin'
-import { createWebPConvertFunction } from './plugins/webp'
+import enhancementTools from '@firebase-enhancement/tools'
 
 admin.initializeApp()
 
 export const generateWebPCaptureImage = functions.storage.object().onFinalize(
-  createWebPConvertFunction(admin)
+  enhancementTools.storage.createWebPConvertFunction(admin)
 )
