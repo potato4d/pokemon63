@@ -34,7 +34,7 @@ export function createWebPConvertFunction(admin: typeof _admin, config?: Config)
     const fileName = originBucketFilePath.split('/')[originBucketFilePath.split('/').length - 1]
     const targetBucket = admin.storage().bucket(fileBucketName)
     const tempLocalFilePath = path.join(os.tmpdir(), fileName)
-    const webPLocalFilePath = path.join(tempLocalFilePath+'.webp')
+    const webPLocalFilePath = path.join(`${tempLocalFilePath}.webp`)
 
     log(`Download "${originBucketFilePath}" ...`)
     await targetBucket.file(originBucketFilePath).download({destination: tempLocalFilePath})
@@ -45,7 +45,7 @@ export function createWebPConvertFunction(admin: typeof _admin, config?: Config)
 
     log(`Upload "${fileName}" to "${originBucketFilePath}.webp"`)
     await targetBucket.upload(webPLocalFilePath, {
-      destination: originBucketFilePath+'.webp',
+      destination: `${originBucketFilePath}.webp`,
       metadata: {
         contentType: 'image/webp'
       },
