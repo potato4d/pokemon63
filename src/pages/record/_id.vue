@@ -18,15 +18,33 @@
                 height: `calc(calc(100vw - 20px) * 0.6)`,
               }"
             >
-              <img
-                :src="record.captureUrl"
+              <picture
                 class="object-cover"
                 :style="{
                   maxHeight: `${611 * 0.63}px`,
                   height: `calc(calc(100vw - 20px) * 0.63)`,
                 }"
-                alt=""
-              />
+              >
+                <source
+                  class="object-cover"
+                  :style="{
+                    maxHeight: `${611 * 0.63}px`,
+                    height: `calc(calc(100vw - 20px) * 0.63)`,
+                  }"
+                  type="image/webp"
+                  :srcset="record.captureUrl + '.webp'"
+                  alt
+                />
+                <img
+                  class="object-cover"
+                  :style="{
+                    maxHeight: `${611 * 0.63}px`,
+                    height: `calc(calc(100vw - 20px) * 0.63)`,
+                  }"
+                  :src="record.captureUrl"
+                  alt
+                />
+              </picture>
             </div>
 
             <!-- TODO: 実装する -->
@@ -182,9 +200,7 @@
                 v-if="record.rank"
               >
                 <dl class="flex items-center">
-                  <dt class="w-48">
-                    自分の順位
-                  </dt>
+                  <dt class="w-48">自分の順位</dt>
                   <dd>{{ record.rank }}位台</dd>
                 </dl>
               </li>
@@ -193,9 +209,7 @@
                 v-if="record.opponentRank"
               >
                 <dl class="flex items-center">
-                  <dt class="w-48">
-                    相手の順位
-                  </dt>
+                  <dt class="w-48">相手の順位</dt>
                   <dd>{{ record.opponentRank }}位台</dd>
                 </dl>
               </li>
@@ -269,7 +283,7 @@
               </li>
               <li class="flex items-center justify-end px-9 h-24" v-if="false">
                 <button type="button">
-                  <img src="~/assets/images/trash.svg" width="18" alt="" />
+                  <img src="~/assets/images/trash.svg" width="18" alt />
                 </button>
               </li>
             </ul>
@@ -329,7 +343,7 @@ export default Vue.extend({
         {
           property: 'og:description',
           hid: 'og:description',
-          content: description
+          content: description,
         },
         { property: 'og:site_name', hid: 'og:site_name', content: title },
         {
@@ -351,7 +365,7 @@ export default Vue.extend({
         {
           name: 'twitter:description',
           hid: 'twitter:description',
-          content: description
+          content: description,
         },
         { name: 'twitter:title', hid: 'twitter:title', content: title },
         { name: 'twitter:image', hid: 'twitter:image', content: imageUrl },

@@ -16,15 +16,33 @@
       }"
       class="overflow-hidden"
     >
-      <img
-        :src="record.captureUrl"
+      <picture
         :style="{
           width: '220px',
           height: '140px',
         }"
         class="object-cover"
-        alt
-      />
+      >
+        <source
+          type="image/webp"
+          :srcset="record.captureUrl + '.webp'"
+          :style="{
+            width: '220px',
+            height: '140px',
+          }"
+          class="object-cover"
+          alt
+        />
+        <img
+          :src="record.captureUrl"
+          :style="{
+            width: '220px',
+            height: '140px',
+          }"
+          class="object-cover"
+          alt
+        />
+      </picture>
     </div>
     <div
       :style="{
@@ -42,7 +60,7 @@
           <template v-if="record.season !== 8.5">S{{ record.season }}</template>
           <template v-if="record.season === 8.5">ヨロイビギニング</template>
         </span>
-        <span v-if="record.rank">/ {{ record.rank }}位 </span>
+        <span v-if="record.rank">/ {{ record.rank }}位</span>
       </span>
     </div>
     <AppUserIcon

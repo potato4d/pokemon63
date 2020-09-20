@@ -539,7 +539,11 @@ export default Vue.extend({
           compare(ss, () => {
             this.indicator++
           }),
-          this.$storage.ref(imagePath).put(await ss.getBufferAsync(MIME_PNG)),
+          this.$storage.ref(imagePath).put(await ss.getBufferAsync(MIME_PNG), {
+            customMetadata: {
+              contentType: 'image/jpeg',
+            },
+          }),
         ])
         await delay(800)
         const downloadURL = `https://storage.googleapis.com/${process.env.FIREBASE_STORAGE_BUCKET}/${imagePath}`
