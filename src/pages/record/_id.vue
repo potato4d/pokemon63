@@ -309,12 +309,11 @@ export default Vue.extend({
   head(): any {
     const record = this.record as BattleRecord
     const url = this.pageUrl
-    const description =
-      'みんなの63は、振り返って強くなる自動解析できるポケモン選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。'
     const title = `${this.pageTitle} | みんなの63 - 振り返って強くなる自動解析できるポケモン選出投稿サイト`
     const imageUrl = getOpenGraphUrl('opengraph%2F' + this.$route.params.id)
     const createdAt =
       record.createdAt instanceof Date ? record.createdAt : record.createdAt
+    const description = record.note.slice(0, 100) + '...'
     return {
       title,
       meta: [
@@ -330,8 +329,7 @@ export default Vue.extend({
         {
           property: 'og:description',
           hid: 'og:description',
-          content:
-            'みんなの63は、振り返って強くなる自動解析できるポケモン選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
+          content: description
         },
         { property: 'og:site_name', hid: 'og:site_name', content: title },
         {
@@ -353,8 +351,7 @@ export default Vue.extend({
         {
           name: 'twitter:description',
           hid: 'twitter:description',
-          content:
-            'みんなの63は、振り返って強くなる自動解析できるポケモン選出投稿サイトです。プレイログに、型の調査に、クイズによる選出の訓練に、幅広くご利用いただけます。',
+          content: description
         },
         { name: 'twitter:title', hid: 'twitter:title', content: title },
         { name: 'twitter:image', hid: 'twitter:image', content: imageUrl },
