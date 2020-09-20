@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/potato4d/pokemon63/compare/v1.3.0...v1.4.0) (2020-09-20)
+
+
+### Features
+
+* Add Spinner to analyzer modal ([f792e4d](https://github.com/potato4d/pokemon63/commit/f792e4ddf6248b14893ee3ac0866b04a77cb3b10))
+* juni ([0a9e7f0](https://github.com/potato4d/pokemon63/commit/0a9e7f073085b83c88d91aaf3c8aeaec4a087926))
+* Support season: 9 ([9996e8e](https://github.com/potato4d/pokemon63/commit/9996e8e5593e0c13ed0d8b6e18314b209c3d6729))
+* Support WebP image ([b532fb4](https://github.com/potato4d/pokemon63/commit/b532fb47b3aaefbfa084121cfdaf165649123252))
+* Support Yoroi-Beginning ([84f989c](https://github.com/potato4d/pokemon63/commit/84f989c935560bb312025f32ecef6b07b4234da3))
+
+
+### Bug Fixes
+
+* Support hiragana on fixpopup modal ([7401a2c](https://github.com/potato4d/pokemon63/commit/7401a2c51f7aa4aff5e9b0160200d7c259926f03))
+
 ## [1.3.0](https://github.com/potato4d/pokemon63/compare/v1.2.2...v1.3.0) (2020-07-14)
 
 ### [1.2.2](https://github.com/potato4d/pokemon63/compare/v1.2.1...v1.2.2) (2020-07-14)
