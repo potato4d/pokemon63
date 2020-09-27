@@ -1,6 +1,6 @@
 import Vue, { CreateElement, VNode, PropType } from 'vue'
 import * as tsx from 'vue-tsx-support'
-import { Pokemon } from '~/analyzer/config/dex'
+import { dex, Pokemon } from '~/analyzer/config/dex'
 import { BattleRecord } from '~/types/struct'
 import './AppUsage.css'
 // import data from './example'
@@ -18,7 +18,7 @@ type RateResult = {
   winCount: number
 }
 
-type WinRateItem = { slug: string } & RateResult
+type WinRateItem = { slug: string; name: string } & RateResult
 
 type WinRates = {
   items: WinRateItem[]
@@ -70,6 +70,7 @@ export const AppUsage = tsx.component({
       return {
         items: Object.entries(items).map(([slug, item]) => ({
           slug,
+          name: dex.find((p) => p.slug === slug)!.name_jpn,
           ...item,
         })),
         bestWin: Object.values(items).reduce((b: number, a) => {
@@ -111,7 +112,7 @@ export const AppUsage = tsx.component({
           {this.winRates.items.map((item) => (
             <li class="flex justify-start items-center">
               <div
-                class="flex items-center justify-center"
+                class="flex flex-col items-center justify-center"
                 style={{
                   width: '80px',
                   height: '70px',
@@ -127,6 +128,7 @@ export const AppUsage = tsx.component({
                   src={`/pokemon63/static/images/icons/${item.slug}.png`}
                   alt=""
                 />
+                <small class="block mt-1">{item.name}</small>
               </div>
               <div class="flex-1 text-xl pt-4 pr-4">
                 <div class="flex w-full items-center">

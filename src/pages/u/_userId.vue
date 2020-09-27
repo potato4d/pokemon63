@@ -65,7 +65,7 @@
       </ul>
     </div>
     <template v-if="viewType === 'usage'">
-      <div v-for="recordSets in groupedBattleRecord" class="mb-15">
+      <div v-for="(recordSets, i) in groupedBattleRecord" class="mb-15">
         <div>
           <AppSubHeading class="flex text-2xl justify-start items-center">
             <ul class="flex items-end justify-start">
@@ -89,7 +89,22 @@
             </ul>
           </AppSubHeading>
           <!-- <div class=" pt-18 grid justify-between items-start"> -->
-          <AppUsage :recordSets="recordSets" />
+          <template v-if="i < 2 || recordSets.items.length >= 5">
+            <AppUsage :recordSets="recordSets" />
+          </template>
+          <template v-else>
+            <strong class="text-xl block font-bold p-6">
+              試合数が極端に少ないため非表示にしています(件数:
+              {{ recordSets.items.length }})
+            </strong>
+            <details>
+              <summary
+                class="mx-6 mb-4 w-32 h-16 bg-gray-600 text-white cursor-pointer rounded-sm flex items-center justify-center"
+                >表示する</summary
+              >
+              <AppUsage :recordSets="recordSets" />
+            </details>
+          </template>
           <!-- </div> -->
         </div>
       </div>
@@ -163,6 +178,8 @@ type RecordSet = {
   items: BattleRecord[]
 }
 
+const VIEW_TYPE = ['revision', 'list', 'usage']
+
 export default Vue.extend({
   layout: 'minimal',
   head() {
@@ -196,7 +213,12 @@ export default Vue.extend({
       groupedBattleRecord: [],
     }
   },
-  async asyncData({ app, params: { userId }, redirect, error }) {
+  watch: {
+    viewType() {
+      this.$router.push({ query: { view: this.viewType } })
+    },
+  },
+  async asyncData({ app, params: { userId }, query, redirect, error }) {
     if (userId === 'anonymous') {
       return redirect('/')
     }
@@ -267,6 +289,9 @@ export default Vue.extend({
       user: toUserDocument(user),
       groupedBattleRecord,
       battleRecords: records,
+      viewType: VIEW_TYPE.includes(query.view ? `${query.view}` : '')
+        ? query.view
+        : 'revision',
     }
   },
 })

@@ -554,11 +554,11 @@ export default Vue.extend({
         this.formData.captureUrl = downloadURL
         this.formData.myParty = myPokemon.map((p) => ({
           ...p,
-          slug: !p.slug.includes('alcremie-') ? p.slug : 'alcremie'
+          slug: !p.slug.includes('alcremie-') ? p.slug : 'alcremie',
         }))
         this.formData.opponentParty = opponentPokemon.map((p) => ({
           ...p,
-          slug: !p.slug.includes('alcremie-') ? p.slug : 'alcremie'
+          slug: !p.slug.includes('alcremie-') ? p.slug : 'alcremie',
         }))
         this.status = 'done'
         URL.revokeObjectURL(imageUrl)

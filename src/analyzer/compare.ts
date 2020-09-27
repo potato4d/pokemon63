@@ -82,8 +82,7 @@ async function check(croppedSS: Jimp): Promise<Pokemon> {
   debug(r.distance)
   const endAt = new Date()
   debug(`実行時間: ${endAt.getTime() - startedAt.getTime()}ms`)
-  return dex
-    .find((p) => p.slug === r.slug)!
+  return dex.find((p) => p.slug === r.slug)!
 }
 
 export async function compare(
