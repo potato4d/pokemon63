@@ -50,8 +50,51 @@
             リストで表示
           </a>
         </li>
+        <li
+          class="border-r border-black"
+          :class="{ 'text-red-700': viewType === 'usage' }"
+        >
+          <a
+            href="#"
+            @click.prevent="viewType = 'usage'"
+            class="inline-block px-9 py-3"
+          >
+            使用率を表示
+          </a>
+        </li>
       </ul>
     </div>
+    <template v-if="viewType === 'usage'">
+      <div v-for="recordSets in groupedBattleRecord" class="mb-15">
+        <div>
+          <AppSubHeading class="flex text-2xl justify-start items-center">
+            <ul class="flex items-end justify-start">
+              <span v-for="pokemon in recordSets.party" class="inline-block">
+                <img
+                  :src="`/pokemon63/static/images/icons/${pokemon.slug}.png`"
+                  :style="{
+                    imageRendering: 'pixelated',
+                    width: '60px',
+                    height: '50px',
+                    objectFit: 'cover',
+                  }"
+                  alt=""
+                />
+              </span>
+              <span
+                class="mb-2 flex items-center justify-center h-full text-2xl font-bold"
+              >
+                での戦績
+              </span>
+            </ul>
+          </AppSubHeading>
+          <!-- <div class=" pt-18 grid justify-between items-start"> -->
+          <AppUsage :recordSets="recordSets" />
+          <!-- </div> -->
+        </div>
+      </div>
+    </template>
+
     <template v-if="viewType === 'revision'">
       <div v-for="recordSets in groupedBattleRecord" class="mb-15">
         <div>
@@ -110,7 +153,7 @@ import {
 
 type LocalData = {
   user: User | null
-  viewType: 'revision' | 'list'
+  viewType: 'revision' | 'list' | 'usage'
   battleRecords: BattleRecord[]
   groupedBattleRecord: RecordSet[]
 }
@@ -148,7 +191,7 @@ export default Vue.extend({
   data(): LocalData {
     return {
       user: null,
-      viewType: 'revision',
+      viewType: 'usage',
       battleRecords: [],
       groupedBattleRecord: [],
     }
@@ -164,7 +207,7 @@ export default Vue.extend({
         .orderBy('season', 'desc')
         .orderBy('createdAt', 'desc')
         .where('userId', '==', userId)
-        .limit(200)
+        .limit(300)
         .get(),
     ])
     if (!user.exists) {

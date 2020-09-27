@@ -38,6 +38,7 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/tailwindcss": "^1.0.0",
     "@types/axios": "^0.14.0",
+    "@types/jest": "^26.0.14",
     "@types/uuid": "^7.0.3",
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-jest": "^24.1.0",
