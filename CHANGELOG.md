@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/potato4d/pokemon63/compare/v1.4.0...v1.5.0) (2020-09-27)
+
+
+### Features
+
+* Implement hideCurrentSeason ([88944bd](https://github.com/potato4d/pokemon63/commit/88944bdd0b2bb1ebd6e90e1328d368cff355b090))
+* Implement Usage Report ([4a3e39b](https://github.com/potato4d/pokemon63/commit/4a3e39b6ff0ec6adf4df15012905b717a6e46b10))
+
 ## [1.4.0](https://github.com/potato4d/pokemon63/compare/v1.3.0...v1.4.0) (2020-09-20)
 
 
