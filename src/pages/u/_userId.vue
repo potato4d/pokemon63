@@ -191,7 +191,7 @@ export default Vue.extend({
   data(): LocalData {
     return {
       user: null,
-      viewType: 'usage',
+      viewType: 'revision',
       battleRecords: [],
       groupedBattleRecord: [],
     }
