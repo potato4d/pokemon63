@@ -552,8 +552,14 @@ export default Vue.extend({
         await delay(800)
         const downloadURL = `https://storage.googleapis.com/${process.env.FIREBASE_STORAGE_BUCKET}/${imagePath}`
         this.formData.captureUrl = downloadURL
-        this.formData.myParty = myPokemon
-        this.formData.opponentParty = opponentPokemon
+        this.formData.myParty = myPokemon.map((p) => ({
+          ...p,
+          slug: !p.slug.includes('alcremie-') ? p.slug : 'alcremie'
+        }))
+        this.formData.opponentParty = opponentPokemon.map((p) => ({
+          ...p,
+          slug: !p.slug.includes('alcremie-') ? p.slug : 'alcremie'
+        }))
         this.status = 'done'
         URL.revokeObjectURL(imageUrl)
 
