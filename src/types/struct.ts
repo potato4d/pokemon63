@@ -43,5 +43,6 @@ export type BattleRecord = {
   note: string
   captureUrl: string | null
   videoUrl: string | null
+  hideCurrentSeason?: number | null
   createdAt?: firebase.firestore.Timestamp | Date
 }

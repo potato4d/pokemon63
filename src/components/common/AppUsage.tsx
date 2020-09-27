@@ -68,20 +68,10 @@ export const AppUsage = tsx.component({
         {} as WinRates['items']
       )
       return {
-        items: Object.entries(items)
-          .map(([slug, item]) => ({
-            slug,
-            ...item,
-          }))
-          .sort((b, a) => {
-            if (b.winCount === 0 || b.selectCount === 0) {
-              return +1
-            }
-            if (a.winCount === 0 || a.selectCount === 0) {
-              return -1
-            }
-            return b.selectCount < a.selectCount ? +1 : -1
-          }),
+        items: Object.entries(items).map(([slug, item]) => ({
+          slug,
+          ...item,
+        })),
         bestWin: Object.values(items).reduce((b: number, a) => {
           if (a.winCount === 0) {
             return 0
@@ -107,7 +97,9 @@ export const AppUsage = tsx.component({
         }}
       >
         <div class="flex items-center justify-between px-6 py-4">
-          <h4 class="text-2xl font-bold text-white">この構築の利用統計</h4>
+          <h4 class="text-2xl font-bold text-white">
+            この構築の利用統計 (全{this.winRates.battleCount}試合)
+          </h4>
           <div class="flex items-center">
             <span class="inline-block w-4 h-4 rounded-full bg-blue-600"></span>
             <span class="inline-block ml-2 mr-12">選出率</span>

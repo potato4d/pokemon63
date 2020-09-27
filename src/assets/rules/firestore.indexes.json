@@ -31,6 +31,24 @@
           "order": "DESCENDING"
         }
       ]
+    },
+    {
+      "collectionGroup": "battlerecords",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "hideCurrentSeason",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "season",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
     }
   ],
   "fieldOverrides": [

@@ -198,16 +198,17 @@
                 />
               </p>
             </div>
-            <p class="flex flex-col pt-12">
-              <label class="pb-3">この対戦が含まれる動画のURL</label>
-              <input
-                type="text"
-                class="input-rank"
-                placeholder="YouTube, Twitter, ニコ生など"
-                v-model="formData.videoUrl"
-              />
+            <p class="flex flex-col justify-center pt-12">
+              <label class="pb-3">
+                <input
+                  type="checkbox"
+                  :value="true"
+                  v-model="formData.hideCurrentSeason"
+                />
+                <span>シーズン中トップに表示しない</span>
+              </label>
             </p>
-            <p class="flex flex-col pt-12">
+            <p class="flex flex-col justify-center pt-2">
               <label class="pb-3">
                 <input
                   type="checkbox"
@@ -313,9 +314,11 @@ type LocalData = {
   }
 }
 
+const CURRENT_SEASON = 10
+
 const getInitialFormData = (): Omit<BattleRecord, 'userId'> => ({
   captureUrl: null,
-  season: 10,
+  season: CURRENT_SEASON,
   format: 'single',
   result: 'win',
   rank: null,
@@ -326,6 +329,7 @@ const getInitialFormData = (): Omit<BattleRecord, 'userId'> => ({
   opponentChoice: [null, null, null],
   note: '',
   videoUrl: '',
+  hideCurrentSeason: null,
 })
 
 export default Vue.extend({
@@ -569,6 +573,9 @@ export default Vue.extend({
     },
   },
   computed: {
+    CURRENT_SEASON() {
+      return CURRENT_SEASON
+    },
     userId(): string | 'anonymous' {
       return this.$auth.currentUser
         ? this.anonymous

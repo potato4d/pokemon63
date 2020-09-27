@@ -58,6 +58,7 @@ export default Vue.extend({
   async asyncData({ app }) {
     const records = await app.$firestore
       .collection('battlerecords')
+      .where('hideCurrentSeason', '==', false)
       .orderBy('season', 'desc')
       .orderBy('createdAt', 'desc')
       .limit(LIMIT)
