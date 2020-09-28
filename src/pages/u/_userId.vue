@@ -62,6 +62,19 @@
             使用率を表示
           </a>
         </li>
+        <li
+          class="border-r border-black"
+          v-if="canVisible"
+          :class="{ 'text-red-700': viewType === 'weak' }"
+        >
+          <a
+            href="#"
+            @click.prevent="viewType = 'weak'"
+            class="inline-block px-9 py-3"
+          >
+            苦手なポケモン
+          </a>
+        </li>
       </ul>
     </div>
     <template v-if="viewType === 'usage'">
@@ -154,6 +167,9 @@
         />
       </div>
     </template>
+    <template v-if="viewType === 'weak' && canVisible">
+      <AppWeakPoint :groupedBattleRecord="groupedBattleRecord" />
+    </template>
   </div>
 </template>
 
@@ -168,7 +184,7 @@ import {
 
 type LocalData = {
   user: User | null
-  viewType: 'revision' | 'list' | 'usage'
+  viewType: 'revision' | 'list' | 'usage' | 'weak'
   battleRecords: BattleRecord[]
   groupedBattleRecord: RecordSet[]
 }
@@ -178,7 +194,7 @@ type RecordSet = {
   items: BattleRecord[]
 }
 
-const VIEW_TYPE = ['revision', 'list', 'usage']
+const VIEW_TYPE = ['revision', 'list', 'usage', 'weak']
 
 export default Vue.extend({
   layout: 'minimal',
@@ -216,6 +232,14 @@ export default Vue.extend({
   watch: {
     viewType() {
       this.$router.push({ query: { view: this.viewType } })
+    },
+  },
+  computed: {
+    canVisible(): boolean {
+      if (!this.$auth.currentUser) {
+        return false
+      }
+      return this.$route.params.userId === this.$auth.currentUser.uid
     },
   },
   async asyncData({ app, params: { userId }, query, redirect, error }) {

@@ -389,7 +389,7 @@ export default Vue.extend({
           note: this.formData.note,
           videoUrl: this.formData.videoUrl,
           createdAt: this.$firebase.firestore.FieldValue.serverTimestamp(),
-          hideCurrentSeason: !!this.formData.hideCurrentSeason
+          hideCurrentSeason: !!this.formData.hideCurrentSeason,
         }
         const doc = await this.$firestore.collection('battlerecords').add(data)
         await Promise.all([
