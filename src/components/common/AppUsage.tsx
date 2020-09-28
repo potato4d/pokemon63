@@ -42,6 +42,11 @@ export const AppUsage = tsx.component({
     }, 100)
   },
   computed: {
+    winCount(): number {
+      return this.recordSets.items.reduce((b: number, a) => {
+        return b + (a.result === 'win' ? 1 : 0)
+      }, 0)
+    },
     winRates(): WinRates {
       const items: WinRates['items'] = this.recordSets.party.reduce(
         (b: any, pokemon: Pokemon) => {
@@ -99,7 +104,7 @@ export const AppUsage = tsx.component({
       >
         <div class="flex items-center justify-between px-6 py-4">
           <h4 class="text-2xl font-bold text-white">
-            この構築の利用統計 (全{this.winRates.battleCount}試合)
+            この構築の利用統計 (全{this.winRates.battleCount}試合 / {this.winCount}勝{this.winRates.battleCount-this.winCount}敗 / 勝率{~~(this.winCount/this.winRates.battleCount*100)}%)
           </h4>
           <div class="flex items-center">
             <span class="inline-block w-4 h-4 rounded-full bg-blue-600"></span>

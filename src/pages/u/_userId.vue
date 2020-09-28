@@ -89,7 +89,7 @@
             </ul>
           </AppSubHeading>
           <!-- <div class=" pt-18 grid justify-between items-start"> -->
-          <template v-if="i < 2 || recordSets.items.length >= 5">
+          <template v-if="i < 2 || recordSets.items.length >= 6">
             <AppUsage :recordSets="recordSets" />
           </template>
           <template v-else>
