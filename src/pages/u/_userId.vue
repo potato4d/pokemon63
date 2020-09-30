@@ -80,26 +80,39 @@
     <template v-if="viewType === 'usage'">
       <div v-for="(recordSets, i) in groupedBattleRecord" class="mb-15">
         <div>
-          <AppSubHeading class="flex text-2xl justify-start items-center">
-            <ul class="flex items-end justify-start">
-              <span v-for="pokemon in recordSets.party" class="inline-block">
-                <img
-                  :src="`/pokemon63/static/images/icons/${pokemon.slug}.png`"
-                  :style="{
-                    imageRendering: 'pixelated',
-                    width: '60px',
-                    height: '50px',
-                    objectFit: 'cover',
-                  }"
-                  alt=""
-                />
-              </span>
-              <span
-                class="mb-2 flex items-center justify-center h-full text-2xl font-bold"
-              >
-                での戦績
-              </span>
-            </ul>
+          <AppSubHeading
+            style="padding-bottom: 0;"
+            :id="`party-${recordSets.party.map((p) => p.idx).join('_')}`"
+          >
+            <a
+              @click.prevent="
+                $router.push({
+                  query: { view: 'usage' },
+                  hash: `party-${recordSets.party.map((p) => p.idx).join('_')}`,
+                })
+              "
+              class="cursor-pointer flex text-2xl justify-start items-center pb-9"
+            >
+              <ul class="flex items-end justify-start">
+                <span v-for="pokemon in recordSets.party" class="inline-block">
+                  <img
+                    :src="`/pokemon63/static/images/icons/${pokemon.slug}.png`"
+                    :style="{
+                      imageRendering: 'pixelated',
+                      width: '60px',
+                      height: '50px',
+                      objectFit: 'cover',
+                    }"
+                    alt=""
+                  />
+                </span>
+                <span
+                  class="mb-2 flex items-center justify-center h-full text-2xl font-bold"
+                >
+                  での戦績
+                </span>
+              </ul>
+            </a>
           </AppSubHeading>
           <!-- <div class=" pt-18 grid justify-between items-start"> -->
           <template v-if="i < 2 || recordSets.items.length >= 6">
@@ -126,7 +139,10 @@
     <template v-if="viewType === 'revision'">
       <div v-for="recordSets in groupedBattleRecord" class="mb-15">
         <div>
-          <AppSubHeading class="flex text-2xl justify-start items-center">
+          <AppSubHeading
+            class="flex text-2xl justify-start items-center"
+            :id="`party-${recordSets.party.map((p) => p.idx).join('_')}`"
+          >
             <ul class="flex items-end justify-start">
               <span v-for="pokemon in recordSets.party" class="inline-block">
                 <img
@@ -233,6 +249,21 @@ export default Vue.extend({
     viewType() {
       this.$router.push({ query: { view: this.viewType } })
     },
+  },
+  created() {
+    if (process.server || !this.$route.hash) {
+      return
+    }
+    try {
+      const el = document.querySelector(`${this.$route.hash}`)
+      if (el) {
+        window.scrollTo({
+          top: el.getBoundingClientRect().top + window.pageYOffset,
+        })
+      }
+    } catch (e) {
+      console.log(e)
+    }
   },
   computed: {
     canVisible(): boolean {
