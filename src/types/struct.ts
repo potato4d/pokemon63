@@ -11,6 +11,7 @@ export type Season =
   | typeof YOROI_BEGINNING
   | 9
   | 10
+  | 11
 export type Format = 'single'
 export type Result = 'win' | 'lose'
 import * as Dex from '../analyzer/config/dex'
