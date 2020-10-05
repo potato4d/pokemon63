@@ -125,7 +125,7 @@
             </strong>
             <details>
               <summary
-                class="mx-6 mb-4 w-32 h-16 bg-gray-600 text-white cursor-pointer rounded-sm flex items-center justify-center"
+                class="appearance-none mx-6 mb-4 w-32 h-16 bg-gray-600 text-white cursor-pointer rounded-sm flex items-center justify-center"
                 >表示する</summary
               >
               <AppUsage :recordSets="recordSets" />
@@ -137,7 +137,7 @@
     </template>
 
     <template v-if="viewType === 'revision'">
-      <div v-for="recordSets in groupedBattleRecord" class="mb-15">
+      <div v-for="(recordSets, i) in groupedBattleRecord" class="mb-15">
         <div>
           <AppSubHeading
             class="flex text-2xl justify-start items-center"
@@ -164,7 +164,24 @@
             </ul>
           </AppSubHeading>
         </div>
-        <div class="HomeGrid pt-18 grid justify-between items-start">
+
+        <template v-if="i >= 2">
+          <details>
+            <summary
+              class="appearance-none mt-8 mx-6 mb-4 w-32 h-16 bg-gray-600 text-white cursor-pointer rounded-sm flex items-center justify-center"
+              >表示する</summary
+            >
+            <div class="HomeGrid pt-18 grid justify-between items-start">
+              <AppRecordCard
+                :record="record"
+                :key="record.id"
+                v-for="record in recordSets.items"
+              />
+            </div>
+          </details>
+        </template>
+
+        <div v-else class="HomeGrid pt-18 grid justify-between items-start">
           <AppRecordCard
             :record="record"
             :key="record.id"
