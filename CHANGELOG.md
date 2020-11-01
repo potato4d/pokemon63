@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/potato4d/pokemon63/compare/v1.5.0...v1.6.0) (2020-11-01)
+
+
+### Features
+
+* Expand old party ([4a06ff5](https://github.com/potato4d/pokemon63/commit/4a06ff5a227309784ec493db7a01c77792c918b7))
+* Implement revision hash ([3720ba6](https://github.com/potato4d/pokemon63/commit/3720ba60ecf7b5df774fcf721f1f685b9cdfd946))
+* Implement WeakPoint ([23c006f](https://github.com/potato4d/pokemon63/commit/23c006f3d00192d7f636566234140993dba3738d))
+* Show party winrate ([7f89d2d](https://github.com/potato4d/pokemon63/commit/7f89d2def7a4f093e99bf848219aa62e2b5c49df))
+* Support S11 ([005918e](https://github.com/potato4d/pokemon63/commit/005918e428fffac58dd71a1b15dba0c90d00975f))
+* Support S12 and banner ([1fe2cb4](https://github.com/potato4d/pokemon63/commit/1fe2cb42c873292481b585e4665bcefd3b18af0b))
+* Support viewtype by url ([e5280f2](https://github.com/potato4d/pokemon63/commit/e5280f2def64065f4022c66c621d7b38994a96a1))
+
 ## [1.5.0](https://github.com/potato4d/pokemon63/compare/v1.4.0...v1.5.0) (2020-09-27)
 
 
