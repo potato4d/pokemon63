@@ -41,7 +41,7 @@ service cloud.firestore {
         allow create: if true
                     && (request.auth.uid == incomingData().userId || 'anonymous' == incomingData().userId)
                     && (validateUndefined(incomingData(), 'note') || validateString(incomingData().note, 0, 1024))
-                    && validateInt(incomingData().season, 0, 10)
+                    && validateInt(incomingData().season, 0, 20)
                     && (validateInt(incomingData().rank, 0, 500000) || incomingData().rank == null)
                     && (validateInt(incomingData().opponentRank, 0, 500000) || incomingData().opponentRank == null)
                     && (incomingData().result == 'win' || incomingData().result == 'lose')
@@ -50,7 +50,7 @@ service cloud.firestore {
         ;
         allow update: if request.auth.uid == existingData().userId
                     && (validateUndefined(incomingData(), 'note') || validateString(incomingData().note, 0, 1024))
-                    && validateInt(incomingData().season, 0, 10)
+                    && validateInt(incomingData().season, 0, 20)
                     && (validateInt(incomingData().rank, 0, 500000) || incomingData().rank == null)
                     && (validateInt(incomingData().opponentRank, 0, 500000) || incomingData().opponentRank == null)
                     && (incomingData().result == 'win' || incomingData().result == 'lose')

@@ -314,7 +314,7 @@ type LocalData = {
   }
 }
 
-const CURRENT_SEASON = 11
+const CURRENT_SEASON = 12
 
 const getInitialFormData = (): Omit<BattleRecord, 'userId'> => ({
   captureUrl: null,
@@ -604,7 +604,7 @@ export default Vue.extend({
     },
     constants(): Constants {
       return {
-        season: [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+        season: [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
         format: ['single'],
         result: ['win', 'lose'],
       }

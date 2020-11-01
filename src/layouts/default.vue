@@ -1,5 +1,10 @@
 <template>
   <div id="__content">
+    <div class="w-full py-4 mb-2 bg-blue-700 text-white font-bold">
+      <p class="container px-4 py-4 block">
+        11/01 冠の雪原の画像解析は現在対応中となります。手動での画像修正による対戦データの登録は可能となります。
+      </p>
+    </div>
     <TheHeader />
     <TheSearchForm />
     <nuxt class="flex-1" />
