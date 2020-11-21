@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/potato4d/pokemon63/compare/v1.6.0...v1.7.0) (2020-11-21)
+
+
+### Features
+
+* SUpport crown tundra DLC ([9f743a0](https://github.com/potato4d/pokemon63/commit/9f743a0ef3cb0c405c93ac2daf3243a006649337))
+
 ## [1.6.0](https://github.com/potato4d/pokemon63/compare/v1.5.0...v1.6.0) (2020-11-01)
 
 
