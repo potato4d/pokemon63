@@ -10,6 +10,7 @@ async function run() {
 
   for (let index = 0; index < fileList.length; index++) {
     const fileName = fileList[index]
+    console.log(fileName)
     const icon = await Jimp.read(`./.data/sprites/${fileName}`)
     const frame = new Jimp(70, 58, '#f5f5f5')
     frame.blit(icon, 0, 0).write(`./.data/framed/${fileName}`)

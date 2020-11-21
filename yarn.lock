@@ -10774,8 +10774,8 @@ pngjs@^3.0.0, pngjs@^3.3.3:
   integrity sha512-NCrCHhWmnQklfH4MtJMRjZ2a8c80qXeMlQMv2uVp9ISJMTt562SbGd6n2oq0PaPgKm7Z6pL9E2UlLIhC+SHL3w==
 
 pokesprite-images@msikma/pokesprite#master:
-  version "2.1.0"
-  resolved "https://codeload.github.com/msikma/pokesprite/tar.gz/d7db467c49432ca669da9766a16e1baff6465c7a"
+  version "2.5.0"
+  resolved "https://codeload.github.com/msikma/pokesprite/tar.gz/20a6d204210a6649461dd05dc62698613bd097ed"
 
 portal-vue@^2.1.7:
   version "2.1.7"
