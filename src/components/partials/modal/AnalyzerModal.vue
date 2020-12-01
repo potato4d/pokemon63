@@ -604,7 +604,7 @@ export default Vue.extend({
     },
     constants(): Constants {
       return {
-        season: [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+        season: [13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
         format: ['single'],
         result: ['win', 'lose'],
       }
