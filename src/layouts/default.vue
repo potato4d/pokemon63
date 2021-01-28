@@ -1,10 +1,10 @@
 <template>
   <div id="__content">
-    <div class="w-full py-4 mb-2 bg-blue-700 text-white font-bold">
+    <!-- <div class="w-full py-4 mb-2 bg-blue-700 text-white font-bold">
       <p class="container px-4 py-4 block">
         11/21 冠の雪原の画像解析に対応しました！
       </p>
-    </div>
+    </div> -->
     <TheHeader />
     <TheSearchForm />
     <nuxt class="flex-1" />
