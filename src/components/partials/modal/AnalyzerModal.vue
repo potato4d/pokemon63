@@ -314,7 +314,7 @@ type LocalData = {
   }
 }
 
-const CURRENT_SEASON = 14
+const CURRENT_SEASON = 24
 
 const getInitialFormData = (): Omit<BattleRecord, 'userId'> => ({
   captureUrl: null,
